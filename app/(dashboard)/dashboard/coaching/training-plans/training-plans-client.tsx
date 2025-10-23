@@ -5,13 +5,15 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Edit3, Trash2, Eye, Users, Clock, Euro, Calendar, Target, TrendingUp, List, Upload, FileText, X } from "lucide-react"
 import { SessionsManager } from "./sessions-manager"
 
+type DifficultyLevel = "DEBUTANT" | "INTERMEDIAIRE" | "AVANCE"
+
 interface TrainingPlan {
   id: string
   title: string
   description: string
   price: number
   duration: number
-  difficulty: "DEBUTANT" | "INTERMEDIAIRE" | "AVANCE"
+  difficulty: DifficultyLevel
   category: string
   isActive: boolean
   pdfFileUrl?: string // URL du fichier PDF
@@ -21,6 +23,18 @@ interface TrainingPlan {
     sessions: number
     subscribers: number
   }
+}
+
+interface PlanFormData {
+  title: string
+  description: string
+  price: number
+  duration: number
+  difficulty: DifficultyLevel
+  category: string
+  isActive: boolean
+  pdfFile: File | null
+  pdfFileName: string
 }
 
 interface TrainingPlansClientProps {
@@ -36,15 +50,15 @@ export function TrainingPlansClient({ initialPlans, profileId }: TrainingPlansCl
   const [showSessionsManager, setShowSessionsManager] = useState(false)
   const [selectedPlanForSessions, setSelectedPlanForSessions] = useState<TrainingPlan | null>(null)
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<PlanFormData>({
     title: "",
     description: "",
     price: 0,
     duration: 4,
-    difficulty: "DEBUTANT" as const,
+    difficulty: "DEBUTANT",
     category: "",
     isActive: true,
-    pdfFile: null as File | null,
+    pdfFile: null,
     pdfFileName: ""
   })
 
@@ -481,7 +495,7 @@ export function TrainingPlansClient({ initialPlans, profileId }: TrainingPlansCl
                     </label>
                     <select
                       value={formData.difficulty}
-                      onChange={(e) => setFormData({ ...formData, difficulty: e.target.value as any })}
+                      onChange={(e) => setFormData({ ...formData, difficulty: e.target.value as DifficultyLevel })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-blue-500 focus:border-transparent"
                     >
                       <option value="DEBUTANT">Débutant</option>
