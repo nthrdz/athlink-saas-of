@@ -4,6 +4,14 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Edit3, Trash2, Clock, Target, Calendar, Dumbbell } from "lucide-react"
 
+interface Exercise {
+  name: string
+  sets?: number
+  reps?: string
+  rest?: string
+  notes?: string
+}
+
 interface TrainingSession {
   id: string
   title: string
@@ -11,8 +19,17 @@ interface TrainingSession {
   weekNumber: number
   dayNumber: number
   duration: number
-  exercises: any[]
+  exercises: Exercise[]
   createdAt: string
+}
+
+interface SessionFormData {
+  title: string
+  description: string
+  weekNumber: number
+  dayNumber: number
+  duration: number
+  exercises: Exercise[]
 }
 
 interface SessionsManagerProps {
@@ -27,7 +44,7 @@ export function SessionsManager({ trainingPlanId, planDuration, onSessionsChange
   const [editingSession, setEditingSession] = useState<TrainingSession | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SessionFormData>({
     title: "",
     description: "",
     weekNumber: 1,
