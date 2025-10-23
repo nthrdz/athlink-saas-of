@@ -38,20 +38,23 @@ interface SessionsManagerProps {
   onSessionsChange: () => void
 }
 
+// Factory function to create empty form with proper typing
+const makeEmptyForm = (): SessionFormData => ({
+  title: "",
+  description: "",
+  weekNumber: 1,
+  dayNumber: 1,
+  duration: 60,
+  exercises: [] as Exercise[]
+})
+
 export function SessionsManager({ trainingPlanId, planDuration, onSessionsChange }: SessionsManagerProps) {
   const [sessions, setSessions] = useState<TrainingSession[]>([])
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [editingSession, setEditingSession] = useState<TrainingSession | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const [formData, setFormData] = useState<SessionFormData>({
-    title: "",
-    description: "",
-    weekNumber: 1,
-    dayNumber: 1,
-    duration: 60,
-    exercises: []
-  })
+  const [formData, setFormData] = useState<SessionFormData>(makeEmptyForm())
 
   const daysOfWeek = [
     "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"
@@ -65,7 +68,7 @@ export function SessionsManager({ trainingPlanId, planDuration, onSessionsChange
     try {
       const response = await fetch(`/api/coaching/training-plans/${trainingPlanId}/sessions`)
       if (response.ok) {
-        const data = await response.json()
+        const data = await response.json() as TrainingSession[]
         setSessions(data)
       }
     } catch (error) {
@@ -84,7 +87,7 @@ export function SessionsManager({ trainingPlanId, planDuration, onSessionsChange
       })
 
       if (response.ok) {
-        const newSession = await response.json()
+        const newSession = await response.json() as TrainingSession
         setSessions([...sessions, newSession])
         setShowCreateForm(false)
         resetForm()
@@ -113,14 +116,7 @@ export function SessionsManager({ trainingPlanId, planDuration, onSessionsChange
   }
 
   const resetForm = () => {
-    setFormData({
-      title: "",
-      description: "",
-      weekNumber: 1,
-      dayNumber: 1,
-      duration: 60,
-      exercises: []
-    })
+    setFormData(makeEmptyForm())
   }
 
   const openEditForm = (session: TrainingSession) => {
@@ -130,7 +126,7 @@ export function SessionsManager({ trainingPlanId, planDuration, onSessionsChange
       weekNumber: session.weekNumber,
       dayNumber: session.dayNumber,
       duration: session.duration,
-      exercises: session.exercises
+      exercises: [...(session.exercises ?? [])] as Exercise[]
     })
     setEditingSession(session)
     setShowCreateForm(true)
