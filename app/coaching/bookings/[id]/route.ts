@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
+import { PlanType } from "@/lib/features"
 
 export async function GET(
   request: NextRequest,
@@ -18,7 +19,7 @@ export async function GET(
       select: { id: true, plan: true, stats: true }
     })
 
-    if (!profile || (profile.plan !== "COACH" && profile.plan !== "ELITE")) {
+    if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO)) {
       return NextResponse.json({ error: "Accès non autorisé" }, { status: 403 })
     }
 
@@ -53,7 +54,7 @@ export async function PUT(
       select: { id: true, plan: true, stats: true }
     })
 
-    if (!profile || (profile.plan !== "COACH" && profile.plan !== "ELITE")) {
+    if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO)) {
       return NextResponse.json({ error: "Accès non autorisé" }, { status: 403 })
     }
 
@@ -139,7 +140,7 @@ export async function DELETE(
       select: { id: true, plan: true, stats: true }
     })
 
-    if (!profile || (profile.plan !== "COACH" && profile.plan !== "ELITE")) {
+    if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO)) {
       return NextResponse.json({ error: "Accès non autorisé" }, { status: 403 })
     }
 

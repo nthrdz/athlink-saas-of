@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db"
 import { readFile } from "fs/promises"
 import { join } from "path"
 import { existsSync } from "fs"
+import { PlanType } from "@/lib/features"
 
 interface AccessTokenPayload {
   planId: string
@@ -36,7 +37,7 @@ export async function GET(
 
     // Récupérer le plan et le fichier PDF
     const profiles = await prisma.profile.findMany({
-      where: { plan: "COACH" },
+      where: { plan: PlanType.COACH },
       select: { id: true, stats: true }
     })
 

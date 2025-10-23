@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { readFile } from "fs/promises"
 import { join } from "path"
+import { PlanType } from "@/lib/features"
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,7 +14,7 @@ export async function POST(request: NextRequest) {
 
     // Récupérer le plan d'entraînement
     const profiles = await prisma.profile.findMany({
-      where: { plan: "COACH" },
+      where: { plan: PlanType.COACH },
       select: { id: true, stats: true }
     })
 
