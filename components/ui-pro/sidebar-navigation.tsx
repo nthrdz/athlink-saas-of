@@ -5,7 +5,10 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { 
   LayoutDashboard, 
-  Boxes,
+  Link2,
+  Trophy,
+  Award,
+  Image,
   User,
   Settings,
   LogOut,
@@ -38,7 +41,10 @@ export function SidebarNavigation({
   const allMenuItems = [
     { href: "/dashboard/profile", icon: User, label: "Profil" },
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { href: "/dashboard/sources", icon: Boxes, label: "Sources" },
+    { href: "/dashboard/links", icon: Link2, label: "Liens" },
+    { href: "/dashboard/races", icon: Trophy, label: "Compétitions" },
+    { href: "/dashboard/sponsors", icon: Award, label: "Sponsors" },
+    { href: "/dashboard/media", icon: Image, label: "Galerie" },
     { href: "/dashboard/coaching", icon: Users, label: "Services Coaching", planRequired: "COACH" },
     { href: "/dashboard/share", icon: Share2, label: "Partager" },
     { href: "/dashboard/settings", icon: Settings, label: "Paramètres" },

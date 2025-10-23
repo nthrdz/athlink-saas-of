@@ -46,7 +46,6 @@ export function MobileNavigation({
     { href: "/dashboard/sponsors", icon: Award, label: "Sponsors" },
     { href: "/dashboard/media", icon: ImageIcon, label: "Galerie" },
     { href: "/dashboard/coaching", icon: Users, label: "Services Coaching", planRequired: "COACH" },
-    { href: "/dashboard/analytics", icon: BarChart3, label: "Analytics" },
     { href: "/dashboard/share", icon: Share2, label: "Partager" },
     { href: "/dashboard/profile", icon: User, label: "Profil" },
     { href: "/dashboard/settings", icon: Settings, label: "Paramètres" },

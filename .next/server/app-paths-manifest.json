@@ -1,16 +1,3 @@
 {
-  "/(auth)/login/page": "app/(auth)/login/page.js",
-  "/(dashboard)/dashboard/analytics/page": "app/(dashboard)/dashboard/analytics/page.js",
-  "/(dashboard)/dashboard/links/page": "app/(dashboard)/dashboard/links/page.js",
-  "/(dashboard)/dashboard/media/page": "app/(dashboard)/dashboard/media/page.js",
-  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
-  "/(dashboard)/dashboard/profile/page": "app/(dashboard)/dashboard/profile/page.js",
-  "/(dashboard)/dashboard/settings/page": "app/(dashboard)/dashboard/settings/page.js",
-  "/(dashboard)/dashboard/sources/page": "app/(dashboard)/dashboard/sources/page.js",
-  "/(dashboard)/dashboard/sponsors/page": "app/(dashboard)/dashboard/sponsors/page.js",
-  "/[username]/page": "app/[username]/page.js",
-  "/api/analytics/track-view/route": "app/api/analytics/track-view/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/profile/route": "app/api/profile/route.js",
   "/page": "app/page.js"
 }
