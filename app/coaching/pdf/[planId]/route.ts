@@ -13,9 +13,10 @@ interface AccessTokenPayload {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { planId: string } }
+  { params }: { params: Promise<{ planId: string }> }
 ) {
   try {
+    const { planId } = await params
     const { searchParams } = new URL(request.url)
     const token = searchParams.get('token')
 
@@ -29,7 +30,7 @@ export async function GET(
       return NextResponse.json({ error: "Token invalide ou expiré" }, { status: 401 })
     }
 
-    if (tokenPayload.planId !== params.planId) {
+    if (tokenPayload.planId !== planId) {
       return NextResponse.json({ error: "Token invalide pour ce plan" }, { status: 403 })
     }
 
@@ -45,7 +46,7 @@ export async function GET(
     for (const profile of profiles) {
       const stats = profile.stats as any
       const trainingPlans = stats.trainingPlans || []
-      const plan = trainingPlans.find((p: any) => p.id === params.planId)
+      const plan = trainingPlans.find((p: any) => p.id === planId)
       
       if (plan) {
         targetPlan = plan

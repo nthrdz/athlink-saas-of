@@ -4,9 +4,10 @@ import { prisma } from "@/lib/db"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await auth()
     if (!session) {
       return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
@@ -28,7 +29,7 @@ export async function GET(
 
     const stats = profileData?.stats as any || {}
     const plans = stats.trainingPlans || []
-    const plan = plans.find((p: any) => p.id === params.id)
+    const plan = plans.find((p: any) => p.id === id)
 
     if (!plan) {
       return NextResponse.json({ error: "Plan non trouvé" }, { status: 404 })
@@ -43,9 +44,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await auth()
     if (!session) {
       return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
@@ -79,7 +81,7 @@ export async function PUT(
 
     const stats = profileData?.stats as any || {}
     const plans = stats.trainingPlans || []
-    const planIndex = plans.findIndex((p: any) => p.id === params.id)
+    const planIndex = plans.findIndex((p: any) => p.id === id)
 
     if (planIndex === -1) {
       return NextResponse.json({ error: "Plan non trouvé" }, { status: 404 })
@@ -146,9 +148,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await auth()
     if (!session) {
       return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
@@ -171,7 +174,7 @@ export async function DELETE(
 
     const stats = profileData?.stats as any || {}
     const plans = stats.trainingPlans || []
-    const planIndex = plans.findIndex((p: any) => p.id === params.id)
+    const planIndex = plans.findIndex((p: any) => p.id === id)
 
     if (planIndex === -1) {
       return NextResponse.json({ error: "Plan non trouvé" }, { status: 404 })
