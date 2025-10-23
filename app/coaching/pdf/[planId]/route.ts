@@ -56,7 +56,7 @@ export async function GET(
       }
     }
 
-    if (!targetPlan || !targetPlan.pdfFileName) {
+    if (!targetPlan || !targetPlan.pdfFileName || !coachProfileId) {
       return NextResponse.json({ error: "PDF non trouvé" }, { status: 404 })
     }
 
@@ -71,7 +71,7 @@ export async function GET(
     // Lire et servir le fichier
     const fileBuffer = await readFile(filePath)
     
-    return new NextResponse(fileBuffer, {
+    return new Response(new Uint8Array(fileBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `inline; filename="${targetPlan.title}.pdf"`,

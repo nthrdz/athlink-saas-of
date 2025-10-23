@@ -72,14 +72,14 @@ export async function POST(req: NextRequest) {
 
     // Convert File to ArrayBuffer then to Buffer
     const arrayBuffer = await file.arrayBuffer()
-    let buffer = Buffer.from(arrayBuffer)
+    let buffer: Buffer = Buffer.from(arrayBuffer) as Buffer
 
     // Optimize image quality for avatars and covers (not videos)
     // Resize to very high resolution (2000px) with maximum quality
     if (!isVideo && (type === "avatar" || type === "cover")) {
       try {
         const targetSize = type === "avatar" ? 2000 : 2400
-        buffer = await sharp(buffer)
+        buffer = await sharp(buffer as Buffer)
           .resize(targetSize, type === "avatar" ? 2000 : 800, {
             fit: 'cover',
             position: 'center',

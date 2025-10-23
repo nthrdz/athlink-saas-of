@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 16, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/middleware.ts"],"sourcesContent":["import { NextResponse } from \"next/server\"\nimport type { NextRequest } from \"next/server\"\n\nexport function middleware(request: NextRequest) {\n  // Pour Next-auth v5, le middleware de protection est géré dans les pages elles-mêmes\n  // Ce middleware peut être utilisé pour d'autres logiques si nécessaire\n  return NextResponse.next()\n}\n\nexport const config = {\n  matcher: [\"/dashboard/:path*\"]\n}\n"],"names":[],"mappings":";;;;;;AAAA;AAAA;;AAGO,SAAS,WAAW,OAAoB;IAC7C,qFAAqF;IACrF,uEAAuE;IACvE,OAAO,gMAAY,CAAC,IAAI;AAC1B;AAEO,MAAM,SAAS;IACpB,SAAS;QAAC;KAAoB;AAChC"}}]
-}

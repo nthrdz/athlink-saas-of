@@ -47,7 +47,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     // Mapper le sport libre vers l'enum Prisma et stocker l'original dans les stats
-    let statsToUpdate = profile.stats || {}
+    let statsToUpdate: any = profile.stats || {}
     
     // Gérer le sport original
     if (validatedData.sport) {
@@ -57,7 +57,7 @@ export async function PATCH(req: NextRequest) {
     // Gérer le CSS personnalisé
     if (validatedData.customCSS !== undefined) {
       statsToUpdate = {
-        ...statsToUpdate,
+        ...(statsToUpdate as object),
         customCSS: validatedData.customCSS || null
       }
     }

@@ -194,7 +194,8 @@ export function SponsorsContent() {
     setFormData({ 
       ...formData, 
       name: brand.name,
-      logoUrl: getBrandLogoUrl(brand)
+      websiteUrl: brand.website,
+      logoUrl: getBrandLogoUrl(brand.website)
     })
     setShowSuggestions(false)
   }
@@ -382,7 +383,7 @@ export function SponsorsContent() {
                             className="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-center gap-2"
                           >
                             <img 
-                              src={getBrandLogoUrl(brand)} 
+                              src={getBrandLogoUrl(brand.website)} 
                               alt={brand.name}
                               className="w-6 h-6 object-contain"
                             />
@@ -599,7 +600,7 @@ export function SponsorsContent() {
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => window.open(sponsor.websiteUrl, '_blank')}
+                        onClick={() => sponsor.websiteUrl && window.open(sponsor.websiteUrl, '_blank')}
                         className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                         title="Visiter le site"
                       >

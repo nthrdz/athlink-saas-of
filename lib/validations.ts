@@ -79,6 +79,7 @@ export const profileUpdateSchema = z.object({
   theme: z.string().optional(),
   isPublic: z.boolean().optional(),
   customDomain: z.union([z.string().max(100, "Maximum 100 caractères"), z.literal(""), z.null()]).optional(),
+  customCSS: z.string().nullable().optional(),
 })
 
 // Race schemas
