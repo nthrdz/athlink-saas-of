@@ -1,4 +1,12 @@
 {
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/dashboard/coaching/page": "app/(dashboard)/dashboard/coaching/page.js",
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/dashboard/settings/page": "app/(dashboard)/dashboard/settings/page.js",
+  "/(dashboard)/dashboard/share/page": "app/(dashboard)/dashboard/share/page.js",
+  "/(dashboard)/dashboard/sources/page": "app/(dashboard)/dashboard/sources/page.js",
+  "/api/analytics/data/route": "app/api/analytics/data/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/icon/route": "app-edge-has-no-entrypoint",
   "/page": "app/page.js"
 }
