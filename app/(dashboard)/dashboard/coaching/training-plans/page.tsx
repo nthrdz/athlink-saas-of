@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { PlanBadge } from "@/components/ui-pro/plan-badge"
 import { TrainingPlansClient } from "./training-plans-client"
+import { PlanType } from "@/lib/features"
 
 export default async function TrainingPlansPage() {
   const session = await auth()
@@ -21,7 +22,7 @@ export default async function TrainingPlansPage() {
     }
   })
 
-  if (!profile || (profile.plan !== "COACH" && profile.plan !== "ELITE")) {
+  if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO)) {
     redirect("/dashboard")
   }
 
@@ -65,7 +66,7 @@ export default async function TrainingPlansPage() {
                 Crée et vends tes programmes personnalisés
               </p>
             </div>
-            <PlanBadge plan="COACH" size="lg" />
+            <PlanBadge plan={profile.plan as PlanType} size="lg" />
           </div>
         </div>
       </div>

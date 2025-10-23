@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db"
 import { PlanBadge } from "@/components/ui-pro/plan-badge"
 import { CoachingDashboardClient } from "./coaching-dashboard-client"
 import { TrendingUp, Users, Euro, Calendar, Target, BarChart3, Clock, CheckCircle } from "lucide-react"
+import { PlanType } from "@/lib/features"
 
 export default async function CoachingPage() {
   const session = await auth()
@@ -28,7 +29,7 @@ export default async function CoachingPage() {
   }
 
   // Vérifier que l'utilisateur a le plan COACH ou ELITE
-  if (profile.plan !== "COACH" && profile.plan !== "ELITE") {
+  if (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO) {
     redirect("/dashboard")
   }
 
@@ -75,7 +76,7 @@ export default async function CoachingPage() {
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center shadow-lg">
                   <Target className="w-6 h-6 text-black" />
                 </div>
-                <PlanBadge plan="COACH" size="lg" />
+                <PlanBadge plan={profile.plan as PlanType} size="lg" />
               </div>
               
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 text-gray-900">
