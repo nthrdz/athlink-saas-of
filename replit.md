@@ -12,6 +12,17 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Critical Fixes and Feature Implementation (October 23, 2025)
+- **Fixed logout button**: Replaced manual fetch-based signout with NextAuth's `signOut()` from `next-auth/react` for proper session termination
+- **Implemented plan limits enforcement**: Added comprehensive plan limit checks across all API routes:
+  - `/api/links`: FREE plan limited to 10 links, PRO/ELITE unlimited
+  - `/api/races`: FREE plan limited to 1 race, PRO/ELITE unlimited
+  - `/api/sponsors`: FREE plan blocked (0 sponsors), PRO/ELITE unlimited
+  - `/api/media`: FREE plan limited to 2 media items, PRO/ELITE unlimited
+- **Centralized limit logic**: All routes now use `canAddItem()` and `getLimitMessage()` from `lib/features.ts` for consistent enforcement
+- **Added customCSS field**: Updated `FeatureLimits` interface to include `customCSS` boolean (ELITE-only feature)
+- All plan features now properly gated at API level, ensuring FREE/PRO/ELITE tiers work as designed
+
 ### Migration to Replit (October 23, 2025)
 - Successfully migrated from Vercel to Replit environment
 - Restructured project: moved all Next.js app routes to `app/` directory (App Router standard)
@@ -64,7 +75,9 @@ Preferred communication style: Simple, everyday language.
 **Authorization**:
 - Session-based route protection via middleware
 - Plan-based feature gating defined in `lib/features.ts`
+- **Server-side plan limit enforcement**: All API routes (`links`, `races`, `sponsors`, `media`) check limits before creating new items
 - Client-side plan validation for UI elements
+- Centralized limit checking via `canAddItem()`, `checkLimit()`, and `getLimitMessage()` functions
 
 **Business Logic**:
 - Sport type mapping system for flexible sport categorization
