@@ -69,7 +69,7 @@ export async function PUT(
     const category = formData.get('category') as string
     const isActive = formData.get('isActive') === 'true'
     const pdfFile = formData.get('pdfFile') as File | null
-    const pdfFileName = formData.get('pdfFileName') as string
+    const pdfFileNameFromForm = formData.get('pdfFileName') as string
 
     // Récupérer les plans existants
     const profileData = await prisma.profile.findUnique({
@@ -106,9 +106,9 @@ export async function PUT(
     if (pdfFile) {
       // Nouveau fichier uploadé
       pdfFileName = pdfFile.name
-    } else if (pdfFileName !== undefined) {
-      // Nom de fichier fourni (garde l'existant)
-      pdfFileName = pdfFileName
+    } else if (pdfFileNameFromForm !== undefined) {
+      // Nom de fichier fourni
+      pdfFileName = pdfFileNameFromForm
     }
 
     // Mettre à jour le plan
