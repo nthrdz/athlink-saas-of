@@ -82,7 +82,7 @@ export default async function DashboardPage() {
                 Voici tes performances cette semaine
               </p>
             </div>
-            <PlanBadge plan={profile.plan as "FREE" | "PRO" | "ELITE" | "ATHLETE_PRO" | "COACH"} size="lg" />
+            <PlanBadge plan={profile.plan as PlanType} size="lg" />
           </div>
         </div>
       </div>

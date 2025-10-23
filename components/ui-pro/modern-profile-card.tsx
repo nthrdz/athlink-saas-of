@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { MapPin, Instagram, Youtube, Calendar, Link as LinkIcon, Users, ExternalLink, Trophy, Medal, ImageIcon } from "lucide-react"
+import { PlanType } from "@/lib/features"
 
 interface ModernProfileCardProps {
   displayName: string
@@ -14,7 +15,7 @@ interface ModernProfileCardProps {
   strava: string | null
   youtube: string | null
   tiktok: string | null
-  plan?: "FREE" | "PRO" | "ELITE"
+  plan?: PlanType
   links?: Array<{
     id: string
     title: string
@@ -59,7 +60,7 @@ export function ModernProfileCard({
   strava,
   youtube,
   tiktok,
-  plan = "FREE",
+  plan = PlanType.FREE,
   links = [],
   races = [],
   sponsors = [],
@@ -69,12 +70,12 @@ export function ModernProfileCard({
 }: ModernProfileCardProps) {
 
   const allSocialIcons = [
-    { icon: Instagram, url: instagram ? `https://instagram.com/${instagram}` : null },
-    { icon: TikTokIcon, url: tiktok ? `https://tiktok.com/@${tiktok}` : null },
-    { icon: XIcon, url: null },
-    { icon: StravaIcon, url: strava },
-    { icon: TelegramIcon, url: null },
-    { icon: Youtube, url: youtube },
+    { icon: Instagram, url: instagram ? `https://instagram.com/${instagram}` : undefined },
+    { icon: TikTokIcon, url: tiktok ? `https://tiktok.com/@${tiktok}` : undefined },
+    { icon: XIcon, url: undefined },
+    { icon: StravaIcon, url: strava || undefined },
+    { icon: TelegramIcon, url: undefined },
+    { icon: Youtube, url: youtube || undefined },
   ].filter(social => social.url) // N'afficher que les réseaux sociaux remplis
 
   return (
@@ -117,7 +118,7 @@ export function ModernProfileCard({
         <div className="relative bg-gradient-to-b from-black/90 to-black p-6 sm:p-8">
           
           {/* Badge Plan */}
-          {plan && plan !== "FREE" && (
+          {plan && plan !== PlanType.FREE && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -125,14 +126,16 @@ export function ModernProfileCard({
               className="flex justify-center mb-3"
             >
               <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${
-                plan === "ELITE" 
+                plan === PlanType.ELITE || plan === PlanType.ATHLETE_PRO
                   ? "bg-gradient-to-r from-gray-700 to-gray-900 border border-gray-600" 
                   : "bg-gradient-to-r from-yellow-500 to-orange-500"
               } shadow-lg`}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-white">
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                 </svg>
-                <span className="text-sm font-bold text-white uppercase">{plan === "ELITE" ? "Elite" : "Pro"}</span>
+                <span className="text-sm font-bold text-white uppercase">
+                  {plan === PlanType.ELITE || plan === PlanType.ATHLETE_PRO ? "Elite" : plan === PlanType.COACH ? "Coach" : "Pro"}
+                </span>
               </div>
             </motion.div>
           )}

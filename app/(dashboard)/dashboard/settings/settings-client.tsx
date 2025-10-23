@@ -24,13 +24,13 @@ import {
   BarChart3
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { canUserAccessFeature, PLAN_FEATURES } from "@/lib/features"
+import { canUserAccessFeature, PLAN_FEATURES, PlanType } from "@/lib/features"
 import Link from "next/link"
 
 interface SettingsClientProps {
   profileId: string
   username: string
-  userPlan: "FREE" | "PRO" | "ELITE"
+  userPlan: PlanType
   initialCustomDomain: string
   promoCodeUsed?: string | null
   trialEndsAt?: string | null
@@ -118,7 +118,7 @@ export function SettingsClient({
     setHasChanges(false)
   }
 
-  const handleUpgradePlan = async (newPlan: "FREE" | "PRO" | "ELITE") => {
+  const handleUpgradePlan = async (newPlan: PlanType) => {
     setIsLoading(true)
     try {
       const response = await fetch('/api/upgrade-plan', {

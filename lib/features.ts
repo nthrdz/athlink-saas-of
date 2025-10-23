@@ -175,10 +175,12 @@ export function getLimitMessage(
   userPlan: PlanType,
   itemType: 'links' | 'races' | 'sponsors' | 'media'
 ): string {
-  const planNames = {
+  const planNames: Record<PlanType, string> = {
     [PlanType.FREE]: "Free",
     [PlanType.PRO]: "Pro",
-    [PlanType.ELITE]: "Elite"
+    [PlanType.ELITE]: "Elite",
+    [PlanType.ATHLETE_PRO]: "Athlete Pro",
+    [PlanType.COACH]: "Coach"
   }
   
   const itemNames = {

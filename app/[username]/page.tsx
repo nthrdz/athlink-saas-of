@@ -6,6 +6,7 @@ import { ShareProfileButton } from "@/components/ui-pro/share-profile-button"
 import { ScrollToTop } from "@/components/ui-pro/scroll-to-top"
 import { ViewTracker } from "@/components/analytics/view-tracker"
 import { ClickTracker } from "@/components/analytics/click-tracker"
+import { PlanType } from "@/lib/features"
 
 interface Props {
   params: Promise<{ username: string }>
@@ -131,7 +132,7 @@ export default async function ProfilePage({ params }: Props) {
             strava={profile.strava}
             youtube={profile.youtube}
             tiktok={profile.tiktok}
-            plan={profile.plan as "FREE" | "PRO" | "ELITE"}
+            plan={profile.plan as PlanType}
             links={profile.links}
             races={profile.races}
             sponsors={profile.sponsors}

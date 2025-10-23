@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { SettingsClient } from "./settings-client"
+import { PlanType } from "@/lib/features"
 
 export default async function SettingsPage() {
   const session = await auth()
@@ -54,7 +55,7 @@ export default async function SettingsPage() {
       <SettingsClient 
         profileId={profile.id}
         username={profile.username}
-        userPlan={profile.plan as "FREE" | "PRO" | "ELITE"}
+        userPlan={profile.plan as PlanType}
         initialCustomDomain={profile.customDomain || ""}
         promoCodeUsed={promoCodeUsed}
         trialEndsAt={trialEndsAt}

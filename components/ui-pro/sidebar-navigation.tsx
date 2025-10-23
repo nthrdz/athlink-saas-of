@@ -47,8 +47,8 @@ export function SidebarNavigation({
   // Filtrer les éléments du menu selon le plan
   const menuItems = allMenuItems.filter(item => {
     if (!item.planRequired) return true
-    if (item.planRequired === "COACH") return plan === "COACH" || plan === "ELITE"
-    if (item.planRequired === "PRO") return plan === "PRO" || plan === "ELITE"
+    if (item.planRequired === "COACH") return plan === "COACH" || plan === "ELITE" || plan === "ATHLETE_PRO"
+    if (item.planRequired === "PRO") return plan === "PRO" || plan === "ELITE" || plan === "ATHLETE_PRO"
     return plan === item.planRequired
   })
 

@@ -3,27 +3,27 @@
 import { motion } from "framer-motion"
 import { Crown, Zap, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { PlanType } from "@/lib/features"
 
 interface PlanBadgeProps {
-  plan: "FREE" | "PRO" | "ELITE" | "ATHLETE_PRO" | "COACH"
+  plan: PlanType
   size?: "sm" | "md" | "lg"
   showIcon?: boolean
   className?: string
 }
 
 export function PlanBadge({ plan, size = "md", showIcon = true, className }: PlanBadgeProps) {
-  if (plan === "FREE" || plan === "COACH") return null // Pas de badge pour les plans gratuit et coach
+  if (plan === PlanType.FREE || plan === PlanType.COACH) return null // Pas de badge pour les plans gratuit et coach
 
-  const planConfig = {
-    PRO: {
-      label: "Pro",
-      icon: Zap,
-      gradient: "from-yellow-500 to-black",
-      bgColor: "bg-gradient-to-r from-yellow-500 to-black",
-      textColor: "text-white",
-      shadowColor: "shadow-yellow-500/20"
-    },
-    COACH: {
+  const planConfig: Record<PlanType, {
+    label: string
+    icon: any
+    gradient: string
+    bgColor: string
+    textColor: string
+    shadowColor: string
+  }> = {
+    [PlanType.FREE]: {
       label: "",
       icon: Zap,
       gradient: "",
@@ -31,7 +31,23 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
       textColor: "",
       shadowColor: ""
     },
-    ELITE: {
+    [PlanType.PRO]: {
+      label: "Pro",
+      icon: Zap,
+      gradient: "from-yellow-500 to-black",
+      bgColor: "bg-gradient-to-r from-yellow-500 to-black",
+      textColor: "text-white",
+      shadowColor: "shadow-yellow-500/20"
+    },
+    [PlanType.COACH]: {
+      label: "",
+      icon: Zap,
+      gradient: "",
+      bgColor: "",
+      textColor: "",
+      shadowColor: ""
+    },
+    [PlanType.ELITE]: {
       label: "Elite", 
       icon: Crown,
       gradient: "from-gray-800 to-black",
@@ -39,7 +55,7 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
       textColor: "text-white",
       shadowColor: "shadow-gray-800/20"
     },
-    ATHLETE_PRO: {
+    [PlanType.ATHLETE_PRO]: {
       label: "Elite", 
       icon: Crown,
       gradient: "from-gray-800 to-black",
@@ -49,7 +65,7 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
     }
   }
 
-  const config = planConfig[plan as keyof typeof planConfig]
+  const config = planConfig[plan]
   if (!config) return null // Si le plan n'est pas reconnu, ne rien afficher
   
   const Icon = config.icon
@@ -102,8 +118,8 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
 }
 
 // Composant pour afficher le badge dans le header du profil
-export function ProfilePlanBadge({ plan, className }: { plan: "FREE" | "PRO" | "ELITE" | "ATHLETE_PRO" | "COACH", className?: string }) {
-  if (plan === "FREE" || plan === "COACH") return null
+export function ProfilePlanBadge({ plan, className }: { plan: PlanType, className?: string }) {
+  if (plan === PlanType.FREE || plan === PlanType.COACH) return null
 
   return (
     <div className={cn("flex justify-center", className)}>

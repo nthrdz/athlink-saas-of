@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { MapPin, Instagram, Youtube } from "lucide-react"
 import { ProfilePlanBadge } from "./plan-badge"
+import { PlanType } from "@/lib/features"
 
 interface LinktreeHeaderProps {
   displayName: string
@@ -13,7 +14,7 @@ interface LinktreeHeaderProps {
   strava: string | null
   youtube: string | null
   tiktok: string | null
-  plan?: "FREE" | "PRO" | "ELITE"
+  plan?: PlanType
 }
 
 export function LinktreeHeader({
@@ -25,7 +26,7 @@ export function LinktreeHeader({
   strava,
   youtube,
   tiktok,
-  plan = "FREE"
+  plan = PlanType.FREE
 }: LinktreeHeaderProps) {
   const socialLinks = [
     { icon: Instagram, url: instagram ? `https://instagram.com/${instagram}` : null },

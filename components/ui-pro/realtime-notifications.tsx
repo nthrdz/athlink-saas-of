@@ -17,6 +17,7 @@ import {
   VolumeX
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { PlanType } from "@/lib/features"
 
 interface Notification {
   id: string
@@ -30,7 +31,7 @@ interface Notification {
 
 interface RealtimeNotificationsProps {
   notifications: Notification[]
-  userPlan: "FREE" | "PRO" | "ELITE"
+  userPlan: PlanType
   onMarkAsRead: (id: string) => void
   onMarkAllAsRead: () => void
   onClearNotification: (id: string) => void
@@ -313,7 +314,7 @@ export function RealtimeNotifications({
 }
 
 // Hook pour simuler les notifications en temps réel
-export function useRealtimeNotifications(userPlan: "FREE" | "PRO" | "ELITE") {
+export function useRealtimeNotifications(userPlan: PlanType) {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [soundEnabled, setSoundEnabled] = useState(true)
 
