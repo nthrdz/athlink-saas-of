@@ -14,6 +14,7 @@ export interface FeatureLimits {
   maxMedia: number
   analyticsDays: number | null // null = illimité
   customDomain: boolean
+  customCSS: boolean
   realtimeNotifications: boolean
   dataExport: boolean
   clickHeatmap: boolean
@@ -69,6 +70,7 @@ export const PLAN_FEATURES: Record<PlanType, FeatureLimits> = {
     maxMedia: -1, // Illimité
     analyticsDays: null, // Analytics illimitées
     customDomain: true,
+    customCSS: true,
     realtimeNotifications: true,
     dataExport: true,
     clickHeatmap: true,
@@ -86,6 +88,7 @@ export const PLAN_FEATURES: Record<PlanType, FeatureLimits> = {
     maxMedia: -1, // Illimité
     analyticsDays: null, // Analytics illimitées
     customDomain: true,
+    customCSS: true,
     realtimeNotifications: true,
     dataExport: true,
     clickHeatmap: true,
@@ -103,6 +106,7 @@ export const PLAN_FEATURES: Record<PlanType, FeatureLimits> = {
     maxMedia: -1, // Illimité
     analyticsDays: 7, // 7 jours d'analytics
     customDomain: false,
+    customCSS: false,
     realtimeNotifications: false,
     dataExport: false,
     clickHeatmap: false,
