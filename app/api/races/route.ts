@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { raceSchema } from "@/lib/validations"
+import { canAddItem, getLimitMessage, PlanType } from "@/lib/features"
 
 // GET all races
 export async function GET(req: NextRequest) {
@@ -44,11 +45,21 @@ export async function POST(req: NextRequest) {
     const validatedData = raceSchema.parse(body)
 
     const profile = await prisma.profile.findUnique({
-      where: { userId: session.user.id }
+      where: { userId: session.user.id },
+      include: { races: true }
     })
 
     if (!profile) {
       return NextResponse.json({ error: "Profil non trouvé" }, { status: 404 })
+    }
+
+    // Check plan limits using features system
+    const userPlan = profile.plan as PlanType
+    if (!canAddItem(profile.races.length, userPlan, 'races')) {
+      return NextResponse.json(
+        { error: getLimitMessage(userPlan, 'races') },
+        { status: 403 }
+      )
     }
 
     // Convert date string to Date object if needed

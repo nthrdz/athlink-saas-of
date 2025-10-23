@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { linkSchema } from "@/lib/validations"
+import { canAddItem, getLimitMessage, PlanType } from "@/lib/features"
 
 // GET all links
 export async function GET(req: NextRequest) {
@@ -52,10 +53,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Profil non trouvé" }, { status: 404 })
     }
 
-    // Check limits for FREE plan
-    if (profile.plan === "FREE" && profile.links.length >= 10) {
+    // Check plan limits using features system
+    const userPlan = profile.plan as PlanType
+    if (!canAddItem(profile.links.length, userPlan, 'links')) {
       return NextResponse.json(
-        { error: "Limite de 10 liens atteinte. Passe en Athlete Pro !" },
+        { error: getLimitMessage(userPlan, 'links') },
         { status: 403 }
       )
     }

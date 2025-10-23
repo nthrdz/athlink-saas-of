@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { mediaSchema } from '@/lib/validations'
 import { z } from 'zod'
+import { canAddItem, getLimitMessage, PlanType } from '@/lib/features'
 
 // GET - Récupérer tous les médias de l'utilisateur
 export async function GET(req: NextRequest) {
@@ -44,11 +45,20 @@ export async function POST(req: NextRequest) {
 
     const profile = await prisma.profile.findUnique({
       where: { userId: session.user.id },
-      select: { id: true }
+      include: { media: true }
     })
 
     if (!profile) {
       return NextResponse.json({ error: 'Profil non trouvé' }, { status: 404 })
+    }
+
+    // Check plan limits using features system
+    const userPlan = profile.plan as PlanType
+    if (!canAddItem(profile.media.length, userPlan, 'media')) {
+      return NextResponse.json(
+        { error: getLimitMessage(userPlan, 'media') },
+        { status: 403 }
+      )
     }
 
     const body = await req.json()

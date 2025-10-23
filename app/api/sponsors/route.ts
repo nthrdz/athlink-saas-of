@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { sponsorSchema } from "@/lib/validations"
+import { canAddItem, getLimitMessage, PlanType } from "@/lib/features"
 
 // GET all sponsors
 export async function GET(req: NextRequest) {
@@ -50,6 +51,15 @@ export async function POST(req: NextRequest) {
 
     if (!profile) {
       return NextResponse.json({ error: "Profil non trouvé" }, { status: 404 })
+    }
+
+    // Check plan limits using features system
+    const userPlan = profile.plan as PlanType
+    if (!canAddItem(profile.sponsors.length, userPlan, 'sponsors')) {
+      return NextResponse.json(
+        { error: getLimitMessage(userPlan, 'sponsors') },
+        { status: 403 }
+      )
     }
 
     const maxPosition = await prisma.sponsor.aggregate({
