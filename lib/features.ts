@@ -1,11 +1,6 @@
 // Système de gestion des fonctionnalités par plan
-export enum PlanType {
-  FREE = "FREE",
-  PRO = "PRO",
-  ELITE = "ELITE",
-  ATHLETE_PRO = "ATHLETE_PRO", // Prisma plan = Elite
-  COACH = "COACH" // Prisma plan = Pro
-}
+import { PlanType } from "@prisma/client"
+export { PlanType }
 
 export interface FeatureLimits {
   maxLinks: number
