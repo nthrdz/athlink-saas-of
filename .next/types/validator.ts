@@ -425,15 +425,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../app/auth/signup/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/auth/signup">> = Specific
-  const handler = {} as typeof import("../../app/auth/signup/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 // Validate ../../app/coaching/access-pdf/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/coaching/access-pdf">> = Specific
