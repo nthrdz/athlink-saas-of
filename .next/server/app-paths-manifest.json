@@ -1,3 +1,9 @@
 {
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/[username]/page": "app/[username]/page.js",
+  "/api/analytics/track-view/route": "app/api/analytics/track-view/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/icon/route": "app-edge-has-no-entrypoint",
   "/page": "app/page.js"
 }
