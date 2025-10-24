@@ -15,7 +15,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Share2,
-  Users
+  Users,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
@@ -28,6 +30,19 @@ interface SidebarNavigationProps {
   onSignOut: () => void
 }
 
+interface MenuItem {
+  href: string
+  icon: any
+  label: string
+  planRequired?: string
+}
+
+interface MenuSection {
+  title?: string
+  items: MenuItem[]
+  collapsible?: boolean
+}
+
 export function SidebarNavigation({ 
   username, 
   displayName, 
@@ -37,26 +52,60 @@ export function SidebarNavigation({
 }: SidebarNavigationProps) {
   const pathname = usePathname()
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    profil: true,
+    sources: true
+  })
 
-  const allMenuItems = [
-    { href: "/dashboard/profile", icon: User, label: "Profil" },
-    { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { href: "/dashboard/links", icon: Link2, label: "Liens" },
-    { href: "/dashboard/races", icon: Trophy, label: "Compétitions" },
-    { href: "/dashboard/sponsors", icon: Award, label: "Sponsors" },
-    { href: "/dashboard/media", icon: Image, label: "Galerie" },
-    { href: "/dashboard/coaching", icon: Users, label: "Services Coaching", planRequired: "COACH" },
-    { href: "/dashboard/share", icon: Share2, label: "Partager" },
-    { href: "/dashboard/settings", icon: Settings, label: "Paramètres" },
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }))
+  }
+
+  const menuStructure: MenuSection[] = [
+    {
+      items: [
+        { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+      ]
+    },
+    {
+      title: "Profil",
+      collapsible: true,
+      items: [
+        { href: "/dashboard/profile", icon: User, label: "Profil" },
+        { href: "/dashboard/media", icon: Image, label: "Galerie" },
+      ]
+    },
+    {
+      title: "Sources",
+      collapsible: true,
+      items: [
+        { href: "/dashboard/links", icon: Link2, label: "Liens" },
+        { href: "/dashboard/races", icon: Trophy, label: "Compétitions" },
+        { href: "/dashboard/sponsors", icon: Award, label: "Sponsors" },
+      ]
+    },
+    {
+      items: [
+        { href: "/dashboard/coaching", icon: Users, label: "Services Coaching", planRequired: "COACH" },
+        { href: "/dashboard/share", icon: Share2, label: "Partager" },
+        { href: "/dashboard/settings", icon: Settings, label: "Paramètres" },
+      ]
+    }
   ]
 
-  // Filtrer les éléments du menu selon le plan
-  const menuItems = allMenuItems.filter(item => {
-    if (!item.planRequired) return true
-    if (item.planRequired === "COACH") return plan === "COACH" || plan === "ELITE" || plan === "ATHLETE_PRO"
-    if (item.planRequired === "PRO") return plan === "PRO" || plan === "ELITE" || plan === "ATHLETE_PRO"
-    return plan === item.planRequired
-  })
+  // Filtrer les sections et items selon le plan
+  const filteredMenuStructure = menuStructure.map(section => ({
+    ...section,
+    items: section.items.filter(item => {
+      if (!item.planRequired) return true
+      if (item.planRequired === "COACH") return plan === "COACH" || plan === "ELITE" || plan === "ATHLETE_PRO"
+      if (item.planRequired === "PRO") return plan === "PRO" || plan === "ELITE" || plan === "ATHLETE_PRO"
+      return plan === item.planRequired
+    })
+  })).filter(section => section.items.length > 0)
 
   return (
     <motion.div
@@ -103,37 +152,73 @@ export function SidebarNavigation({
       </div>
 
       {/* Menu Items */}
-      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-        {menuItems.map((item) => {
-          const isActive = pathname === item.href
-          const Icon = item.icon
+      <nav className="flex-1 px-4 py-6 space-y-6 overflow-y-auto">
+        {filteredMenuStructure.map((section, sectionIndex) => {
+          const sectionId = section.title?.toLowerCase() || `section-${sectionIndex}`
+          const isExpanded = expandedSections[sectionId] !== false
 
           return (
-            <Link key={item.href} href={item.href}>
-              <motion.div
-                whileHover={{ x: 4 }}
-                className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200",
-                  isActive
-                    ? "bg-gradient-to-r from-primary-blue-50 to-primary-blue-100 text-primary-blue-700 border-l-4 border-primary-blue-500"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-primary-blue-600"
-                )}
-              >
-                <Icon className={cn(
-                  "w-5 h-5 flex-shrink-0",
-                  isActive ? "text-primary-blue-600" : "text-gray-500"
-                )} />
-                {!isCollapsed && (
-                  <span className="font-semibold text-sm">{item.label}</span>
-                )}
-                {isActive && !isCollapsed && (
-                  <motion.div
-                    layoutId="activeIndicator"
-                    className="ml-auto w-2 h-2 rounded-full bg-primary-blue-600"
-                  />
-                )}
-              </motion.div>
-            </Link>
+            <div key={sectionId} className="space-y-2">
+              {/* Section Title */}
+              {section.title && !isCollapsed && (
+                <button
+                  onClick={() => section.collapsible && toggleSection(sectionId)}
+                  className={cn(
+                    "w-full flex items-center justify-between px-2 py-1",
+                    section.collapsible && "hover:bg-gray-50 rounded-lg cursor-pointer"
+                  )}
+                >
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    {section.title}
+                  </span>
+                  {section.collapsible && (
+                    isExpanded ? (
+                      <ChevronUp className="w-3 h-3 text-gray-400" />
+                    ) : (
+                      <ChevronDown className="w-3 h-3 text-gray-400" />
+                    )
+                  )}
+                </button>
+              )}
+
+              {/* Section Items */}
+              {isExpanded && (
+                <div className="space-y-1">
+                  {section.items.map((item) => {
+                    const isActive = pathname === item.href
+                    const Icon = item.icon
+
+                    return (
+                      <Link key={item.href} href={item.href}>
+                        <motion.div
+                          whileHover={{ x: 4 }}
+                          className={cn(
+                            "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200",
+                            isActive
+                              ? "bg-gradient-to-r from-primary-blue-50 to-primary-blue-100 text-primary-blue-700 border-l-4 border-primary-blue-500"
+                              : "text-gray-700 hover:bg-gray-50 hover:text-primary-blue-600"
+                          )}
+                        >
+                          <Icon className={cn(
+                            "w-5 h-5 flex-shrink-0",
+                            isActive ? "text-primary-blue-600" : "text-gray-500"
+                          )} />
+                          {!isCollapsed && (
+                            <span className="font-semibold text-sm">{item.label}</span>
+                          )}
+                          {isActive && !isCollapsed && (
+                            <motion.div
+                              layoutId="activeIndicator"
+                              className="ml-auto w-2 h-2 rounded-full bg-primary-blue-600"
+                            />
+                          )}
+                        </motion.div>
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           )
         })}
       </nav>
