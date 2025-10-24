@@ -98,7 +98,7 @@ export default async function ProfilePage({ params }: Props) {
 
       {/* Modern Profile Card Layout avec Click Tracking */}
       <ClickTracker profileId={profile.id}>
-        <div className="min-h-screen relative overflow-hidden flex items-center justify-center py-8 px-4">
+        <div className="min-h-screen relative overflow-hidden flex items-center justify-center py-4 sm:py-6 md:py-8 px-4">
         
         {/* Image de fond floutée - Photo de profil agrandie */}
         <div className="absolute inset-0 overflow-hidden">

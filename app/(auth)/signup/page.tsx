@@ -79,13 +79,13 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-white relative overflow-y-auto">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-white relative overflow-y-auto">
         {/* Logo */}
-        <Link href="/" className="absolute top-10 left-10 flex items-center gap-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-hero" />
-          <span className="font-black text-2xl bg-gradient-hero bg-clip-text text-transparent">
+        <Link href="/" className="absolute top-4 sm:top-6 lg:top-10 left-4 sm:left-6 lg:left-10 flex items-center gap-2">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-hero" />
+          <span className="font-black text-xl sm:text-2xl bg-gradient-hero bg-clip-text text-transparent">
             Athlink
           </span>
         </Link>
@@ -95,13 +95,13 @@ export default function SignupPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-md my-20"
+          className="w-full max-w-md my-16 sm:my-20"
         >
-          <div className="mb-10">
-            <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-primary-600 to-quaternary-600 bg-clip-text text-transparent mb-4">
+          <div className="mb-8 sm:mb-10">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black bg-gradient-to-r from-primary-600 to-quaternary-600 bg-clip-text text-transparent mb-3 sm:mb-4">
               Crée ton profil
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-base sm:text-lg text-gray-600">
               Rejoins des milliers d&apos;athlètes
             </p>
           </div>
@@ -115,7 +115,7 @@ export default function SignupPage() {
                 id="name" 
                 {...form.register("name")} 
                 placeholder="Thomas Dupont"
-                className="h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 transition-colors"
+                className="h-11 sm:h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 transition-colors"
               />
               {form.formState.errors.name && (
                   <p className="text-sm text-danger-600 mt-2 font-medium">
@@ -128,13 +128,13 @@ export default function SignupPage() {
               <Label htmlFor="username" className="text-sm font-semibold text-gray-700 mb-2 block">
                 Nom d&apos;utilisateur
               </Label>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500 whitespace-nowrap font-medium">athlink.app/</span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <span className="text-xs sm:text-sm text-gray-500 whitespace-nowrap font-medium">athlink.app/</span>
                 <Input 
                   id="username" 
                   {...form.register("username")} 
                   placeholder="thomas-runner"
-                  className="flex-1 h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-brand-blue-500 transition-colors"
+                  className="flex-1 h-11 sm:h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-brand-blue-500 transition-colors"
                 />
               </div>
               {form.formState.errors.username && (
@@ -151,8 +151,8 @@ export default function SignupPage() {
               <Input 
                 id="sport" 
                 {...form.register("sport")} 
-                placeholder="Course à pied, Cyclisme, Natation, Triathlon, Ski..."
-                className="h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 transition-colors"
+                placeholder="Course à pied, Cyclisme, Natation..."
+                className="h-11 sm:h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 transition-colors"
               />
               {form.formState.errors.sport && (
                   <p className="text-sm text-danger-600 mt-2 font-medium">
@@ -170,7 +170,7 @@ export default function SignupPage() {
                 type="email"
                 {...form.register("email")} 
                 placeholder="thomas@example.com"
-                className="h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 transition-colors"
+                className="h-11 sm:h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 transition-colors"
               />
               {form.formState.errors.email && (
                   <p className="text-sm text-danger-600 mt-2 font-medium">
@@ -188,7 +188,7 @@ export default function SignupPage() {
                 type="password"
                 {...form.register("password")} 
                 placeholder="••••••••"
-                className="h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 transition-colors"
+                className="h-11 sm:h-12 px-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 transition-colors"
               />
               <p className="text-xs text-gray-500 mt-2">Minimum 8 caractères</p>
               {form.formState.errors.password && (
@@ -213,7 +213,7 @@ export default function SignupPage() {
             <Button 
               type="submit" 
               disabled={isLoading}
-              className="w-full h-14 bg-gradient-hero hover:shadow-glow-blue text-gray-900 font-bold text-lg rounded-full transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 sm:h-14 bg-gradient-hero hover:shadow-glow-blue text-gray-900 font-bold text-base sm:text-lg rounded-full transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">

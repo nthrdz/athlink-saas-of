@@ -65,11 +65,11 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.0 }}
-              className="px-4 sm:px-0 -mt-8 ml-8"
+              className="flex justify-center lg:justify-start px-4 sm:px-6 lg:px-0"
             >
               <Link
                 href="/signup"
-                className="inline-flex items-center gap-3 bg-gray-900 text-white hover:bg-gray-800 active:scale-95 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium text-base sm:text-lg shadow-lg transition-all touch-manipulation"
+                className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900 text-white hover:bg-gray-800 active:scale-95 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium text-base sm:text-lg shadow-lg transition-all touch-manipulation"
               >
                 <Zap className="w-5 h-5" />
                 Commencer

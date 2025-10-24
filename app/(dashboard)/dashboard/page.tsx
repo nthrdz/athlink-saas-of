@@ -229,9 +229,9 @@ export default async function DashboardPage() {
 
 
       {/* Quick Actions Grid */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         <Link href="/dashboard/profile" className="group">
-          <div className="relative h-full bg-white rounded-2xl shadow-standard hover:shadow-elevated p-8 transition-all duration-300 group-hover:-translate-y-1 overflow-hidden">
+          <div className="relative h-full bg-white rounded-2xl shadow-standard hover:shadow-elevated p-6 sm:p-8 transition-all duration-300 group-hover:-translate-y-1 overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-ocean" />
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-blue-100 to-primary-blue-200 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <svg className="w-8 h-8 text-primary-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -248,7 +248,7 @@ export default async function DashboardPage() {
         </Link>
         
         <Link href="/dashboard/races" className="group">
-          <div className="relative h-full bg-white rounded-2xl shadow-standard hover:shadow-elevated p-8 transition-all duration-300 group-hover:-translate-y-1 overflow-hidden">
+          <div className="relative h-full bg-white rounded-2xl shadow-standard hover:shadow-elevated p-6 sm:p-8 transition-all duration-300 group-hover:-translate-y-1 overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-energy" />
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-100 to-yellow-200 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -265,7 +265,7 @@ export default async function DashboardPage() {
         </Link>
         
         <Link href={`/${profile.username}`} target="_blank" className="group">
-          <div className="relative h-full bg-white rounded-2xl shadow-standard hover:shadow-elevated p-8 transition-all duration-300 group-hover:-translate-y-1 overflow-hidden">
+          <div className="relative h-full bg-white rounded-2xl shadow-standard hover:shadow-elevated p-6 sm:p-8 transition-all duration-300 group-hover:-translate-y-1 overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-performance" />
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-green-100 to-primary-green-200 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <svg className="w-8 h-8 text-primary-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -288,8 +288,8 @@ export default async function DashboardPage() {
         <div className="relative bg-gradient-premium rounded-3xl shadow-elevated overflow-hidden">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xIiBzdHJva2Utd2lkdGg9IjIiLz48L2c+PC9zdmc+')] opacity-20" />
           
-          <div className="relative z-10 p-10">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="relative z-10 p-6 sm:p-8 md:p-10">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
               <div>
                 <h3 className="text-3xl font-black mb-2 bg-gradient-to-r from-accent-600 to-success-600 bg-clip-text text-transparent">
                   Passe en Athlete Pro
@@ -326,7 +326,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* Plans Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
             {/* Plan Free */}
             <div className={`relative rounded-2xl p-6 transition-all ${
               profile.plan === PlanType.FREE 

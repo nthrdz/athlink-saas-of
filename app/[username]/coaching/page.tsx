@@ -56,19 +56,19 @@ export default async function CoachingPublicPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
       {/* Sticky Header */}
-      <header className="sticky top-0 z-20 bg-black/80 backdrop-blur-md p-4 border-b border-white/10">
+      <header className="sticky top-0 z-20 bg-black/80 backdrop-blur-md p-3 sm:p-4 border-b border-white/10">
         <div className="container mx-auto flex items-center justify-between">
-          <Link href={`/${username}`} className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">Retour au profil</span>
+          <Link href={`/${username}`} className="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-white transition-colors">
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="text-sm sm:text-base font-medium">Retour au profil</span>
           </Link>
-          <h1 className="text-xl font-bold">{profile.displayName}</h1>
+          <h1 className="text-base sm:text-xl font-bold truncate max-w-[150px] sm:max-w-none">{profile.displayName}</h1>
           <div className="w-5 h-5" /> {/* Placeholder for alignment */}
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto py-8 px-4">
+      <main className="container mx-auto py-4 sm:py-6 md:py-8 px-4">
         <CoachingPublicClient 
           coachName={profile.displayName}
           coachBio={profile.bio}
