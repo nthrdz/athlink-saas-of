@@ -3,7 +3,7 @@ import * as cheerio from "cheerio"
 
 interface LogoResult {
   logoUrl: string | null
-  method: "scraping" | "opengraph" | "favicon" | "clearbit" | "none"
+  method: "scraping" | "opengraph" | "favicon" | "clearbit" | "google" | "none"
   confidence: "high" | "medium" | "low"
   brandName?: string
   message?: string
@@ -49,7 +49,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(ogLogo)
     }
 
-    // 3️⃣ PRIORITÉ 3: Favicon (dernière option)
+    // 3️⃣ PRIORITÉ 3: Google Favicon API
+    const googleLogo = await getGoogleFavicon(normalizedUrl)
+    if (googleLogo.logoUrl) {
+      console.log(`✅ Logo trouvé via Google: ${googleLogo.logoUrl}`)
+      return NextResponse.json(googleLogo)
+    }
+
+    // 4️⃣ PRIORITÉ 4: Favicon (dernière option)
     const faviconLogo = await extractFavicon(normalizedUrl)
     if (faviconLogo.logoUrl) {
       console.log(`✅ Favicon trouvé: ${faviconLogo.logoUrl}`)
@@ -243,6 +250,37 @@ async function extractOpenGraph(url: string): Promise<LogoResult> {
 
   } catch (error: any) {
     return { logoUrl: null, method: "opengraph", confidence: "low" }
+  }
+}
+
+// ==========================================
+// 🌐 GOOGLE FAVICON API
+// ==========================================
+async function getGoogleFavicon(url: string): Promise<LogoResult> {
+  try {
+    const urlObj = new URL(url)
+    const domain = urlObj.hostname
+    
+    // Google Favicon API avec différentes tailles
+    const sizes = [128, 64, 32]
+    
+    for (const size of sizes) {
+      const googleUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=${size}`
+      
+      if (await isImageValid(googleUrl)) {
+        console.log(`✅ Google Favicon trouvé (${size}px): ${googleUrl}`)
+        return {
+          logoUrl: googleUrl,
+          method: "google",
+          confidence: size >= 64 ? "medium" : "low"
+        }
+      }
+    }
+
+    return { logoUrl: null, method: "google", confidence: "low" }
+
+  } catch (error: any) {
+    return { logoUrl: null, method: "google", confidence: "low" }
   }
 }
 

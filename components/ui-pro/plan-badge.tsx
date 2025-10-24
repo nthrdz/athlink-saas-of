@@ -13,7 +13,7 @@ interface PlanBadgeProps {
 }
 
 export function PlanBadge({ plan, size = "md", showIcon = true, className }: PlanBadgeProps) {
-  if (plan === PlanType.FREE || plan === PlanType.COACH) return null // Pas de badge pour les plans gratuit et coach
+  if (plan === PlanType.FREE) return null // Pas de badge pour le plan gratuit
 
   const planConfig: Record<PlanType, {
     label: string
@@ -40,12 +40,12 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
       shadowColor: "shadow-yellow-500/20"
     },
     [PlanType.COACH]: {
-      label: "",
-      icon: Zap,
-      gradient: "",
-      bgColor: "",
-      textColor: "",
-      shadowColor: ""
+      label: "Elite",
+      icon: Crown,
+      gradient: "from-purple-600 to-pink-600",
+      bgColor: "bg-gradient-to-r from-purple-600 to-pink-600",
+      textColor: "text-white",
+      shadowColor: "shadow-purple-600/20"
     },
     [PlanType.ELITE]: {
       label: "Elite", 
@@ -119,7 +119,7 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
 
 // Composant pour afficher le badge dans le header du profil
 export function ProfilePlanBadge({ plan, className }: { plan: PlanType, className?: string }) {
-  if (plan === PlanType.FREE || plan === PlanType.COACH) return null
+  if (plan === PlanType.FREE) return null
 
   return (
     <div className={cn("flex justify-center", className)}>
