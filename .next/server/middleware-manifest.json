@@ -19,65 +19,15 @@
       "assets": [],
       "env": {
         "__NEXT_BUILD_ID": "development",
-        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "paHjw7BattNx3WWzqDTQ4nzdELoUqZ00nzw4wiFfJeA=",
-        "__NEXT_PREVIEW_MODE_ID": "58ebd3acf9ec2a6ab6e1eb2eb3a14a04",
-        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "261043cb00c82d5fa27e13fc29944418c49eb691d333d130823d6c10c4906ce6",
-        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "40169570fa754eb23693537cc81099d95e5c9987805482a56c095abac217312e"
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "z6tx4YQ944iJZnS2fI1psOOnrg2Oj+1sJeCzqcFtPm4=",
+        "__NEXT_PREVIEW_MODE_ID": "23f3142287fd87660883beeea813f467",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "8014f20b7a3fe11190770dd590f10f0a71a0b950fd73931a081e905a6ef82681",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "9032e137a73b398550007fd92313bea0dfdb77edda450275de7b83a9c44bf68d"
       }
     }
   },
   "sortedMiddleware": [
     "/"
   ],
-  "functions": {
-    "/icon/route": {
-      "files": [
-        "server/middleware-build-manifest.js",
-        "server/interception-route-rewrite-manifest.js",
-        "server/server-reference-manifest.js",
-        "server/app/icon/route_client-reference-manifest.js",
-        "server/edge/chunks/_next-internal_server_app_icon_route_actions_6c46f2f4.js",
-        "server/edge/chunks/turbopack-_next-internal_server_app_icon_route_actions_7a96774c.js",
-        "server/edge/chunks/node_modules_next_dist_esm_aa080d80._.js",
-        "server/edge/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_1d71ac1e._.js",
-        "server/edge/chunks/node_modules_next_dist_compiled_@vercel_og_16be1ace._.js",
-        "server/edge/chunks/node_modules_next_dist_compiled_8f4fd302._.js",
-        "server/edge/chunks/node_modules_next_dist_7bea040f._.js",
-        "server/edge/chunks/edge-wrapper_ce73d8ea.js",
-        "server/edge/chunks/[root-of-the-server]__64f2736d._.js",
-        "server/edge/chunks/turbopack-edge-wrapper_4392e2e8.js"
-      ],
-      "name": "app/icon/route",
-      "page": "/icon/route",
-      "matchers": [
-        {
-          "regexp": "^/icon(?:/)?$",
-          "originalSource": "/icon"
-        }
-      ],
-      "wasm": [
-        {
-          "name": "wasm_fdb56e4cc5936d29",
-          "filePath": "server/edge/chunks/node_modules_next_dist_compiled_@vercel_og_resvg_23ace1ce.wasm"
-        },
-        {
-          "name": "wasm_1ccdc983b1fd9f87",
-          "filePath": "server/edge/chunks/node_modules_next_dist_compiled_@vercel_og_yoga_23ace1ce.wasm"
-        }
-      ],
-      "assets": [
-        {
-          "name": "server/edge/assets/noto-sans-v27-latin-regular.bdfa676c.ttf",
-          "filePath": "server/edge/assets/noto-sans-v27-latin-regular.bdfa676c.ttf"
-        }
-      ],
-      "env": {
-        "__NEXT_BUILD_ID": "development",
-        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "paHjw7BattNx3WWzqDTQ4nzdELoUqZ00nzw4wiFfJeA=",
-        "__NEXT_PREVIEW_MODE_ID": "58ebd3acf9ec2a6ab6e1eb2eb3a14a04",
-        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "261043cb00c82d5fa27e13fc29944418c49eb691d333d130823d6c10c4906ce6",
-        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "40169570fa754eb23693537cc81099d95e5c9987805482a56c095abac217312e"
-      }
-    }
-  }
+  "functions": {}
 }
