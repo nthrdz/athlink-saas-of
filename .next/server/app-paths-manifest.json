@@ -1,3 +1,6 @@
 {
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/dashboard/settings/page": "app/(dashboard)/dashboard/settings/page.js",
+  "/icon/route": "app-edge-has-no-entrypoint",
   "/page": "app/page.js"
 }
