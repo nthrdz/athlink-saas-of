@@ -1,6 +1,10 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
   "/(auth)/signup/page": "app/(auth)/signup/page.js",
+  "/(dashboard)/dashboard/coaching/page": "app/(dashboard)/dashboard/coaching/page.js",
+  "/(dashboard)/dashboard/links/page": "app/(dashboard)/dashboard/links/page.js",
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/dashboard/sources/page": "app/(dashboard)/dashboard/sources/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/promo-codes/apply/route": "app/api/promo-codes/apply/route.js",
   "/api/promo-codes/validate/route": "app/api/promo-codes/validate/route.js",
