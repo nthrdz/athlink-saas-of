@@ -2,6 +2,34 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { headers } from "next/headers"
 
+// Fonction pour obtenir le pays depuis l'IP
+async function getCountryFromIP(ip: string): Promise<string | null> {
+  // IPs locales ou inconnues
+  if (!ip || ip === 'unknown' || ip === '127.0.0.1' || ip.startsWith('192.168.') || ip.startsWith('10.')) {
+    return null
+  }
+
+  try {
+    // Utiliser ipapi.co (gratuit, 30k requêtes/mois)
+    const response = await fetch(`https://ipapi.co/${ip}/country_name/`, {
+      signal: AbortSignal.timeout(3000),
+      headers: {
+        'User-Agent': 'Athlink/1.0'
+      }
+    })
+
+    if (response.ok) {
+      const country = await response.text()
+      return country.trim() || null
+    }
+
+    return null
+  } catch (error) {
+    console.error('Erreur géolocalisation IP:', error)
+    return null
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const { profileId } = await request.json()
@@ -26,6 +54,9 @@ export async function POST(request: Request) {
     else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) browser = 'Safari'
     else if (userAgent.includes('Firefox')) browser = 'Firefox'
     else if (userAgent.includes('Edg')) browser = 'Edge'
+    
+    // Récupérer le pays depuis l'IP
+    const country = await getCountryFromIP(ip)
 
     // Récupérer ou créer l'entrée analytics du jour
     const today = new Date()
@@ -50,7 +81,7 @@ export async function POST(request: Request) {
           uniqueViews: 1,
           linkClicks: 0,
           device,
-          country: null // On pourrait utiliser une API de géolocalisation ici
+          country: null // Ne pas stocker de pays unique, utiliser demographics à la place
         }
       })
     } else {
@@ -78,6 +109,9 @@ export async function POST(request: Request) {
     // Incrémenter les compteurs
     demographics.devices[device] = (demographics.devices[device] || 0) + 1
     demographics.browsers[browser] = (demographics.browsers[browser] || 0) + 1
+    if (country) {
+      demographics.countries[country] = (demographics.countries[country] || 0) + 1
+    }
 
     await prisma.profile.update({
       where: { id: profileId },
@@ -93,7 +127,8 @@ export async function POST(request: Request) {
       success: true, 
       analyticsId: analytics.id,
       device,
-      browser
+      browser,
+      country
     })
   } catch (error) {
     console.error("Erreur tracking view:", error)

@@ -103,29 +103,19 @@ export async function GET(request: Request) {
       ]
     }
 
-    // Agréger les données de pays depuis les analytics
-    const countriesFromAnalytics = profile.analytics
-      .filter(a => a.country)
-      .reduce((acc: { [key: string]: number }, a) => {
-        const country = a.country || 'Inconnu'
-        acc[country] = (acc[country] || 0) + a.views
-        return acc
-      }, {})
+    // Utiliser UNIQUEMENT demographics.countries comme source de vérité pour les pays
+    // (chaque visite incrémente demographics.countries[country] donc c'est précis)
+    const countriesFromDemographics = demographics.countries || {}
 
-    const countriesData = Object.entries(countriesFromAnalytics).map(([country, visitors]) => ({
+    let countriesData = Object.entries(countriesFromDemographics).map(([country, visitors]) => ({
       country,
       visitors: visitors as number,
       percentage: totalViews > 0 ? Math.round(((visitors as number) / totalViews) * 100) : 0
     })).sort((a, b) => b.visitors - a.visitors)
 
-    // Si pas de données pays, utiliser des données par défaut
-    if (countriesData.length === 0 && totalViews > 0) {
-      countriesData.push(
-        { country: "France", visitors: Math.floor(totalViews * 0.6), percentage: 60 },
-        { country: "Belgique", visitors: Math.floor(totalViews * 0.2), percentage: 20 },
-        { country: "Suisse", visitors: Math.floor(totalViews * 0.15), percentage: 15 },
-        { country: "Canada", visitors: Math.floor(totalViews * 0.05), percentage: 5 }
-      )
+    // Si pas de données pays du tout, ne rien afficher
+    if (countriesData.length === 0) {
+      countriesData = []
     }
 
     // Agréger les données de heatmap
