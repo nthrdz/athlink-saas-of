@@ -12,6 +12,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Stripe Payment Integration (October 24, 2025)
+- **Integrated Stripe for subscription payments**: Users can now upgrade to Pro (€9.90/month or €99/year) and Elite (€25.90/month or €259/year) plans via Stripe Checkout
+- **Created secure API routes**:
+  - `/api/create-checkout-session`: Server-side validation of plan/billing cycle, derives Stripe price IDs securely (prevents price manipulation)
+  - `/api/webhooks/stripe`: Handles `checkout.session.completed` and `customer.subscription.deleted` events with mandatory signature verification
+- **Security hardening**: Price IDs derived server-side from `lib/stripe-prices.ts`, webhook requires `STRIPE_WEBHOOK_SECRET` (rejects unsigned events)
+- **Plan mapping**: Pro → ATHLETE_PRO, Elite → COACH in Prisma schema
+- **User experience**: Success toast notification on upgrade, seamless redirect flow, promo code support retained
+- **Environment secrets**: `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` stored securely in Replit Secrets
+
 ### PlanType Enum Synchronization (October 23, 2025)
 - **Fixed deployment-blocking type mismatch**: Removed duplicate PlanType enum definition in `lib/features.ts`
 - **Imported PlanType from Prisma Client**: Now using `import { PlanType } from "@prisma/client"` for type consistency
@@ -152,6 +162,12 @@ Preferred communication style: Simple, everyday language.
 - Social authentication provider
 - Environment variables: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
 
+**Stripe**:
+- Subscription payment processing
+- Stripe Checkout for secure payment flows
+- Webhook events for automated plan updates
+- Environment variables: `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`
+
 **Clearbit Logo API**:
 - Automatic sponsor logo fetching via domain
 - Public API with no authentication required
@@ -182,6 +198,9 @@ Preferred communication style: Simple, everyday language.
 - `react-hook-form` - Form state management
 - `zod` - Schema validation
 - `@hookform/resolvers` - RHF-Zod integration
+
+**Payments**:
+- `stripe` - Subscription payment processing and webhook handling
 
 **Web Scraping**:
 - `cheerio` - HTML parsing for race/sponsor metadata extraction
