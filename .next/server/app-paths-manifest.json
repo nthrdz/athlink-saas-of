@@ -1,3 +1,8 @@
 {
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(auth)/signup/page": "app/(auth)/signup/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/promo-codes/apply/route": "app/api/promo-codes/apply/route.js",
+  "/api/promo-codes/validate/route": "app/api/promo-codes/validate/route.js",
   "/page": "app/page.js"
 }
