@@ -1,3 +1,6 @@
 {
+  "/[username]/page": "app/[username]/page.js",
+  "/api/analytics/track-view/route": "app/api/analytics/track-view/route.js",
+  "/icon.png/route": "app/icon.png/route.js",
   "/page": "app/page.js"
 }

@@ -110,35 +110,13 @@ export function ModernProfileCard({
             </div>
           )}
           
-          {/* Overlay gradient pour transition douce */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+          {/* Overlay gradient pour transition douce et progressive */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black" />
         </div>
 
         {/* Section informations sur fond noir */}
-        <div className="relative bg-gradient-to-b from-black/90 to-black p-6 sm:p-8">
-          
-          {/* Badge Plan */}
-          {plan && plan !== PlanType.FREE && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
-              className="flex justify-center mb-3"
-            >
-              <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${
-                plan === PlanType.ELITE || plan === PlanType.ATHLETE_PRO
-                  ? "bg-gradient-to-r from-gray-700 to-gray-900 border border-gray-600" 
-                  : "bg-gradient-to-r from-yellow-500 to-orange-500"
-              } shadow-lg`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-white">
-                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-                </svg>
-                <span className="text-sm font-bold text-white uppercase">
-                  {plan === PlanType.ELITE || plan === PlanType.ATHLETE_PRO ? "Elite" : plan === PlanType.COACH ? "Coach" : "Pro"}
-                </span>
-              </div>
-            </motion.div>
-          )}
+        <div className="relative bg-black p-6 sm:p-8">
           
           {/* Nom de l'utilisateur */}
           <motion.h1
