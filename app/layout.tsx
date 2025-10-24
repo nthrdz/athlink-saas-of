@@ -14,6 +14,13 @@ export const metadata: Metadata = {
   title: "Athlink - Le Profil Digital des Athlètes",
   description: "Partage tes performances, trouve des sponsors, développe ta communauté. Le link-in-bio conçu pour les sportifs.",
   keywords: ["athlète", "running", "cyclisme", "triathlon", "link-in-bio", "sponsor", "performance"],
+  icons: {
+    icon: [
+      { url: '/icon.png', type: 'image/png' },
+      { url: '/favicon.ico', type: 'image/x-icon' },
+    ],
+    apple: '/apple-icon.png',
+  },
 };
 
 export default function RootLayout({

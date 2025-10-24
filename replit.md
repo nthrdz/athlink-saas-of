@@ -12,6 +12,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Favicon Update (October 24, 2025)
+- **Created custom favicon**: Generated modern "A" logo with gradient (electric blue #0073e6 → energetic orange #ff9000)
+- **Multiple format support**: Created PNG (512x512) and ICO (32x32) versions for browser compatibility
+- **Next.js integration**: Added favicon to `app/icon.png`, `app/apple-icon.png`, and `public/favicon.ico`
+- **Updated metadata**: Configured icons in `app/layout.tsx` for proper detection across all devices
+
 ### Production Deployment Configuration (October 24, 2025)
 - **Diagnosed authentication deployment issue**: NextAuth not working in production (athlink.fr) while functional in development
 - **Root cause identified**: Environment variables (secrets) not automatically copied from development to deployment on Replit
