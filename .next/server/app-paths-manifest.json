@@ -1,6 +1,12 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/dashboard/share/page": "app/(dashboard)/dashboard/share/page.js",
+  "/(dashboard)/dashboard/sources/page": "app/(dashboard)/dashboard/sources/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/links/route": "app/api/links/route.js",
+  "/api/races/route": "app/api/races/route.js",
+  "/api/sponsors/route": "app/api/sponsors/route.js",
   "/icon/route": "app-edge-has-no-entrypoint",
   "/page": "app/page.js"
 }
