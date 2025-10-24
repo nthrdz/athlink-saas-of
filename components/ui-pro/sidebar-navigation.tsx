@@ -82,9 +82,9 @@ export function SidebarNavigation({
       title: "Sources",
       collapsible: true,
       items: [
-        { href: "/dashboard/links", icon: Link2, label: "Liens" },
-        { href: "/dashboard/races", icon: Trophy, label: "Compétitions" },
-        { href: "/dashboard/sponsors", icon: Award, label: "Sponsors" },
+        { href: "/dashboard/sources#liens", icon: Link2, label: "Liens" },
+        { href: "/dashboard/sources#competitions", icon: Trophy, label: "Compétitions" },
+        { href: "/dashboard/sources#sponsors", icon: Award, label: "Sponsors" },
       ]
     },
     {

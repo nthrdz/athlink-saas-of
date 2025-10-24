@@ -44,15 +44,27 @@ export default function SourcesPage() {
 
   // Détection du hash URL
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash
-      if (hash === '#liens' || window.location.pathname.includes('links')) {
-        setActiveTab('liens')
-      } else if (hash === '#competitions' || window.location.pathname.includes('races')) {
-        setActiveTab('competitions')
-      } else if (hash === '#sponsors' || window.location.pathname.includes('sponsors')) {
-        setActiveTab('sponsors')
+    const handleHashChange = () => {
+      if (typeof window !== 'undefined') {
+        const hash = window.location.hash
+        if (hash === '#liens') {
+          setActiveTab('liens')
+        } else if (hash === '#competitions') {
+          setActiveTab('competitions')
+        } else if (hash === '#sponsors') {
+          setActiveTab('sponsors')
+        }
       }
+    }
+
+    // Détecter le hash au chargement
+    handleHashChange()
+
+    // Écouter les changements de hash
+    window.addEventListener('hashchange', handleHashChange)
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange)
     }
   }, [])
 

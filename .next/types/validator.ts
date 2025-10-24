@@ -110,15 +110,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../app/(dashboard)/dashboard/links/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/dashboard/links">> = Specific
-  const handler = {} as typeof import("../../app/(dashboard)/dashboard/links/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 // Validate ../../app/(dashboard)/dashboard/media/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/dashboard/media">> = Specific
@@ -146,15 +137,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../app/(dashboard)/dashboard/races/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/dashboard/races">> = Specific
-  const handler = {} as typeof import("../../app/(dashboard)/dashboard/races/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 // Validate ../../app/(dashboard)/dashboard/settings/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/dashboard/settings">> = Specific
@@ -177,15 +159,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends AppPageConfig<"/dashboard/sources">> = Specific
   const handler = {} as typeof import("../../app/(dashboard)/dashboard/sources/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../app/(dashboard)/dashboard/sponsors/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/dashboard/sponsors">> = Specific
-  const handler = {} as typeof import("../../app/(dashboard)/dashboard/sponsors/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
