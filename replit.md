@@ -12,6 +12,23 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Logo Extraction & Plan Badges Enhancement (October 24, 2025)
+- **Improved logo extraction**: Enhanced both races and sponsors logo extraction with:
+  - Cheerio HTML parsing (replaced regex in races route) for robust DOM traversal
+  - Google Favicon API integration (128px, 64px, 32px fallback sizes)
+  - 50+ CSS selectors covering common logo patterns (class, ID, alt text, brand names)
+  - SVG inline support with data URI encoding
+  - Better handling of lazy-loaded images (data-src, data-lazy-src, data-original)
+  - Improved URL normalization and absolute/relative path resolution
+  - Timeout protection (5s for images, 10s for page fetch)
+  - Method priority: Clearbit → Scraping → Open Graph → Google Favicon → Direct Favicon
+- **Fixed plan badges display**: 
+  - COACH plan now displays "Elite" badge with purple-to-pink gradient (was hidden before)
+  - PRO plan displays "Pro" badge with yellow-to-black gradient
+  - ELITE plan displays "Elite" badge with gray-to-black gradient
+  - ATHLETE_PRO displays "Elite" badge with gray-to-black gradient
+  - FREE plan remains without badge
+
 ### Favicon Update (October 24, 2025)
 - **Created custom favicon**: Generated modern "A" logo with gradient (electric blue #0073e6 → energetic orange #ff9000)
 - **Multiple format support**: Created PNG (512x512) and ICO (32x32) versions for browser compatibility
