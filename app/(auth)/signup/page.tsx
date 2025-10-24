@@ -39,13 +39,15 @@ export default function SignupPage() {
       // Si un code promo valide est saisi, utiliser l'API promo
       const endpoint = promoData?.valid ? "/api/promo-codes/apply" : "/api/auth/signup"
       
+      // Format des données selon l'endpoint
+      const requestBody = promoData?.valid 
+        ? { promoCode, userData: values }  // API promo attend { promoCode, userData }
+        : values  // API signup attend les valeurs directement
+      
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...values,
-          ...(promoData?.valid && { promoCode })
-        }),
+        body: JSON.stringify(requestBody),
       })
 
       const data = await res.json()

@@ -28,11 +28,17 @@ const PROMO_CODES = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { promoCode, userData } = await request.json()
+    const body = await request.json()
+    console.log("📥 Body reçu:", JSON.stringify(body, null, 2))
+    
+    const { promoCode, userData } = body
 
     if (!userData) {
+      console.log("❌ userData manquant:", { promoCode, userData })
       return NextResponse.json({ error: "Données utilisateur requises" }, { status: 400 })
     }
+    
+    console.log("✅ userData présent:", userData)
 
     // Vérifier si le code promo existe
     const promo = PROMO_CODES[promoCode?.toUpperCase() as keyof typeof PROMO_CODES]
