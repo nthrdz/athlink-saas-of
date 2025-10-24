@@ -12,6 +12,18 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Production Deployment Configuration (October 24, 2025)
+- **Diagnosed authentication deployment issue**: NextAuth not working in production (athlink.fr) while functional in development
+- **Root cause identified**: Environment variables (secrets) not automatically copied from development to deployment on Replit
+- **Added deployment documentation**: Created `DEPLOYMENT_GUIDE.md` with step-by-step instructions for configuring production secrets
+- **Created `.env.example`**: Template file showing all required environment variables with descriptions
+- **NextAuth v5 configuration**: 
+  - Uses `AUTH_SECRET` and `AUTH_URL` (NextAuth v5 naming convention)
+  - `trustHost: true` hardcoded in `lib/auth.ts` for Replit compatibility
+  - Debug mode enabled automatically in development
+- **Key insight**: Development (Replit preview) and production (athlink.fr) use separate databases - accounts don't sync automatically
+- **Action required by user**: Configure deployment secrets manually in Replit deployment settings (see DEPLOYMENT_GUIDE.md)
+
 ### Stripe Payment Integration (October 24, 2025)
 - **Integrated Stripe for subscription payments**: Users can now upgrade to Pro (€9.90/month or €99/year) and Elite (€25.90/month or €259/year) plans via Stripe Checkout
 - **Created secure API routes**:
