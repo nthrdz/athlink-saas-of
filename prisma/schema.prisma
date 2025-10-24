@@ -173,10 +173,6 @@ model Analytics {
   device      String?   // "mobile", "desktop"
   referrer    String?
   
-  // Stockage JSON des données détaillées par jour
-  // { countries: { "France": 10, "Belgique": 3 }, devices: { "mobile": 8, "desktop": 5 }, browsers: { "Chrome": 7, "Safari": 6 } }
-  dailyBreakdown Json?
-  
   @@index([profileId, date])
 }
 
