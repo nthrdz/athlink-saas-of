@@ -1647,6 +1647,26 @@ export default function Home() {
                     Politique relative aux Cookies
                   </a>
                 </li>
+                <li>
+                  <a 
+                    href="/legal/CGV.pdf" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition-colors duration-300 font-light"
+                  >
+                    CGV
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/legal/Mentions_Legales.pdf" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition-colors duration-300 font-light"
+                  >
+                    Mentions Légales
+                  </a>
+                </li>
                 <li><Link href="/conditions" className="hover:text-white transition-colors duration-300 font-light">Conditions</Link></li>
               </ul>
             </div>
