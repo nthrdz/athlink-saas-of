@@ -3,6 +3,13 @@ import { prisma } from "@/lib/db"
 
 // Codes promo prédéfinis
 const PROMO_CODES = {
+  "ATHLINK_PREMIUM": {
+    type: "plan_upgrade",
+    plan: "COACH",
+    duration: null,
+    discount: 100,
+    description: "Accès complet à toutes les fonctionnalités (COACH)"
+  },
   "ELITE": {
     type: "plan_upgrade",
     plan: "ATHLETE_PRO",
