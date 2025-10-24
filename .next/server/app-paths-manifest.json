@@ -1,6 +1,9 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/dashboard/links/page": "app/(dashboard)/dashboard/links/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/dashboard/sources/page": "app/(dashboard)/dashboard/sources/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/icon/route": "app-edge-has-no-entrypoint",
   "/page": "app/page.js"
 }
