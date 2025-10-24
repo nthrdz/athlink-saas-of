@@ -1629,7 +1629,24 @@ export default function Home() {
             <div>
               <h3 className="font-medium text-lg mb-6 text-white">Légal</h3>
               <ul className="space-y-3 text-sm text-gray-400">
-                <li><Link href="/confidentialite" className="hover:text-white transition-colors duration-300 font-light">Confidentialité</Link></li>
+                <li>
+                  <a 
+                    href="https://www.iubenda.com/privacy-policy/27659887" 
+                    className="iubenda-white iubenda-noiframe iubenda-embed iubenda-noiframe hover:text-white transition-colors duration-300 font-light" 
+                    title="Politique de confidentialité"
+                  >
+                    Politique de Confidentialité
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://www.iubenda.com/privacy-policy/27659887/cookie-policy" 
+                    className="iubenda-white iubenda-noiframe iubenda-embed iubenda-noiframe hover:text-white transition-colors duration-300 font-light" 
+                    title="Politique relative aux Cookies"
+                  >
+                    Politique relative aux Cookies
+                  </a>
+                </li>
                 <li><Link href="/conditions" className="hover:text-white transition-colors duration-300 font-light">Conditions</Link></li>
               </ul>
             </div>

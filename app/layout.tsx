@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ConditionalNavbar } from "@/components/ConditionalNavbar";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +27,10 @@ export default function RootLayout({
         <ConditionalNavbar />
         {children}
         <Toaster position="top-center" richColors />
+        <Script
+          src="https://cdn.iubenda.com/iubenda.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
