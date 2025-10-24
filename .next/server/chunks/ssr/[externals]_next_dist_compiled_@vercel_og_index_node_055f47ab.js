@@ -1,3 +1,12 @@
-module.exports=[21425,a=>a.a(async(b,c)=>{try{let b=await a.y("next/dist/compiled/@vercel/og/index.node.js");a.n(b),c()}catch(a){c(a)}},!0)];
+module.exports = [
+"[externals]/next/dist/compiled/@vercel/og/index.node.js [external] (next/dist/compiled/@vercel/og/index.node.js, esm_import)", ((__turbopack_context__) => {
+"use strict";
 
-//# sourceMappingURL=%5Bexternals%5D_next_dist_compiled_%40vercel_og_index_node_055f47ab.js.map
+return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
+
+const mod = await __turbopack_context__.y("next/dist/compiled/@vercel/og/index.node.js");
+
+__turbopack_context__.n(mod);
+__turbopack_async_result__();
+} catch(e) { __turbopack_async_result__(e); } }, true);}),
+];
