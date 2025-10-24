@@ -5,6 +5,7 @@ import { Check, Zap, Crown, Sparkles, TrendingUp, Globe, BarChart3, Palette, Lin
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { PromoCodeField } from "@/components/ui-pro/promo-code-field"
+import { STRIPE_PRICES } from "@/lib/stripe-prices"
 
 export default function UpgradePage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly")
@@ -40,27 +41,47 @@ export default function UpgradePage() {
     setIsUpgrading(true)
     
     try {
-      // Mapper les noms de plans vers les valeurs Prisma
-      // Note: ATHLETE_PRO = Elite dans l'interface, COACH = Pro dans l'interface
-      const planMapping: Record<string, string> = {
-        "Pro": "ATHLETE_PRO",  // Le plan Pro correspond à ATHLETE_PRO dans Prisma
-        "Elite": "COACH"        // Le plan Elite correspond à COACH dans Prisma
+      // Si le code promo est valide et offre un upgrade gratuit, utiliser l'ancienne API
+      if (isPromoValidForPlan(planName) && promoData?.type === "plan_upgrade") {
+        const planMapping: Record<string, string> = {
+          "Pro": "ATHLETE_PRO",
+          "Elite": "COACH"
+        }
+        
+        const planValue = planMapping[planName]
+        
+        const response = await fetch("/api/upgrade-plan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            plan: planValue,
+            promoCode: promoCode
+          })
+        })
+
+        if (response.ok) {
+          alert(`✅ Plan ${planName} activé avec succès ! 🎉 Code promo appliqué !`)
+          window.location.href = "/dashboard"
+        } else {
+          const error = await response.json()
+          alert(`❌ Erreur: ${error.error}`)
+        }
+        return
       }
-      
-      const planValue = planMapping[planName]
-      
-      const response = await fetch("/api/upgrade-plan", {
+
+      // Sinon, rediriger vers Stripe Checkout
+      const response = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          plan: planValue,
-          promoCode: promoData?.valid ? promoCode : null 
+          planName,
+          billingCycle
         })
       })
 
       if (response.ok) {
-        alert(`✅ Plan ${planName} activé avec succès !${promoData?.valid ? ' 🎉 Code promo appliqué !' : ''}`)
-        window.location.href = "/dashboard"
+        const { url } = await response.json()
+        window.location.href = url
       } else {
         const error = await response.json()
         alert(`❌ Erreur: ${error.error}`)

@@ -8,6 +8,7 @@ import { DashboardGoals } from "@/components/ui-pro/dashboard-goals"
 import { RaceLogo } from "@/components/ui-pro/race-logo"
 import { PlanBadge } from "@/components/ui-pro/plan-badge"
 import { canUserAccessFeature, getUserFeatureLimit } from "@/lib/features"
+import { UpgradeSuccessToast } from "@/components/ui-pro/upgrade-success-toast"
 
 export default async function DashboardPage() {
   const session = await auth()
@@ -64,6 +65,8 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      <UpgradeSuccessToast />
+      
       {/* Header avec gradient */}
       <div className="relative -mx-4 sm:-mx-6 lg:-mx-10 -mt-4 sm:-mt-6 lg:-mt-10 px-4 sm:px-6 lg:px-10 pt-8 sm:pt-10 lg:pt-12 pb-16 sm:pb-20 lg:pb-24 mb-8 sm:mb-10 lg:mb-12 bg-gradient-hero rounded-b-2xl sm:rounded-b-3xl overflow-hidden">
         {/* Shapes animés */}
