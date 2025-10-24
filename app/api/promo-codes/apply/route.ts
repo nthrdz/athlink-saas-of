@@ -1,6 +1,32 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 
+// Mapper les sports vers les valeurs Sport enum valides
+function mapSportToEnum(sport: string): string {
+  const sportUpper = sport.toUpperCase()
+  const validSports = ['RUNNING', 'CYCLING', 'TRIATHLON', 'SWIMMING', 'SKIING']
+  
+  if (validSports.includes(sportUpper)) {
+    return sportUpper
+  }
+  
+  // Mapper des sports spécifiques
+  const sportMap: { [key: string]: string } = {
+    'HYROX': 'OTHER',
+    'FITNESS': 'OTHER',
+    'CROSSFIT': 'OTHER',
+    'MUSCULATION': 'OTHER',
+    'TRAIL': 'RUNNING',
+    'MARATHON': 'RUNNING',
+    'CYCLISME': 'CYCLING',
+    'VELO': 'CYCLING',
+    'NATATION': 'SWIMMING',
+    'SKI': 'SKIING'
+  }
+  
+  return sportMap[sportUpper] || 'OTHER'
+}
+
 // Codes promo prédéfinis
 const PROMO_CODES = {
   "ATHLINK_PREMIUM": {
@@ -94,7 +120,7 @@ export async function POST(request: NextRequest) {
           create: {
             username: userData.username,
             displayName: userData.name,
-            sport: userData.sport as any, // Cast temporaire pour l'enum Sport
+            sport: mapSportToEnum(userData.sport) as any, // Mapper le sport vers enum valide
             plan: planType as any, // Cast temporaire pour l'enum PlanType
             stats: {
               personalRecords: [],
