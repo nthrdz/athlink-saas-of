@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     const totalUniqueViews = profile.analytics.reduce((sum, a) => sum + a.uniqueViews, 0)
     const totalClicks = profile.analytics.reduce((sum, a) => sum + a.linkClicks, 0)
 
-    // Préparer les données par date
+    // Préparer les données par date avec toutes les métriques
     const viewsByDate = profile.analytics.map(a => ({
       date: a.date.toISOString().split('T')[0],
       views: a.views,

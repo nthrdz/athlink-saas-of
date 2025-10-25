@@ -7,6 +7,12 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
+- **Modal sponsors**: Ajout d'une modal expandable pour voir tous les sponsors quand il y en a plus de 4 (similaire à la galerie) avec composant GlassSponsorsGrid
+- **Analytics Avancées 100% opérationnelles**: 
+  - Heatmap calendrier professionnelle avec @uiw/react-heat-map (style GitHub contributions)
+  - Vraies tendances calculées dynamiquement basées sur les données réelles (fini les "+12%" fixes)
+  - Statistiques précises avec insights personnalisés
+  - Composant CalendarHeatmap avec stats quotidiennes et visualisation annuelle
 - **Branding**: Navbar logo simplifié - texte "ATHLINK" uniquement (sans icône)
 - **Extraction de logos sponsors**: Corrigé le bug d'API (paramètre 'websiteUrl' au lieu de 'url') et amélioré l'UX pour rendre claire l'extraction automatique depuis l'URL du site web
 - **Extraction de logos compétitions**: Ajout du même système d'extraction automatique pour les compétitions avec API dédiée `/api/races/extract-logo` et UX améliorée avec section dédiée et meilleur feedback

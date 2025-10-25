@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -21,13 +21,13 @@ import {
   Monitor
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { ClickHeatmap } from "./click-heatmap"
+import { CalendarHeatmap } from "./calendar-heatmap"
 
 interface AnalyticsData {
   views: {
     total: number
     unique: number
-    byDate: Array<{ date: string; views: number; uniqueViews: number }>
+    byDate: Array<{ date: string; views: number; uniqueViews: number; clicks: number }>
   }
   clicks: {
     total: number
@@ -73,6 +73,48 @@ export function AdvancedAnalytics({
 
   const canAccessAdvancedFeatures = userPlan === "PRO" || userPlan === "ELITE" || userPlan === "ATHLETE_PRO" || userPlan === "COACH"
   const canAccessEliteFeatures = userPlan === "ELITE" || userPlan === "ATHLETE_PRO"
+
+  // Calculer les vraies tendances basées sur les données
+  const trends = useMemo(() => {
+    const byDate = data.views.byDate
+    if (byDate.length < 2) {
+      return { views: 0, uniqueViews: 0, clicks: 0 }
+    }
+
+    // Diviser en deux moitiés pour comparer
+    const midPoint = Math.floor(byDate.length / 2)
+    const firstHalf = byDate.slice(0, midPoint)
+    const secondHalf = byDate.slice(midPoint)
+
+    // Calculer les totaux de chaque moitié
+    const firstHalfViews = firstHalf.reduce((sum, d) => sum + d.views, 0)
+    const secondHalfViews = secondHalf.reduce((sum, d) => sum + d.views, 0)
+
+    const firstHalfUnique = firstHalf.reduce((sum, d) => sum + d.uniqueViews, 0)
+    const secondHalfUnique = secondHalf.reduce((sum, d) => sum + d.uniqueViews, 0)
+
+    const firstHalfClicks = firstHalf.reduce((sum, d) => sum + (d.clicks ?? 0), 0)
+    const secondHalfClicks = secondHalf.reduce((sum, d) => sum + (d.clicks ?? 0), 0)
+
+    // Calculer les % de croissance
+    const viewsTrend = firstHalfViews > 0 
+      ? Math.round(((secondHalfViews - firstHalfViews) / firstHalfViews) * 100) 
+      : 0
+
+    const uniqueViewsTrend = firstHalfUnique > 0 
+      ? Math.round(((secondHalfUnique - firstHalfUnique) / firstHalfUnique) * 100) 
+      : 0
+
+    const clicksTrend = firstHalfClicks > 0 
+      ? Math.round(((secondHalfClicks - firstHalfClicks) / firstHalfClicks) * 100) 
+      : 0
+
+    return { 
+      views: viewsTrend, 
+      uniqueViews: uniqueViewsTrend, 
+      clicks: clicksTrend 
+    }
+  }, [data.views.byDate])
 
   const tabs = [
     { id: "overview", label: "Vue d'ensemble", icon: BarChart3 },
@@ -181,9 +223,9 @@ export function AdvancedAnalytics({
                     </div>
                     <Eye className="w-8 h-8 text-blue-500 flex-shrink-0" />
                   </div>
-                  <div className="mt-auto flex items-center text-sm text-green-600">
-                    <TrendingUp className="w-4 h-4 mr-1" />
-                    +12% vs période précédente
+                  <div className={`mt-auto flex items-center text-sm ${trends.views >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {trends.views >= 0 ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingUp className="w-4 h-4 mr-1 rotate-180" />}
+                    {trends.views >= 0 ? '+' : ''}{trends.views}% vs période précédente
                   </div>
                 </CardContent>
               </Card>
@@ -197,9 +239,9 @@ export function AdvancedAnalytics({
                     </div>
                     <Users className="w-8 h-8 text-green-500 flex-shrink-0" />
                   </div>
-                  <div className="mt-auto flex items-center text-sm text-green-600">
-                    <TrendingUp className="w-4 h-4 mr-1" />
-                    +8% vs période précédente
+                  <div className={`mt-auto flex items-center text-sm ${trends.uniqueViews >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {trends.uniqueViews >= 0 ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingUp className="w-4 h-4 mr-1 rotate-180" />}
+                    {trends.uniqueViews >= 0 ? '+' : ''}{trends.uniqueViews}% vs période précédente
                   </div>
                 </CardContent>
               </Card>
@@ -213,9 +255,9 @@ export function AdvancedAnalytics({
                     </div>
                     <MousePointer className="w-8 h-8 text-purple-500 flex-shrink-0" />
                   </div>
-                  <div className="mt-auto flex items-center text-sm text-green-600">
-                    <TrendingUp className="w-4 h-4 mr-1" />
-                    +15% vs période précédente
+                  <div className={`mt-auto flex items-center text-sm ${trends.clicks >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {trends.clicks >= 0 ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingUp className="w-4 h-4 mr-1 rotate-180" />}
+                    {trends.clicks >= 0 ? '+' : ''}{trends.clicks}% vs période précédente
                   </div>
                 </CardContent>
               </Card>
@@ -700,11 +742,9 @@ export function AdvancedAnalytics({
         )}
 
         {activeTab === "heatmap" && canAccessEliteFeatures && (
-          <ClickHeatmap 
-            data={data.heatmap.map(point => ({
-              ...point,
-              element: point.y < 30 ? "En-tête" : point.y < 60 ? "Liens" : "Sponsors"
-            }))}
+          <CalendarHeatmap 
+            viewsByDate={data.views.byDate}
+            timeRange={timeRange}
           />
         )}
       </div>
