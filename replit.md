@@ -9,7 +9,9 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes (October 25, 2025)
 - **Branding**: Navbar logo simplifié - texte "ATHLINK" uniquement (sans icône)
 - **Extraction de logos sponsors**: Corrigé le bug d'API (paramètre 'websiteUrl' au lieu de 'url') et amélioré l'UX pour rendre claire l'extraction automatique depuis l'URL du site web
+- **Extraction de logos compétitions**: Ajout du même système d'extraction automatique pour les compétitions avec API dédiée `/api/races/extract-logo` et UX améliorée
 - **Validation sponsors (PRODUCTION FIX)**: Corrigé l'erreur "erreur lors de la sauvegarde" en production - conversion des chaînes vides en null pour compatibilité Prisma (POST et PATCH)
+- **Validation compétitions (PRODUCTION FIX)**: Même correctif appliqué aux compétitions pour éviter les erreurs en production
 - **Post-payment UX**: Rafraîchissement automatique de la page après paiement Stripe avec double notification toast
 - **Services de coaching**: 100% opérationnels avec accès étendu aux plans COACH, ELITE et ATHLETE_PRO
 - **API de réservation**: Déplacée vers `/api/public/booking-request` pour structure Next.js correcte
