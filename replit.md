@@ -7,6 +7,13 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
+- **Système de codes promo avec expiration automatique** :
+  - Nouveau code ELITE2025 : accès ELITE permanent
+  - Nouveau code PRO30FREE : 1 mois PRO offert avec expiration automatique vers FREE
+  - Ajout champs DB : trialEndsAt, trialPlan dans Profile
+  - API cron `/api/cron/expire-trials` pour vérification automatique
+  - Fonction utilitaire `checkAndExpireTrial()` pour vérification en temps réel
+  - Documentation complète dans CODES_PROMO.md
 - **Correctifs TypeScript déploiement**: Supprimé toutes les références à "COACH" dans les types TypeScript (advanced-analytics.tsx, analytics-with-filter.tsx, upgrade/page.tsx, plan-badge.tsx) et corrigé les mappings de plans - Build production réussi ✓
 - **Favicon personnalisé**: Ajout du logo Athlink simplifié (64x64px haute qualité) monochrome (noir et gris uniquement) avec moins de détails pour meilleure visibilité en petit - créé aussi apple-icon.png (180x180px)
 - **Nettoyage des plans d'abonnement**: Simplifié pour n'avoir que 3 plans (FREE, PRO, ELITE) - supprimé ATHLETE_PRO et COACH

@@ -1,1 +1,279 @@
-{"version":3,"caseSensitive":false,"basePath":"","rewrites":{"beforeFiles":[],"afterFiles":[],"fallback":[]},"redirects":[{"source":"/:path+/","destination":"/:path+","permanent":true,"internal":true,"regex":"^(?:\\/((?:[^\\/]+?)(?:\\/(?:[^\\/]+?))*))\\/$"}],"headers":[]}
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/api/links/[id]",
+      "regex": "^/api/links/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/links/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/media/[id]",
+      "regex": "^/api/media/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/media/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/races/[id]",
+      "regex": "^/api/races/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/races/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/sponsors/[id]",
+      "regex": "^/api/sponsors/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/sponsors/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/coaching/bookings/[id]",
+      "regex": "^/coaching/bookings/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/coaching/bookings/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/coaching/pdf/[planId]",
+      "regex": "^/coaching/pdf/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPplanId": "nxtPplanId"
+      },
+      "namedRegex": "^/coaching/pdf/(?<nxtPplanId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/coaching/training-plans/[id]",
+      "regex": "^/coaching/training\\-plans/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/coaching/training\\-plans/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/coaching/training-plans/[id]/sessions",
+      "regex": "^/coaching/training\\-plans/([^/]+?)/sessions(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/coaching/training\\-plans/(?<nxtPid>[^/]+?)/sessions(?:/)?$"
+    },
+    {
+      "page": "/coaching/training-plans/[id]/sessions/[sessionId]",
+      "regex": "^/coaching/training\\-plans/([^/]+?)/sessions/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid",
+        "nxtPsessionId": "nxtPsessionId"
+      },
+      "namedRegex": "^/coaching/training\\-plans/(?<nxtPid>[^/]+?)/sessions/(?<nxtPsessionId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[username]",
+      "regex": "^/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPusername": "nxtPusername"
+      },
+      "namedRegex": "^/(?<nxtPusername>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[username]/coaching",
+      "regex": "^/([^/]+?)/coaching(?:/)?$",
+      "routeKeys": {
+        "nxtPusername": "nxtPusername"
+      },
+      "namedRegex": "^/(?<nxtPusername>[^/]+?)/coaching(?:/)?$"
+    },
+    {
+      "page": "/[username]/galerie",
+      "regex": "^/([^/]+?)/galerie(?:/)?$",
+      "routeKeys": {
+        "nxtPusername": "nxtPusername"
+      },
+      "namedRegex": "^/(?<nxtPusername>[^/]+?)/galerie(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/apple-icon.png",
+      "regex": "^/apple\\-icon\\.png(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/apple\\-icon\\.png(?:/)?$"
+    },
+    {
+      "page": "/coaching/access-pdf",
+      "regex": "^/coaching/access\\-pdf(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/coaching/access\\-pdf(?:/)?$"
+    },
+    {
+      "page": "/coaching/bookings",
+      "regex": "^/coaching/bookings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/coaching/bookings(?:/)?$"
+    },
+    {
+      "page": "/coaching/training-plans",
+      "regex": "^/coaching/training\\-plans(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/coaching/training\\-plans(?:/)?$"
+    },
+    {
+      "page": "/coaching/upload-pdf",
+      "regex": "^/coaching/upload\\-pdf(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/coaching/upload\\-pdf(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/dashboard/analytics",
+      "regex": "^/dashboard/analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/analytics(?:/)?$"
+    },
+    {
+      "page": "/dashboard/coaching",
+      "regex": "^/dashboard/coaching(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/coaching(?:/)?$"
+    },
+    {
+      "page": "/dashboard/coaching/bookings",
+      "regex": "^/dashboard/coaching/bookings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/coaching/bookings(?:/)?$"
+    },
+    {
+      "page": "/dashboard/coaching/business-analytics",
+      "regex": "^/dashboard/coaching/business\\-analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/coaching/business\\-analytics(?:/)?$"
+    },
+    {
+      "page": "/dashboard/coaching/training-plans",
+      "regex": "^/dashboard/coaching/training\\-plans(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/coaching/training\\-plans(?:/)?$"
+    },
+    {
+      "page": "/dashboard/media",
+      "regex": "^/dashboard/media(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/media(?:/)?$"
+    },
+    {
+      "page": "/dashboard/profile",
+      "regex": "^/dashboard/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/profile(?:/)?$"
+    },
+    {
+      "page": "/dashboard/settings",
+      "regex": "^/dashboard/settings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/settings(?:/)?$"
+    },
+    {
+      "page": "/dashboard/share",
+      "regex": "^/dashboard/share(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/share(?:/)?$"
+    },
+    {
+      "page": "/dashboard/sources",
+      "regex": "^/dashboard/sources(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/sources(?:/)?$"
+    },
+    {
+      "page": "/dashboard/upgrade",
+      "regex": "^/dashboard/upgrade(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/upgrade(?:/)?$"
+    },
+    {
+      "page": "/icon.png",
+      "regex": "^/icon\\.png(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/icon\\.png(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/signup",
+      "regex": "^/signup(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/signup(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

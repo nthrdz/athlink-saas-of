@@ -3,10 +3,19 @@ import { prisma } from "@/lib/db"
 
 export async function GET(req: NextRequest) {
   try {
-    const authHeader = req.headers.get('authorization')
     const cronSecret = process.env.CRON_SECRET
     
-    if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+    if (!cronSecret) {
+      console.error("CRON_SECRET non défini - API cron désactivée")
+      return NextResponse.json(
+        { error: "Service non disponible - Configuration manquante" },
+        { status: 503 }
+      )
+    }
+    
+    const authHeader = req.headers.get('authorization')
+    
+    if (authHeader !== `Bearer ${cronSecret}`) {
       return NextResponse.json(
         { error: "Non autorisé" },
         { status: 401 }
