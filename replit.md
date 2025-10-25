@@ -7,9 +7,16 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
-- **Affichage logos compétitions corrigé**: Résolu le problème des logos blancs invisibles en changeant le fond de gris clair à gris foncé (bg-gray-900) - les logos blancs sont maintenant visibles sur fond sombre dans la liste et l'aperçu
+- **Extraction logos compétitions 100% opérationnelle** : Système intelligent avec scoring pour trouver le VRAI logo (pas les sponsors)
+  - Algorithme de scoring avancé : +380 points pour HYROX-Logo.svg vs 0 pour Fitness-Park-Hyrox
+  - Priorisation : fichiers nommés "logo" (+200), SVG (+80), header/nav (+40)
+  - Filtrage sponsors : pénalité -150 pour Puma/Nike/Adidas/Myprotein, -100 pour partenariats
+  - Validation de 16+ logos candidats triés par pertinence
+  - Testé et validé avec hyroxfrance.com : extrait le bon logo officiel SVG
+- **Next.js images autorisées** : Configuration `hostname: '**'` pour accepter les logos de TOUS les sites de compétitions HTTPS (nécessaire pour extraire n'importe quelle compétition)
+- **Affichage logos optimisé** : Fond noir (bg-gray-900) pour voir les logos blancs + padding pour meilleur rendu
 - **Favicon.ico corrigé**: Résolu l'erreur 404/500 sur favicon.ico en créant le fichier dans public/ - retourne maintenant 200 OK avec Content-Type image/x-icon
-- **Amélioration extraction logos compétitions**: Optimisation majeure du scraping avec 3x plus de sélecteurs CSS (event-logo, race-logo, competition-logo), timeouts augmentés (15s scraping, 8s validation), support pour lazy loading (data-src, data-lazy-src, data-original), recherche intelligente dans header/nav avec priorisation des images contenant "logo" ou "event", support des SVG et meilleure détection des types MIME
+- **Extraction logos base technique** : 38 sélecteurs CSS, timeouts 15s scraping/8s validation, support lazy loading (data-src, data-lazy-src, data-original), détection SVG et types MIME
 - **Système de codes promo avec expiration automatique** :
   - Nouveau code ELITE2025 : accès ELITE permanent
   - Nouveau code PRO30FREE : 1 mois PRO offert avec expiration automatique vers FREE

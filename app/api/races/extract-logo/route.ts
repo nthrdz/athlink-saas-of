@@ -168,33 +168,87 @@ async function scrapeLogo(url: string, brandName?: string): Promise<LogoResult> 
 
     console.log(`🔍 Test de ${logoSelectors.length} sélecteurs...`)
 
+    // Collecter tous les logos possibles avec leur score de pertinence
+    const candidateLogos: Array<{url: string, score: number, source: string}> = []
+
     for (const selector of logoSelectors) {
       const elements = $(selector)
       
       if (elements.length > 0) {
         console.log(`✓ Trouvé ${elements.length} élément(s) avec: ${selector}`)
         
-        const element = elements.first()
-        let logoUrl: string | null = null
+        for (let i = 0; i < Math.min(elements.length, 3); i++) {
+          const element = $(elements[i])
+          let logoUrl: string | null = null
 
-        if (element.is('img')) {
-          logoUrl = element.attr('src') || 
-                    element.attr('data-src') || 
-                    element.attr('data-lazy-src') || 
-                    null
-        }
-
-        if (logoUrl) {
-          logoUrl = makeAbsoluteUrl(logoUrl, url)
-          
-          if (await isImageValid(logoUrl)) {
-            console.log(`✅ Logo valide trouvé: ${logoUrl}`)
-            return {
-              logoUrl,
-              method: "scraping",
-              confidence: "high"
-            }
+          if (element.is('img')) {
+            logoUrl = element.attr('src') || 
+                      element.attr('data-src') || 
+                      element.attr('data-lazy-src') ||
+                      element.attr('data-original') ||
+                      null
           }
+
+          if (logoUrl) {
+            logoUrl = makeAbsoluteUrl(logoUrl, url)
+            
+            // Calculer un score de pertinence
+            let score = 0
+            const lowerUrl = logoUrl.toLowerCase()
+            const alt = (element.attr('alt') || '').toLowerCase()
+            const className = (element.attr('class') || '').toLowerCase()
+            const fileName = lowerUrl.split('/').pop() || ''
+            
+            // TRÈS HAUT bonus pour fichier avec exactement "logo" dans le nom
+            if (fileName.includes('-logo.') || fileName.includes('_logo.') || 
+                fileName.includes('logo-') || fileName.includes('logo_') ||
+                fileName === 'logo.svg' || fileName === 'logo.png') {
+              score += 200
+            }
+            
+            // Bonus si le nom de marque est dans l'URL, alt ou class
+            if (brandName) {
+              const brandLower = brandName.toLowerCase()
+              if (lowerUrl.includes(brandLower)) score += 100
+              if (alt.includes(brandLower)) score += 50
+              if (className.includes(brandLower)) score += 30
+            }
+            
+            // Bonus pour SVG (souvent meilleure qualité)
+            if (lowerUrl.endsWith('.svg')) score += 80
+            
+            // Bonus pour les logos dans header/nav
+            if (selector.includes('header') || selector.includes('nav')) score += 40
+            
+            // Bonus pour les classes/IDs logo
+            if (selector.includes('#logo') || selector.includes('.logo')) score += 30
+            
+            // Pénalité FORTE pour partenariats, sponsors, etc.
+            if (lowerUrl.includes('partner') || lowerUrl.includes('fitness-park') ||
+                lowerUrl.includes('x2') || fileName.includes('x2')) score -= 100
+            
+            if (lowerUrl.includes('sponsor') || lowerUrl.includes('puma') || 
+                lowerUrl.includes('nike') || lowerUrl.includes('adidas') ||
+                lowerUrl.includes('myprotein') || lowerUrl.includes('therabody')) score -= 150
+            
+            candidateLogos.push({ url: logoUrl, score, source: selector })
+          }
+        }
+      }
+    }
+    
+    // Trier par score décroissant et valider
+    candidateLogos.sort((a, b) => b.score - a.score)
+    console.log(`📊 Trouvé ${candidateLogos.length} logos candidats`)
+    
+    for (const candidate of candidateLogos) {
+      console.log(`🔍 Test: ${candidate.url} (score: ${candidate.score})`)
+      if (await isImageValid(candidate.url)) {
+        console.log(`✅ Logo valide trouvé: ${candidate.url}`)
+        return {
+          logoUrl: candidate.url,
+          method: "scraping",
+          confidence: candidate.score > 50 ? "high" : "medium"
         }
       }
     }
