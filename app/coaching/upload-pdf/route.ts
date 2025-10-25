@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       select: { id: true, plan: true }
     })
 
-    if (!profile || (profile.plan !== "PRO" && profile.plan !== "ELITE")) {
+    if (!profile || (profile.plan !== "ELITE")) {
       return NextResponse.json({ error: "Accès non autorisé" }, { status: 403 })
     }
 

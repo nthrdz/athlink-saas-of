@@ -26,7 +26,7 @@ Preferred communication style: Simple, everyday language.
 - **Validation compétitions (PRODUCTION FIX)**: Même correctif appliqué aux compétitions pour éviter les erreurs en production
 - **API upgrade-plan**: Créée l'API manquante `/api/upgrade-plan` pour gérer les upgrades de plan avec codes promo - codes promo centralisés dans `lib/promo-codes.ts` (ELITE et ATHLINK_PREMIUM supportés, ATHLINK100 désactivé temporairement)
 - **Post-payment UX**: Rafraîchissement automatique de la page après paiement Stripe avec double notification toast
-- **Services de coaching**: Accès restreint aux plans ELITE et COACH uniquement (retiré du plan PRO/ATHLETE_PRO)
+- **Services de coaching**: Accès restreint au plan ELITE uniquement (retiré du plan PRO)
 - **API de réservation**: Déplacée vers `/api/public/booking-request` pour structure Next.js correcte
 
 ## System Architecture

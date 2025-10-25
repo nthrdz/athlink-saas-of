@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
     // Récupérer le plan d'entraînement
     const profiles = await prisma.profile.findMany({
-      where: { plan: PlanType.PRO },
+      where: { plan: PlanType.ELITE },
       select: { id: true, stats: true }
     })
 
