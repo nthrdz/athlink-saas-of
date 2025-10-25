@@ -39,22 +39,6 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
       textColor: "text-white",
       shadowColor: "shadow-yellow-500/20"
     },
-    [PlanType.PRO]: {
-      label: "Elite",
-      icon: Crown,
-      gradient: "from-purple-600 to-pink-600",
-      bgColor: "bg-gradient-to-r from-purple-600 to-pink-600",
-      textColor: "text-white",
-      shadowColor: "shadow-purple-600/20"
-    },
-    [PlanType.ELITE]: {
-      label: "Elite", 
-      icon: Crown,
-      gradient: "from-gray-800 to-black",
-      bgColor: "bg-gradient-to-r from-gray-800 to-black",
-      textColor: "text-white",
-      shadowColor: "shadow-gray-800/20"
-    },
     [PlanType.ELITE]: {
       label: "Elite", 
       icon: Crown,
