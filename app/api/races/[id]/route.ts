@@ -18,6 +18,24 @@ export async function PATCH(
     const body = await req.json()
     const validatedData = raceSchema.partial().parse(body)
 
+    // Convertir les chaînes vides en null pour Prisma
+    const cleanedData: any = { ...validatedData }
+    if ('location' in cleanedData) {
+      cleanedData.location = cleanedData.location && cleanedData.location.trim() !== "" ? cleanedData.location : null
+    }
+    if ('distance' in cleanedData) {
+      cleanedData.distance = cleanedData.distance && cleanedData.distance.trim() !== "" ? cleanedData.distance : null
+    }
+    if ('result' in cleanedData) {
+      cleanedData.result = cleanedData.result && cleanedData.result.trim() !== "" ? cleanedData.result : null
+    }
+    if ('url' in cleanedData) {
+      cleanedData.url = cleanedData.url && cleanedData.url.trim() !== "" ? cleanedData.url : null
+    }
+    if ('logoUrl' in cleanedData) {
+      cleanedData.logoUrl = cleanedData.logoUrl && cleanedData.logoUrl.trim() !== "" ? cleanedData.logoUrl : null
+    }
+
     // Verify race belongs to user
     const race = await prisma.race.findUnique({
       where: { id },
@@ -33,7 +51,7 @@ export async function PATCH(
     }
 
     // Convert date string to Date object if needed
-    const updateData = { ...validatedData }
+    const updateData = { ...cleanedData }
     if (updateData.date) {
       updateData.date = typeof updateData.date === 'string' 
         ? new Date(updateData.date) 

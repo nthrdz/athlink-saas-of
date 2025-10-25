@@ -44,6 +44,16 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const validatedData = raceSchema.parse(body)
 
+    // Convertir les chaînes vides en null pour Prisma
+    const cleanedData = {
+      ...validatedData,
+      location: validatedData.location && validatedData.location.trim() !== "" ? validatedData.location : null,
+      distance: validatedData.distance && validatedData.distance.trim() !== "" ? validatedData.distance : null,
+      result: validatedData.result && validatedData.result.trim() !== "" ? validatedData.result : null,
+      url: validatedData.url && validatedData.url.trim() !== "" ? validatedData.url : null,
+      logoUrl: validatedData.logoUrl && validatedData.logoUrl.trim() !== "" ? validatedData.logoUrl : null,
+    }
+
     const profile = await prisma.profile.findUnique({
       where: { userId: session.user.id },
       include: { races: true }
@@ -63,13 +73,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Convert date string to Date object if needed
-    const raceDate = typeof validatedData.date === 'string' 
-      ? new Date(validatedData.date) 
-      : validatedData.date
+    const raceDate = typeof cleanedData.date === 'string' 
+      ? new Date(cleanedData.date) 
+      : cleanedData.date
 
     const race = await prisma.race.create({
       data: {
-        ...validatedData,
+        ...cleanedData,
         date: raceDate,
         profileId: profile.id,
       }

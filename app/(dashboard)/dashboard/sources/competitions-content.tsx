@@ -364,35 +364,35 @@ export function CompetitionsContent() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="url">URL</Label>
-                    <Input
-                      id="url"
-                      type="url"
-                      value={formData.url}
-                      onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                      placeholder="https://example.com"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="logoUrl">Logo URL</Label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Input
-                        id="logoUrl"
-                        value={formData.logoUrl}
-                        onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
-                        placeholder="https://example.com/logo.png"
-                        className="flex-1"
-                      />
+                <div>
+                  <Label htmlFor="url">URL de la compétition</Label>
+                  <Input
+                    id="url"
+                    type="url"
+                    value={formData.url}
+                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                    placeholder="https://parismarathon.com"
+                    className="mt-1"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    💡 Saisissez l'URL pour extraire le logo automatiquement
+                  </p>
+                </div>
+
+                {/* Logo Section */}
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                  <Label className="text-base font-semibold">Logo de la compétition</Label>
+                  <p className="text-sm text-gray-600 mb-3">Extrait automatiquement depuis l'URL de la compétition</p>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
                       <motion.button
                         type="button"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={async () => {
                           if (!formData.url) {
-                            toast.error("Veuillez d'abord saisir l'URL de la course")
+                            toast.error("Veuillez d'abord saisir l'URL de la compétition")
                             return
                           }
                           
@@ -401,14 +401,17 @@ export function CompetitionsContent() {
                             const res = await fetch("/api/races/extract-logo", {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({ url: formData.url })
+                              body: JSON.stringify({ 
+                                websiteUrl: formData.url,
+                                brandName: formData.name
+                              })
                             })
 
                             if (res.ok) {
                               const data = await res.json()
                               if (data.logoUrl) {
                                 setFormData({ ...formData, logoUrl: data.logoUrl })
-                                toast.success("Logo extrait avec succès !")
+                                toast.success(`Logo extrait avec succès ! (${data.method})`)
                               } else {
                                 toast.error("Aucun logo trouvé sur ce site")
                               }
@@ -422,19 +425,41 @@ export function CompetitionsContent() {
                           }
                         }}
                         disabled={isExtractingLogo || !formData.url}
-                        className="flex items-center gap-2 bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+                        className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                       >
                         {isExtractingLogo ? (
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                            className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
-                          />
+                          <>
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                            />
+                            Extraction en cours...
+                          </>
                         ) : (
-                          <Search className="w-4 h-4" />
+                          <>
+                            <Search className="w-4 h-4" />
+                            Extraire le logo automatiquement
+                          </>
                         )}
-                        Extraire
                       </motion.button>
+                      {!formData.url && (
+                        <span className="text-sm text-orange-600">
+                          ⚠️ Saisissez d'abord l'URL de la compétition
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="relative">
+                      <Label htmlFor="logoUrl" className="text-sm text-gray-600">Ou saisir l'URL du logo manuellement</Label>
+                      <Input
+                        id="logoUrl"
+                        type="url"
+                        value={formData.logoUrl}
+                        onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
+                        placeholder="https://example.com/logo.png"
+                        className="mt-1"
+                      />
                     </div>
                   </div>
                 </div>
