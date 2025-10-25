@@ -7,6 +7,11 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
+- **Twitter et WhatsApp ajoutés** : Nouveaux champs sociaux dans la base de données et affichage sur la page publique
+  - Ajout des champs `twitter` et `whatsapp` dans le modèle Profile (Prisma)
+  - Icônes personnalisées Twitter (X) et WhatsApp dans ModernProfileCard
+  - Liens fonctionnels : Twitter → x.com/@username, WhatsApp → wa.me/numero
+  - Les icônes s'affichent automatiquement à côté des autres réseaux sociaux (Instagram, TikTok, Strava, Youtube)
 - **Extraction logos compétitions 100% opérationnelle** : Système intelligent avec scoring pour trouver le VRAI logo (pas les sponsors)
   - Algorithme de scoring avancé : +380 points pour HYROX-Logo.svg vs 0 pour Fitness-Park-Hyrox
   - Priorisation : fichiers nommés "logo" (+200), SVG (+80), header/nav (+40)

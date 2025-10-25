@@ -132,6 +132,8 @@ export default async function ProfilePage({ params }: Props) {
             strava={profile.strava}
             youtube={profile.youtube}
             tiktok={profile.tiktok}
+            twitter={profile.twitter}
+            whatsapp={profile.whatsapp}
             plan={profile.plan as PlanType}
             links={profile.links}
             races={profile.races.map(race => ({
