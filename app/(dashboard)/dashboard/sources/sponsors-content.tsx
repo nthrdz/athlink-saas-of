@@ -211,14 +211,17 @@ export function SponsorsContent() {
       const res = await fetch("/api/sponsors/extract-logo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: formData.websiteUrl })
+        body: JSON.stringify({ 
+          websiteUrl: formData.websiteUrl,
+          brandName: formData.name
+        })
       })
 
       if (res.ok) {
         const data = await res.json()
         if (data.logoUrl) {
           setFormData({ ...formData, logoUrl: data.logoUrl })
-          toast.success("Logo extrait avec succès !")
+          toast.success(`Logo extrait avec succès ! (${data.method})`)
         } else {
           toast.error("Aucun logo trouvé sur ce site")
         }
@@ -395,7 +398,10 @@ export function SponsorsContent() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="websiteUrl">Site web</Label>
+                    <Label htmlFor="websiteUrl" className="flex items-center gap-2">
+                      <Globe className="w-4 h-4" />
+                      Site web du sponsor
+                    </Label>
                     <Input
                       id="websiteUrl"
                       type="url"
@@ -404,6 +410,9 @@ export function SponsorsContent() {
                       placeholder="https://nike.com"
                       className="mt-1"
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      💡 Saisissez l'URL pour extraire le logo automatiquement
+                    </p>
                   </div>
                 </div>
 
@@ -431,36 +440,53 @@ export function SponsorsContent() {
                 </div>
 
                 {/* Logo Section */}
-                <div>
-                  <Label>Logo</Label>
-                  <div className="mt-2 space-y-3">
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                  <Label className="text-base font-semibold">Logo du sponsor</Label>
+                  <p className="text-sm text-gray-600 mb-3">Extrait automatiquement depuis l'URL du site web</p>
+                  
+                  <div className="space-y-3">
                     <div className="flex items-center gap-3">
+                      <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={extractLogo}
+                        disabled={isExtractingLogo || !formData.websiteUrl}
+                        className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                      >
+                        {isExtractingLogo ? (
+                          <>
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                            />
+                            Extraction en cours...
+                          </>
+                        ) : (
+                          <>
+                            <Search className="w-4 h-4" />
+                            Extraire le logo automatiquement
+                          </>
+                        )}
+                      </motion.button>
+                      {!formData.websiteUrl && (
+                        <span className="text-sm text-orange-600">
+                          ⚠️ Saisissez d'abord l'URL du site web
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="relative">
+                      <Label htmlFor="logoUrl" className="text-sm text-gray-600">Ou saisir l'URL du logo manuellement</Label>
                       <Input
+                        id="logoUrl"
                         type="url"
                         value={formData.logoUrl}
                         onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
                         placeholder="https://example.com/logo.png"
-                        className="flex-1"
+                        className="mt-1"
                       />
-                      <motion.button
-                        type="button"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={extractLogo}
-                        disabled={isExtractingLogo || !formData.websiteUrl}
-                        className="flex items-center gap-2 bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
-                      >
-                        {isExtractingLogo ? (
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                            className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
-                          />
-                        ) : (
-                          <Search className="w-4 h-4" />
-                        )}
-                        Extraire
-                      </motion.button>
                     </div>
                     
                     <div className="flex items-center gap-3">
