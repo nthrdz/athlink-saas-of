@@ -16,11 +16,11 @@ export const metadata: Metadata = {
   keywords: ["athlète", "running", "cyclisme", "triathlon", "link-in-bio", "sponsor", "performance"],
   icons: {
     icon: [
-      { url: '/favicon.png?v=2', type: 'image/png', sizes: '32x32' },
-      { url: '/favicon.ico?v=2', type: 'image/x-icon' },
+      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-16.png', type: 'image/png', sizes: '16x16' },
     ],
-    shortcut: '/favicon.ico?v=2',
-    apple: '/apple-icon.png?v=2',
+    shortcut: '/favicon-32.png',
+    apple: '/apple-icon.png',
   },
 };
 

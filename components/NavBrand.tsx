@@ -12,12 +12,13 @@ export function NavBrand() {
       className="flex items-center gap-2"
     >
       <Image
-        src="/athlink-logo.png"
+        src="/athlink-logo-transparent.png"
         alt="Athlink"
-        width={32}
-        height={32}
-        className="w-8 h-8"
+        width={40}
+        height={40}
+        className="w-10 h-10 object-contain"
         priority
+        unoptimized
       />
       <span className="font-extrabold tracking-tight text-xl sm:text-2xl text-black">
         ATHLINK
