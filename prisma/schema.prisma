@@ -59,6 +59,10 @@ model Profile {
   plan            PlanType  @default(FREE)
   customDomain    String?   @unique
   
+  // Trial Management
+  trialEndsAt     DateTime?
+  trialPlan       String?
+  
   // Stats Manuelles (Phase 1)
   stats           Json?     // {personalRecords: [], achievements: []}
   
