@@ -29,7 +29,7 @@ export default async function CoachingPage() {
   }
 
   // Vérifier que l'utilisateur a le plan COACH ou ELITE
-  if (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO) {
+  if (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE) {
     redirect("/dashboard")
   }
 

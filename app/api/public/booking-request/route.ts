@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    if (!coach || (coach.plan !== "COACH" && coach.plan !== "ELITE" && coach.plan !== "ATHLETE_PRO")) {
+    if (!coach || (coach.plan !== "COACH" && coach.plan !== "ELITE")) {
       return NextResponse.json({ error: "Coach non trouvé ou non disponible" }, { status: 404 })
     }
 

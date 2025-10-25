@@ -22,7 +22,7 @@ export default async function BookingsPage() {
     }
   })
 
-  if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO)) {
+  if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE)) {
     redirect("/dashboard")
   }
 

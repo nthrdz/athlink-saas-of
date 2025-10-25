@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       select: { id: true, plan: true }
     })
 
-    if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO)) {
+    if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE)) {
       return NextResponse.json({ error: "Accès non autorisé" }, { status: 403 })
     }
 
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       select: { id: true, plan: true }
     })
 
-    if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE && profile.plan !== PlanType.ATHLETE_PRO)) {
+    if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE)) {
       return NextResponse.json({ error: "Accès non autorisé" }, { status: 403 })
     }
 
