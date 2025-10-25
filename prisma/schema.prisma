@@ -24,8 +24,6 @@ enum PlanType {
   FREE
   PRO
   ELITE
-  ATHLETE_PRO
-  COACH
 }
 
 model User {

@@ -76,42 +76,6 @@ export const PLAN_FEATURES: Record<PlanType, FeatureLimits> = {
     priorityLinks: true,
     profileBadge: "Elite"
   },
-  [PlanType.ATHLETE_PRO]: {
-    maxLinks: -1, // Illimité
-    maxRaces: -1, // Illimité
-    maxSponsors: -1, // Illimité
-    maxMedia: -1, // Illimité
-    analyticsDays: null, // Analytics illimitées
-    customDomain: true,
-    customCSS: true,
-    realtimeNotifications: true,
-    dataExport: true,
-    clickHeatmap: true,
-    visitorDemographics: true,
-    prioritySupport: true,
-    adFree: true,
-    premiumThemes: true,
-    priorityLinks: true,
-    profileBadge: "Elite"
-  },
-  [PlanType.COACH]: {
-    maxLinks: -1, // Illimité
-    maxRaces: -1, // Illimité
-    maxSponsors: -1, // Illimité
-    maxMedia: -1, // Illimité
-    analyticsDays: 7, // 7 jours d'analytics
-    customDomain: false,
-    customCSS: false,
-    realtimeNotifications: false,
-    dataExport: false,
-    clickHeatmap: false,
-    visitorDemographics: false,
-    prioritySupport: false,
-    adFree: true,
-    premiumThemes: true,
-    priorityLinks: true,
-    profileBadge: "Pro"
-  }
 }
 
 export function canUserAccessFeature(
@@ -173,9 +137,7 @@ export function getLimitMessage(
   const planNames: Record<PlanType, string> = {
     [PlanType.FREE]: "Free",
     [PlanType.PRO]: "Pro",
-    [PlanType.ELITE]: "Elite",
-    [PlanType.ATHLETE_PRO]: "Athlete Pro",
-    [PlanType.COACH]: "Coach"
+    [PlanType.ELITE]: "Elite"
   }
   
   const itemNames = {
