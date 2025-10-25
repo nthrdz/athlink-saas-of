@@ -34,7 +34,7 @@ const PROMO_CODES = {
     plan: "PRO",
     duration: null,
     discount: 100,
-    description: "Accès complet à toutes les fonctionnalités (COACH)"
+    description: "Accès complet aux fonctionnalités Pro"
   },
   "ELITE": {
     type: "plan_upgrade",
