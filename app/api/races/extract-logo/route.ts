@@ -108,8 +108,9 @@ async function scrapeLogo(url: string, brandName?: string): Promise<LogoResult> 
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Cache-Control': 'no-cache',
       },
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(15000),
     })
 
     if (!response.ok) {
@@ -128,23 +129,40 @@ async function scrapeLogo(url: string, brandName?: string): Promise<LogoResult> 
       'img.header-logo',
       'img.navbar-logo',
       'img.brand-logo',
+      'img.event-logo',
+      'img.race-logo',
+      'img.competition-logo',
       'img[class*="logo"]',
       'img[class*="Logo"]',
       'img[class*="brand"]',
+      'img[class*="Brand"]',
+      'img[class*="event"]',
+      'img[class*="Event"]',
       '.logo img',
       '.site-logo img',
       '.header-logo img',
       '.navbar-brand img',
+      '.event-logo img',
+      '.race-logo img',
       'header .logo img',
       'nav .logo img',
+      'header img[alt*="logo" i]',
+      'nav img[alt*="logo" i]',
       '#logo',
       '#site-logo',
+      '#event-logo',
       '#logo img',
       'img[alt*="logo" i]',
       'img[alt*="Logo" i]',
+      'img[alt*="event" i]',
+      'img[alt*="race" i]',
+      'svg.logo',
+      'svg[class*="logo"]',
       ...(brandName ? [
         `img[alt*="${brandName}" i]`,
         `img[title*="${brandName}" i]`,
+        `img[src*="${brandName.toLowerCase().replace(/\s+/g, '-')}" i]`,
+        `img[src*="${brandName.toLowerCase().replace(/\s+/g, '_')}" i]`,
       ] : []),
     ]
 
@@ -185,14 +203,32 @@ async function scrapeLogo(url: string, brandName?: string): Promise<LogoResult> 
     const headerImages = $('header img, nav img, [role="banner"] img').toArray()
     console.log(`📸 ${headerImages.length} images trouvées dans header/nav`)
 
-    for (const img of headerImages.slice(0, 3)) {
-      const src = $(img).attr('src') || $(img).attr('data-src')
+    for (const img of headerImages.slice(0, 5)) {
+      const src = $(img).attr('src') || 
+                  $(img).attr('data-src') || 
+                  $(img).attr('data-lazy-src') ||
+                  $(img).attr('data-original')
       
       if (src) {
         const absoluteUrl = makeAbsoluteUrl(src, url)
+        const alt = $(img).attr('alt') || ''
+        const className = $(img).attr('class') || ''
         
-        if (await isImageValid(absoluteUrl)) {
-          console.log(`✅ Logo trouvé dans header: ${absoluteUrl}`)
+        if (alt.toLowerCase().includes('logo') || 
+            className.toLowerCase().includes('logo') ||
+            alt.toLowerCase().includes('event') ||
+            className.toLowerCase().includes('event')) {
+          
+          if (await isImageValid(absoluteUrl)) {
+            console.log(`✅ Logo trouvé dans header: ${absoluteUrl}`)
+            return {
+              logoUrl: absoluteUrl,
+              method: "scraping",
+              confidence: "high"
+            }
+          }
+        } else if (await isImageValid(absoluteUrl)) {
+          console.log(`✅ Image trouvée dans header: ${absoluteUrl}`)
           return {
             logoUrl: absoluteUrl,
             method: "scraping",
@@ -369,7 +405,10 @@ async function isImageValid(url: string): Promise<boolean> {
 
     const response = await fetch(url, {
       method: 'HEAD',
-      signal: AbortSignal.timeout(5000)
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      },
+      signal: AbortSignal.timeout(8000)
     })
     
     if (!response.ok) {
@@ -377,9 +416,19 @@ async function isImageValid(url: string): Promise<boolean> {
     }
 
     const contentType = response.headers.get('content-type') || ''
-    return contentType.startsWith('image/')
+    const isImage = contentType.startsWith('image/') || 
+                    contentType.includes('octet-stream')
+    
+    if (isImage) {
+      console.log(`✅ Image valide: ${url} (${contentType})`)
+    } else {
+      console.log(`⚠️ Pas une image: ${url} (${contentType})`)
+    }
+    
+    return isImage
 
-  } catch (error) {
+  } catch (error: any) {
+    console.log(`⚠️ Erreur validation: ${url} - ${error.message}`)
     return false
   }
 }
