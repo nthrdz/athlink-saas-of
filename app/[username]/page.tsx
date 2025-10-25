@@ -39,7 +39,7 @@ export default async function ProfilePage({ params }: Props) {
       races: { 
         orderBy: { date: 'asc' }
       },
-      sponsors: { orderBy: { position: 'asc' }, take: 4 },
+      sponsors: { orderBy: { position: 'asc' } },
       media: { orderBy: { position: 'asc' }, take: 6 }
     }
   })
