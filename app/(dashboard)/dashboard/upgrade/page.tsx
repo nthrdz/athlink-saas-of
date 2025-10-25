@@ -27,7 +27,7 @@ export default function UpgradePage() {
     
     // Mapper les noms de plans interface vers Prisma
     const planMapping: Record<string, string> = {
-      "Pro": "ATHLETE_PRO",
+      "Pro": "ELITE",
       "Elite": "COACH"
     }
     
@@ -44,7 +44,7 @@ export default function UpgradePage() {
       // Si le code promo est valide et offre un upgrade gratuit, utiliser l'ancienne API
       if (isPromoValidForPlan(planName) && promoData?.type === "plan_upgrade") {
         const planMapping: Record<string, string> = {
-          "Pro": "ATHLETE_PRO",
+          "Pro": "ELITE",
           "Elite": "COACH"
         }
         

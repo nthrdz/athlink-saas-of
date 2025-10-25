@@ -37,7 +37,7 @@ export async function GET(
 
     // Récupérer le plan et le fichier PDF
     const profiles = await prisma.profile.findMany({
-      where: { plan: PlanType.COACH },
+      where: { plan: PlanType.PRO },
       select: { id: true, stats: true }
     })
 

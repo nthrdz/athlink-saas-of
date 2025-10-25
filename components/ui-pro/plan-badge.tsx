@@ -39,7 +39,7 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
       textColor: "text-white",
       shadowColor: "shadow-yellow-500/20"
     },
-    [PlanType.COACH]: {
+    [PlanType.PRO]: {
       label: "Elite",
       icon: Crown,
       gradient: "from-purple-600 to-pink-600",
@@ -55,7 +55,7 @@ export function PlanBadge({ plan, size = "md", showIcon = true, className }: Pla
       textColor: "text-white",
       shadowColor: "shadow-gray-800/20"
     },
-    [PlanType.ATHLETE_PRO]: {
+    [PlanType.ELITE]: {
       label: "Elite", 
       icon: Crown,
       gradient: "from-gray-800 to-black",

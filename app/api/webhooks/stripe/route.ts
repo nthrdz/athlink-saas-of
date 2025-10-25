@@ -47,8 +47,8 @@ export async function POST(req: Request) {
         }
 
         const planMapping: Record<string, PlanType> = {
-          "Pro": PlanType.ATHLETE_PRO,
-          "Elite": PlanType.COACH
+          "Pro": PlanType.ELITE,
+          "Elite": PlanType.PRO
         }
 
         const prismaPlan = planMapping[planName]

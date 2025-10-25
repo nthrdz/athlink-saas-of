@@ -19,7 +19,7 @@ export async function DELETE(
       select: { id: true, plan: true }
     })
 
-    if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE)) {
+    if (!profile || (profile.plan !== PlanType.PRO && profile.plan !== PlanType.ELITE)) {
       return NextResponse.json({ error: "Accès non autorisé" }, { status: 403 })
     }
 

@@ -22,7 +22,7 @@ export default async function TrainingPlansPage() {
     }
   })
 
-  if (!profile || (profile.plan !== PlanType.COACH && profile.plan !== PlanType.ELITE)) {
+  if (!profile || (profile.plan !== PlanType.PRO && profile.plan !== PlanType.ELITE)) {
     redirect("/dashboard")
   }
 

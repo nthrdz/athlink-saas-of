@@ -31,21 +31,21 @@ function mapSportToEnum(sport: string): string {
 const PROMO_CODES = {
   "ATHLINK_PREMIUM": {
     type: "plan_upgrade",
-    plan: "COACH",
+    plan: "PRO",
     duration: null,
     discount: 100,
     description: "Accès complet à toutes les fonctionnalités (COACH)"
   },
   "ELITE": {
     type: "plan_upgrade",
-    plan: "ATHLETE_PRO",
+    plan: "ELITE",
     duration: null,
     discount: 0,
     description: "Accès Pro complet"
   },
   "ATHLINK100": {
     type: "trial", 
-    plan: "ATHLETE_PRO",
+    plan: "ELITE",
     duration: 30,
     discount: 0,
     description: "1 mois offert Pro"

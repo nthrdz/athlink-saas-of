@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { AdvancedAnalytics } from "./advanced-analytics"
 
 interface AnalyticsWithFilterProps {
-  userPlan: "FREE" | "PRO" | "ELITE" | "ATHLETE_PRO" | "COACH"
+  userPlan: "FREE" | "PRO" | "ELITE" | "ELITE" | "COACH"
   username: string
 }
 

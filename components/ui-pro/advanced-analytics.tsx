@@ -49,7 +49,7 @@ interface AnalyticsData {
 
 interface AdvancedAnalyticsProps {
   data: AnalyticsData
-  userPlan: "FREE" | "PRO" | "ELITE" | "ATHLETE_PRO" | "COACH"
+  userPlan: "FREE" | "PRO" | "ELITE" | "ELITE" | "COACH"
   onExportPDF?: () => void
   className?: string
   timeRange?: string
@@ -71,8 +71,8 @@ export function AdvancedAnalytics({
   const timeRange = externalTimeRange || internalTimeRange
   const setTimeRange = onTimeRangeChange || setInternalTimeRange
 
-  const canAccessAdvancedFeatures = userPlan === "PRO" || userPlan === "ELITE" || userPlan === "ATHLETE_PRO" || userPlan === "COACH"
-  const canAccessEliteFeatures = userPlan === "ELITE" || userPlan === "ATHLETE_PRO"
+  const canAccessAdvancedFeatures = userPlan === "PRO" || userPlan === "ELITE" || userPlan === "ELITE" || userPlan === "COACH"
+  const canAccessEliteFeatures = userPlan === "ELITE" || userPlan === "ELITE"
 
   // Calculer les vraies tendances basées sur les données
   const trends = useMemo(() => {

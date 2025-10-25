@@ -101,8 +101,8 @@ export function SidebarNavigation({
     ...section,
     items: section.items.filter(item => {
       if (!item.planRequired) return true
-      if (item.planRequired === "COACH") return plan === "COACH" || plan === "ELITE"
-      if (item.planRequired === "PRO") return plan === "PRO" || plan === "ELITE" || plan === "ATHLETE_PRO"
+      if (item.planRequired === "COACH") return plan === "PRO" || plan === "ELITE"
+      if (item.planRequired === "PRO") return plan === "PRO" || plan === "ELITE" || plan === "ELITE"
       return plan === item.planRequired
     })
   })).filter(section => section.items.length > 0)
