@@ -7,6 +7,10 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
+- **Erreur Server Components corrigée** : Supprimé le champ "telegram" qui n'existait pas dans la base de données
+  - Retiré `telegram` de l'interface TypeScript Profile dans profile-content.tsx
+  - Supprimé le champ Telegram du formulaire de profil
+  - Résolu l'erreur "Server Components render" après connexion
 - **Carrousel homepage mobile activé** : Les images défilantes sont maintenant visibles sur mobile comme sur desktop
   - Retiré la classe `hidden lg:block` qui cachait le carrousel sur mobile
   - Dimensions responsives : 300px (mobile) → 400px (sm) → 500px (md) → 600px (lg+)

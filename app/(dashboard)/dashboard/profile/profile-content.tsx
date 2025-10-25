@@ -23,7 +23,6 @@ interface Profile {
   youtube: string
   tiktok: string
   twitter: string
-  telegram: string
   whatsapp: string
   isPublic: boolean
   avatarUrl?: string | null
@@ -323,20 +322,6 @@ export function ProfileContent() {
                       id="twitter" 
                       value={profile.twitter || ""}
                       onChange={(e) => setProfile({...profile, twitter: e.target.value})}
-                      placeholder="username"
-                      className="flex-1"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="telegram">Telegram</Label>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">@</span>
-                    <Input 
-                      id="telegram" 
-                      value={profile.telegram || ""}
-                      onChange={(e) => setProfile({...profile, telegram: e.target.value})}
                       placeholder="username"
                       className="flex-1"
                     />
