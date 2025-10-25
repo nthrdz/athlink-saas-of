@@ -467,7 +467,7 @@ export function CompetitionsContent() {
                 {/* Aperçu du logo */}
                 {formData.logoUrl && (
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-gray-50 border border-gray-200">
+                    <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-gray-900 border border-gray-300 p-1.5">
                       <Image
                         src={formData.logoUrl}
                         alt="Logo preview"
@@ -479,7 +479,7 @@ export function CompetitionsContent() {
                         }}
                       />
                     </div>
-                    <span className="text-sm text-gray-600">Aperçu du logo</span>
+                    <span className="text-sm text-gray-600">✅ Aperçu du logo</span>
                   </div>
                 )}
 
@@ -522,7 +522,7 @@ export function CompetitionsContent() {
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
                         {race.logoUrl ? (
-                          <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-gray-50 border border-gray-200">
+                          <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-gray-900 border border-gray-300 p-2">
                             <Image
                               src={race.logoUrl}
                               alt={race.name}
@@ -535,11 +535,7 @@ export function CompetitionsContent() {
                               }}
                             />
                           </div>
-                        ) : (
-                          <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-gray-50 border border-gray-200">
-                            <span className="text-xs text-gray-400">Pas de logo</span>
-                          </div>
-                        )}
+                        ) : null}
                         <div className={`w-16 h-16 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center ${race.logoUrl ? 'hidden' : ''}`}>
                           <Trophy className="w-8 h-8 text-yellow-600" />
                         </div>
