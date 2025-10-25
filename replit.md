@@ -6,6 +6,12 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (October 25, 2025)
+- **Branding**: Navbar logo simplifié - texte "ATHLINK" uniquement (sans icône)
+- **Post-payment UX**: Rafraîchissement automatique de la page après paiement Stripe avec double notification toast
+- **Services de coaching**: 100% opérationnels avec accès étendu aux plans COACH, ELITE et ATHLETE_PRO
+- **API de réservation**: Déplacée vers `/api/public/booking-request` pour structure Next.js correcte
+
 ## System Architecture
 
 ### Frontend Architecture
