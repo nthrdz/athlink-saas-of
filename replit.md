@@ -8,6 +8,7 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
 - **Branding**: Navbar logo simplifié - texte "ATHLINK" uniquement (sans icône)
+- **Extraction de logos sponsors**: Corrigé le bug d'API (paramètre 'websiteUrl' au lieu de 'url') et amélioré l'UX pour rendre claire l'extraction automatique depuis l'URL du site web
 - **Post-payment UX**: Rafraîchissement automatique de la page après paiement Stripe avec double notification toast
 - **Services de coaching**: 100% opérationnels avec accès étendu aux plans COACH, ELITE et ATHLETE_PRO
 - **API de réservation**: Déplacée vers `/api/public/booking-request` pour structure Next.js correcte
