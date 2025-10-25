@@ -5,6 +5,9 @@
   "/[username]/page": "app/[username]/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/links/route": "app/api/links/route.js",
+  "/api/races/route": "app/api/races/route.js",
+  "/api/sponsors/[id]/route": "app/api/sponsors/[id]/route.js",
+  "/api/sponsors/extract-logo/route": "app/api/sponsors/extract-logo/route.js",
   "/api/sponsors/route": "app/api/sponsors/route.js",
   "/page": "app/page.js"
 }
