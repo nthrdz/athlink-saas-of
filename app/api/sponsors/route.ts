@@ -44,6 +44,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const validatedData = sponsorSchema.parse(body)
 
+    // Convertir les chaînes vides en null pour Prisma
+    const cleanedData = {
+      ...validatedData,
+      logoUrl: validatedData.logoUrl && validatedData.logoUrl.trim() !== "" ? validatedData.logoUrl : null,
+      websiteUrl: validatedData.websiteUrl && validatedData.websiteUrl.trim() !== "" ? validatedData.websiteUrl : null,
+      promoCode: validatedData.promoCode && validatedData.promoCode.trim() !== "" ? validatedData.promoCode : null,
+      description: validatedData.description && validatedData.description.trim() !== "" ? validatedData.description : null,
+    }
+
     const profile = await prisma.profile.findUnique({
       where: { userId: session.user.id },
       include: { sponsors: true }
@@ -69,7 +78,7 @@ export async function POST(req: NextRequest) {
 
     const sponsor = await prisma.sponsor.create({
       data: {
-        ...validatedData,
+        ...cleanedData,
         profileId: profile.id,
         position: (maxPosition._max.position || 0) + 1
       }

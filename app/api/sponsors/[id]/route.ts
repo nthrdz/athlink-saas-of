@@ -18,6 +18,21 @@ export async function PATCH(
     const body = await req.json()
     const validatedData = sponsorSchema.partial().parse(body)
 
+    // Convertir les chaînes vides en null pour Prisma
+    const cleanedData: any = { ...validatedData }
+    if ('logoUrl' in cleanedData) {
+      cleanedData.logoUrl = cleanedData.logoUrl && cleanedData.logoUrl.trim() !== "" ? cleanedData.logoUrl : null
+    }
+    if ('websiteUrl' in cleanedData) {
+      cleanedData.websiteUrl = cleanedData.websiteUrl && cleanedData.websiteUrl.trim() !== "" ? cleanedData.websiteUrl : null
+    }
+    if ('promoCode' in cleanedData) {
+      cleanedData.promoCode = cleanedData.promoCode && cleanedData.promoCode.trim() !== "" ? cleanedData.promoCode : null
+    }
+    if ('description' in cleanedData) {
+      cleanedData.description = cleanedData.description && cleanedData.description.trim() !== "" ? cleanedData.description : null
+    }
+
     // Verify sponsor belongs to user
     const sponsor = await prisma.sponsor.findUnique({
       where: { id },
@@ -34,7 +49,7 @@ export async function PATCH(
 
     const updatedSponsor = await prisma.sponsor.update({
       where: { id },
-      data: validatedData
+      data: cleanedData
     })
 
     return NextResponse.json({ sponsor: updatedSponsor })
