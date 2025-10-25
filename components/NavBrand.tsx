@@ -11,14 +11,12 @@ export function NavBrand() {
       transition={{ duration: 0.3 }}
       className="flex items-center gap-2"
     >
-      <Image
-        src="/athlink-logo-transparent.png"
+      <img
+        src="/athlink-logo-clean.svg"
         alt="Athlink"
-        width={40}
-        height={40}
-        className="w-10 h-10 object-contain"
-        priority
-        unoptimized
+        width="45"
+        height="20"
+        className="h-8 w-auto object-contain"
       />
       <span className="font-extrabold tracking-tight text-xl sm:text-2xl text-black">
         ATHLINK
