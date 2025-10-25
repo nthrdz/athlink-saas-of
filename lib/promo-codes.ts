@@ -14,18 +14,18 @@ export const PROMO_CODES: Record<string, PromoCode> = {
     discount: 100,
     description: "Accès complet à toutes les fonctionnalités (PRO)"
   },
-  "ELITE": {
+  "ELITE2025": {
     type: "plan_upgrade",
     plan: "ELITE",
     duration: null,
     discount: 0,
-    description: "Accès Pro complet"
+    description: "Accès ELITE permanent - Toutes les fonctionnalités débloquées"
   },
-  "ATHLINK100": {
+  "PRO30FREE": {
     type: "trial",
-    plan: "ELITE", 
+    plan: "PRO", 
     duration: 30,
-    discount: 0,
-    description: "1 mois offert Pro"
+    discount: 100,
+    description: "1 mois PRO offert - Rebascule automatiquement en plan gratuit après 30 jours"
   }
 }
