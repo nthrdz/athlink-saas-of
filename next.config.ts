@@ -24,67 +24,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '*.hyrox.com',
+        hostname: 'www.google.com',
+        pathname: '/s2/favicons**',
       },
       {
         protocol: 'https',
-        hostname: 'hyrox.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.spartan.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'spartan.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.toughmudder.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'toughmudder.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.ironman.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'ironman.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.challengetheworld.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'challengetheworld.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.runinlyon.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'runinlyon.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.marathon.fr',
-      },
-      {
-        protocol: 'https',
-        hostname: 'marathon.fr',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.parismarathon.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'parismarathon.com',
+        hostname: '**',
       },
     ],
   },
