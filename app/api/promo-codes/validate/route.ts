@@ -1,30 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
-
-// Codes promo prédéfinis
-const PROMO_CODES = {
-  "ATHLINK_PREMIUM": {
-    type: "plan_upgrade",
-    plan: "COACH",
-    duration: null, // Accès permanent
-    discount: 100,
-    description: "Accès complet à toutes les fonctionnalités (COACH)"
-  },
-  "ELITE": {
-    type: "plan_upgrade",
-    plan: "ATHLETE_PRO",
-    duration: null, // Accès permanent
-    discount: 0,
-    description: "Accès Pro complet"
-  },
-  "ATHLINK100": {
-    type: "trial",
-    plan: "ATHLETE_PRO", 
-    duration: 30, // 30 jours
-    discount: 0,
-    description: "1 mois offert Pro"
-  }
-}
+import { PROMO_CODES } from "@/lib/promo-codes"
 
 export async function POST(request: NextRequest) {
   try {
