@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { MapPin, Instagram, Youtube, Calendar, Link as LinkIcon, Users, ExternalLink, Trophy, Medal, ImageIcon } from "lucide-react"
 import { PlanType } from "@/lib/features"
+import { GlassSponsorsGrid } from "./glass-sponsors-grid"
 
 interface ModernProfileCardProps {
   displayName: string
@@ -331,45 +332,10 @@ export function ModernProfileCard({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all cursor-pointer"
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 transition-all"
               >
                 <h3 className="font-semibold text-white mb-3">Sponsors</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {sponsors.slice(0, 4).map((sponsor, index) => (
-                    <motion.a
-                      key={sponsor.id}
-                      href={sponsor.websiteUrl || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 1.0 + index * 0.1 }}
-                      whileHover={{ scale: 1.05 }}
-                      className="bg-white/5 hover:bg-white/10 rounded-lg p-3 border border-white/10 transition-all text-center group"
-                    >
-                      {sponsor.logoUrl ? (
-                        <div className="w-8 h-8 mx-auto mb-2 rounded-full overflow-hidden">
-                          <Image
-                            src={sponsor.logoUrl}
-                            alt={sponsor.name}
-                            width={32}
-                            height={32}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <div className="w-8 h-8 mx-auto mb-2 bg-purple-500 rounded-full flex items-center justify-center">
-                          <Users className="w-4 h-4 text-white" />
-                        </div>
-                      )}
-                      <p className="font-medium text-white text-xs group-hover:text-purple-300">{sponsor.name}</p>
-                      {sponsor.promoCode && (
-                        <p className="text-gray-400 text-xs">{sponsor.promoCode}</p>
-                      )}
-                    </motion.a>
-                  ))}
-                </div>
+                <GlassSponsorsGrid sponsors={sponsors} />
               </motion.div>
             )}
 
