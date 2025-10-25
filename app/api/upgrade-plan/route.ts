@@ -42,19 +42,38 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Rejeter les codes trial pour l'instant (pas de support des dates d'expiration)
-    if (promo.type === "trial") {
-      return NextResponse.json(
-        { error: "Les codes trial ne sont pas encore supportés. Utilisez la page d'upgrade pour un abonnement payant." },
-        { status: 400 }
-      )
+    // Gérer les trials avec expiration automatique
+    if (promo.type === "trial" && promo.duration) {
+      const trialEndsAt = new Date()
+      trialEndsAt.setDate(trialEndsAt.getDate() + promo.duration)
+
+      const updatedProfile = await prisma.profile.update({
+        where: { userId: session.user.id },
+        data: {
+          plan: plan,
+          trialEndsAt: trialEndsAt,
+          trialPlan: plan,
+          updatedAt: new Date()
+        }
+      })
+
+      return NextResponse.json({
+        success: true,
+        message: `Trial ${plan} activé jusqu'au ${trialEndsAt.toLocaleDateString('fr-FR')}`,
+        profile: {
+          plan: updatedProfile.plan,
+          trialEndsAt: updatedProfile.trialEndsAt
+        }
+      })
     }
 
-    // Mettre à jour le plan de l'utilisateur
+    // Mettre à jour le plan de l'utilisateur (upgrade permanent)
     const updatedProfile = await prisma.profile.update({
       where: { userId: session.user.id },
       data: {
         plan: plan,
+        trialEndsAt: null,
+        trialPlan: null,
         updatedAt: new Date()
       }
     })
