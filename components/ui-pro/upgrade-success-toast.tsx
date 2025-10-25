@@ -1,11 +1,12 @@
 "use client"
 
 import { useEffect } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 export function UpgradeSuccessToast() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   
   useEffect(() => {
     const upgrade = searchParams.get("upgrade")
@@ -13,14 +14,20 @@ export function UpgradeSuccessToast() {
     
     if (upgrade === "success" && plan) {
       toast.success(`🎉 Plan ${plan} activé avec succès !`, {
-        description: "Ton abonnement est maintenant actif. Profite de toutes les fonctionnalités !",
-        duration: 5000,
+        description: "Actualisation de votre profil...",
+        duration: 3000,
       })
       
-      // Nettoyer l'URL
+      // Nettoyer l'URL et recharger la page pour afficher les nouvelles fonctionnalités
       window.history.replaceState({}, "", "/dashboard")
+      
+      // Recharger la page après 1.5 secondes pour voir les changements
+      setTimeout(() => {
+        router.refresh()
+        toast.success("Toutes vos nouvelles fonctionnalités sont maintenant disponibles ! 🚀")
+      }, 1500)
     }
-  }, [searchParams])
+  }, [searchParams, router])
   
   return null
 }

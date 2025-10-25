@@ -43,7 +43,7 @@ export default async function CoachingPublicPage({ params }: Props) {
     }
   })
 
-  if (!profile || !profile.isPublic || (profile.plan !== "COACH" && profile.plan !== "ELITE")) {
+  if (!profile || !profile.isPublic || (profile.plan !== "COACH" && profile.plan !== "ELITE" && profile.plan !== "ATHLETE_PRO")) {
     notFound()
   }
 

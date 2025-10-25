@@ -344,6 +344,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/api/public/booking-request/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/public/booking-request">> = Specific
+  const handler = {} as typeof import("../../app/api/public/booking-request/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/api/races/[id]/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/races/[id]">> = Specific
@@ -492,15 +501,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/coaching/upload-pdf">> = Specific
   const handler = {} as typeof import("../../app/coaching/upload-pdf/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../app/public/booking-request/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/public/booking-request">> = Specific
-  const handler = {} as typeof import("../../app/public/booking-request/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
