@@ -7,6 +7,8 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
+- **Favicon.ico corrigé**: Résolu l'erreur 404/500 sur favicon.ico en créant le fichier dans public/ - retourne maintenant 200 OK avec Content-Type image/x-icon
+- **Amélioration extraction logos compétitions**: Optimisation majeure du scraping avec 3x plus de sélecteurs CSS (event-logo, race-logo, competition-logo), timeouts augmentés (15s scraping, 8s validation), support pour lazy loading (data-src, data-lazy-src, data-original), recherche intelligente dans header/nav avec priorisation des images contenant "logo" ou "event", support des SVG et meilleure détection des types MIME
 - **Système de codes promo avec expiration automatique** :
   - Nouveau code ELITE2025 : accès ELITE permanent
   - Nouveau code PRO30FREE : 1 mois PRO offert avec expiration automatique vers FREE
