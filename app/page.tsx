@@ -77,23 +77,23 @@ export default function Home() {
             </motion.div>
             </div>
 
-            {/* Right showcase */}
-            <div className="hidden lg:block">
-              <div className="w-[1200px] h-[600px] max-w-full mx-auto">
+            {/* Right showcase - Visible sur mobile ET desktop */}
+            <div className="w-full">
+              <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] max-w-full mx-auto">
                 <motion.div
                   key={currentImage}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="w-full h-full relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200"
+                  className="w-full h-full relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200"
                 >
                   <div className="absolute inset-0 backdrop-blur-lg bg-white/30"></div>
                   <Image
                     src={images[currentImage]}
                     alt={currentImage === 0 ? "Noa" : "Nathan"}
                     fill
-                    className="object-contain relative z-10 rounded-3xl"
+                    className="object-contain relative z-10 rounded-2xl sm:rounded-3xl"
                     priority
                     unoptimized
                   />

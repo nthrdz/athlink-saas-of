@@ -7,6 +7,11 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
+- **Carrousel homepage mobile activé** : Les images défilantes sont maintenant visibles sur mobile comme sur desktop
+  - Retiré la classe `hidden lg:block` qui cachait le carrousel sur mobile
+  - Dimensions responsives : 300px (mobile) → 400px (sm) → 500px (md) → 600px (lg+)
+  - Animation fade automatique toutes les 3 secondes entre les images de Noa et Nathan
+  - Coins arrondis adaptatifs : rounded-2xl (mobile) → rounded-3xl (desktop)
 - **Twitter et WhatsApp ajoutés** : Nouveaux champs sociaux dans la base de données et affichage sur la page publique
   - Ajout des champs `twitter` et `whatsapp` dans le modèle Profile (Prisma)
   - Icônes personnalisées Twitter (X) et WhatsApp dans ModernProfileCard
