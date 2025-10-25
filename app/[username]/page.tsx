@@ -141,7 +141,7 @@ export default async function ProfilePage({ params }: Props) {
             sponsors={profile.sponsors}
             media={profile.media}
             username={username}
-            hasCoachingServices={profile.plan === "PRO" || profile.plan === "ELITE"}
+            hasCoachingServices={profile.plan === "ELITE"}
           />
         </div>
         </div>

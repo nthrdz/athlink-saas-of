@@ -89,7 +89,7 @@ export function SidebarNavigation({
     },
     {
       items: [
-        { href: "/dashboard/coaching", icon: Users, label: "Services Coaching", planRequired: "COACH" },
+        { href: "/dashboard/coaching", icon: Users, label: "Services Coaching", planRequired: "ELITE" },
         { href: "/dashboard/share", icon: Share2, label: "Partager" },
         { href: "/dashboard/settings", icon: Settings, label: "Paramètres" },
       ]
@@ -101,7 +101,7 @@ export function SidebarNavigation({
     ...section,
     items: section.items.filter(item => {
       if (!item.planRequired) return true
-      if (item.planRequired === "COACH") return plan === "PRO" || plan === "ELITE"
+      if (item.planRequired === "ELITE") return plan === "ELITE"
       if (item.planRequired === "PRO") return plan === "PRO" || plan === "ELITE" || plan === "ELITE"
       return plan === item.planRequired
     })

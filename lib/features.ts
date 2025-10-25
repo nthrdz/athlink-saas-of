@@ -1,5 +1,6 @@
 // Système de gestion des fonctionnalités par plan
 import { PlanType } from "@prisma/client"
+
 export { PlanType }
 
 export interface FeatureLimits {
