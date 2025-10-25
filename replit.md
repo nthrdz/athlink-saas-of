@@ -7,7 +7,7 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
-- **Favicon personnalisé**: Ajout du logo Athlink (16x16px) comme favicon avec couleurs exactes préservées - créé aussi apple-icon.png (180x180px)
+- **Favicon personnalisé**: Ajout du logo Athlink (32x32px) comme favicon avec couleurs exactes préservées - créé aussi apple-icon.png (180x180px)
 - **Nettoyage des plans d'abonnement**: Simplifié pour n'avoir que 3 plans (FREE, PRO, ELITE) - supprimé ATHLETE_PRO et COACH
   - Conversion automatique des données existantes : ATHLETE_PRO → ELITE, COACH → PRO
   - Suppression du fichier lib/plan-mapping.ts devenu inutile
