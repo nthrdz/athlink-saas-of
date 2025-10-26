@@ -3,6 +3,230 @@ import { prisma } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 import jsPDF from "jspdf"
 
+// Fonction pour générer des conseils intelligents basés sur les performances réelles
+function generateSmartAdvice(data: {
+  totalViews: number
+  totalUniqueViews: number
+  totalClicks: number
+  avgViewsPerDay: number
+  days: number
+  linksCount: number
+  racesCount: number
+  sponsorsCount: number
+  mediaCount: number
+}) {
+  const advice = []
+  const {
+    totalViews,
+    totalUniqueViews,
+    totalClicks,
+    avgViewsPerDay,
+    days,
+    linksCount,
+    racesCount,
+    sponsorsCount,
+    mediaCount
+  } = data
+
+  const conversionRate = totalViews > 0 ? (totalClicks / totalViews) * 100 : 0
+  const retentionRate = totalViews > 0 ? (totalUniqueViews / totalViews) * 100 : 0
+
+  // 1. ANALYSE DU TRAFIC
+  if (avgViewsPerDay < 10) {
+    advice.push({
+      priority: 1,
+      icon: '🚀',
+      category: 'VISIBILITÉ',
+      problem: `${avgViewsPerDay} vue${avgViewsPerDay > 1 ? 's' : ''}/jour`,
+      status: 'CRITIQUE',
+      statusColor: [239, 68, 68], // rouge
+      description: 'Votre profil manque de visibilité. Voici comment y remédier:',
+      solutions: [
+        `Partagez votre lien athlink.com/${data.days > 0 ? 'username' : ''} sur Instagram en bio`,
+        'Postez 3-5 stories par semaine pointant vers votre profil',
+        'Ajoutez votre lien dans vos posts TikTok/YouTube',
+        `Objectif à atteindre: 50 vues/jour (vous: ${avgViewsPerDay}/jour)`
+      ]
+    })
+  } else if (avgViewsPerDay < 50) {
+    advice.push({
+      priority: 1,
+      icon: '📈',
+      category: 'CROISSANCE',
+      problem: `${avgViewsPerDay} vues/jour`,
+      status: 'À AMÉLIORER',
+      statusColor: [245, 158, 11], // orange
+      description: 'Bon début ! Accélérez la croissance:',
+      solutions: [
+        'Collaborez avec 2-3 athlètes de votre niveau',
+        'Utilisez des hashtags ciblés (#running #trail #fitness)',
+        'Créez du contenu viral (défis, transformations)',
+        `Objectif: 100 vues/jour (vous: ${avgViewsPerDay}/jour)`
+      ]
+    })
+  } else if (avgViewsPerDay >= 50) {
+    advice.push({
+      priority: 1,
+      icon: '✅',
+      category: 'TRAFIC',
+      problem: `${avgViewsPerDay} vues/jour`,
+      status: 'EXCELLENT',
+      statusColor: [16, 185, 129], // vert
+      description: 'Votre visibilité est solide ! Maintenez le cap:',
+      solutions: [
+        'Continuez votre rythme de publication actuel',
+        'Diversifiez vos canaux de promotion',
+        'Analysez vos meilleures sources de trafic',
+        'Objectif: Doubler en 3 mois'
+      ]
+    })
+  }
+
+  // 2. ANALYSE DU TAUX DE CONVERSION
+  if (conversionRate < 2 && totalViews > 10) {
+    advice.push({
+      priority: 2,
+      icon: '🎯',
+      category: 'CONVERSION',
+      problem: `${conversionRate.toFixed(1)}% de clics`,
+      status: 'CRITIQUE',
+      statusColor: [239, 68, 68],
+      description: 'Vos visiteurs ne cliquent pas assez. Actions immédiates:',
+      solutions: [
+        `Réduisez vos liens: max 5 liens (vous: ${linksCount})`,
+        'Utilisez des titres accrocheurs: "🔥 Découvre mon plan"',
+        'Mettez en avant votre MEILLEUR contenu en 1er',
+        `Objectif: 5% de clics (vous: ${conversionRate.toFixed(1)}%)`
+      ]
+    })
+  } else if (conversionRate >= 2 && conversionRate < 5 && totalViews > 10) {
+    advice.push({
+      priority: 2,
+      icon: '💡',
+      category: 'OPTIMISATION',
+      problem: `${conversionRate.toFixed(1)}% de clics`,
+      status: 'MOYEN',
+      statusColor: [245, 158, 11],
+      description: 'Bon taux de clic, optimisez encore:',
+      solutions: [
+        'Testez différents titres et émojis',
+        'Créez de l\'urgence: "🎁 Offre limitée"',
+        'A/B testez vos 3 premiers liens',
+        `Objectif: 8% de clics (vous: ${conversionRate.toFixed(1)}%)`
+      ]
+    })
+  } else if (conversionRate >= 5 && totalViews > 10) {
+    advice.push({
+      priority: 2,
+      icon: '🏆',
+      category: 'CONVERSION',
+      problem: `${conversionRate.toFixed(1)}% de clics`,
+      status: 'EXCELLENT',
+      statusColor: [16, 185, 129],
+      description: 'Votre taux de conversion est au top !',
+      solutions: [
+        'Votre stratégie fonctionne, continuez ainsi',
+        'Documentez ce qui marche pour répliquer',
+        'Augmentez maintenant votre trafic',
+        'Vous êtes dans le top 10% des profils'
+      ]
+    })
+  }
+
+  // 3. ANALYSE DU CONTENU
+  const totalContent = linksCount + racesCount + sponsorsCount + mediaCount
+  if (totalContent < 5) {
+    advice.push({
+      priority: 3,
+      icon: '📝',
+      category: 'CONTENU',
+      problem: `${totalContent} éléments seulement`,
+      status: 'INSUFFISANT',
+      statusColor: [239, 68, 68],
+      description: 'Votre profil manque de contenu. Ajoutez immédiatement:',
+      solutions: [
+        `${linksCount < 3 ? `✓ 3-5 liens (vous: ${linksCount})` : '✓ Liens OK'}`,
+        `${racesCount < 3 ? `✓ 3-5 compétitions (vous: ${racesCount})` : '✓ Compétitions OK'}`,
+        `${sponsorsCount < 2 ? `✓ 2-3 sponsors (vous: ${sponsorsCount})` : '✓ Sponsors OK'}`,
+        `${mediaCount < 4 ? `✓ 4-6 photos/vidéos (vous: ${mediaCount})` : '✓ Média OK'}`
+      ]
+    })
+  } else if (totalContent < 15) {
+    advice.push({
+      priority: 3,
+      icon: '🎨',
+      category: 'CONTENU',
+      problem: `${totalContent} éléments`,
+      status: 'BIEN',
+      statusColor: [245, 158, 11],
+      description: 'Base solide ! Enrichissez votre profil:',
+      solutions: [
+        'Ajoutez 1-2 éléments par semaine',
+        'Variez les types de contenu',
+        'Mettez à jour régulièrement',
+        `Objectif: 20+ éléments (vous: ${totalContent})`
+      ]
+    })
+  }
+
+  // 4. ANALYSE DE LA RÉTENTION
+  if (retentionRate < 40 && totalViews > 20) {
+    advice.push({
+      priority: 4,
+      icon: '🔄',
+      category: 'FIDÉLISATION',
+      problem: `${retentionRate.toFixed(0)}% de rétention`,
+      status: 'FAIBLE',
+      statusColor: [239, 68, 68],
+      description: 'Trop de visiteurs uniques, pas assez de retours:',
+      solutions: [
+        'Créez du contenu récurrent: "Lundi Motivation"',
+        'Offrez un bonus pour abonnés: code promo exclusif',
+        'Annoncez vos prochains posts sur Instagram',
+        `Objectif: 60% de rétention (vous: ${retentionRate.toFixed(0)}%)`
+      ]
+    })
+  } else if (retentionRate >= 70 && totalViews > 20) {
+    advice.push({
+      priority: 4,
+      icon: '💪',
+      category: 'FIDÉLISATION',
+      problem: `${retentionRate.toFixed(0)}% de rétention`,
+      status: 'EXCELLENT',
+      statusColor: [16, 185, 129],
+      description: 'Vos visiteurs reviennent, c\'est parfait !',
+      solutions: [
+        'Votre contenu fidélise, continuez',
+        'Récompensez vos visiteurs fidèles',
+        'Créez une communauté privée',
+        'Vous maîtrisez l\'engagement'
+      ]
+    })
+  }
+
+  // 5. CONSEIL RAPIDE GAINS si tout est moyen
+  if (advice.length < 3 && totalViews > 10) {
+    advice.push({
+      priority: 5,
+      icon: '⚡',
+      category: 'GAINS RAPIDES',
+      problem: 'Optimisation rapide',
+      status: 'ACTION',
+      statusColor: [59, 130, 246], // bleu
+      description: 'Actions rapides pour de gros résultats:',
+      solutions: [
+        '1. Changez votre titre le + cliqué (test A/B 48h)',
+        '2. Ajoutez 2 photos de qualité cette semaine',
+        '3. Partagez votre profil 1x/jour pendant 7 jours',
+        '4. Analysez vos stats chaque dimanche'
+      ]
+    })
+  }
+
+  // Trier par priorité et retourner les 3 meilleurs conseils
+  return advice.sort((a, b) => a.priority - b.priority).slice(0, 3)
+}
+
 export async function POST(request: NextRequest) {
   try {
     const session = await auth()
@@ -14,7 +238,10 @@ export async function POST(request: NextRequest) {
     const profile = await prisma.profile.findUnique({
       where: { userId: session.user.id },
       include: {
-        links: { where: { isActive: true }, orderBy: { position: 'asc' } }
+        links: { where: { isActive: true }, orderBy: { position: 'asc' } },
+        races: true,
+        sponsors: true,
+        media: true
       }
     })
 
@@ -54,6 +281,24 @@ export async function POST(request: NextRequest) {
     const avgViewsPerDay = days > 0 ? Math.round(totalViews / days) : 0
     const avgUniquePerDay = days > 0 ? Math.round(totalUniqueViews / days) : 0
 
+    // Calculer les métriques de performance
+    const conversionRate = totalViews > 0 ? (totalClicks / totalViews) * 100 : 0
+    const engagementScore = Math.min(100, Math.round((conversionRate / 10) * 100))
+    
+    // Calculer le taux de croissance
+    const midPoint = Math.floor(analytics.length / 2)
+    const firstHalf = analytics.slice(0, midPoint)
+    const secondHalf = analytics.slice(midPoint)
+    const firstHalfAvg = firstHalf.length > 0 
+      ? firstHalf.reduce((sum, a) => sum + a.views, 0) / firstHalf.length 
+      : 0
+    const secondHalfAvg = secondHalf.length > 0 
+      ? secondHalf.reduce((sum, a) => sum + a.views, 0) / secondHalf.length 
+      : 0
+    const growthRate = firstHalfAvg > 0 
+      ? Math.round(((secondHalfAvg - firstHalfAvg) / firstHalfAvg) * 100) 
+      : 0
+
     // Créer le PDF (format A4)
     const pdf = new jsPDF()
     
@@ -73,332 +318,264 @@ export async function POST(request: NextRequest) {
     const setFillColor = (color: number[]) => pdf.setFillColor(color[0], color[1], color[2])
 
     // === EN-TÊTE ===
-    // Logo/Titre principal
-    pdf.setFontSize(22)
+    let yPos = 20
+    
+    // Logo/Titre
+    pdf.setFontSize(20)
     setColor(colors.accent)
-    pdf.text('ATHLINK', 20, 25)
+    pdf.text('ATHLINK', 20, yPos)
     
-    pdf.setFontSize(14)
-    setColor(colors.primary)
-    pdf.text('Rapport de Performance', 20, 35)
-    
-    // Informations du profil
-    pdf.setFontSize(10)
+    // Date et période
+    pdf.setFontSize(9)
     setColor(colors.secondary)
-    pdf.text(`${profile.displayName} (@${profile.username})`, 20, 43)
-    pdf.text(`${days} derniers jours • ${new Date().toLocaleDateString('fr-FR')}`, 20, 50)
-
+    const dateStr = new Date().toLocaleDateString('fr-FR', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    })
+    pdf.text(dateStr, 190, yPos, { align: 'right' })
+    
+    yPos += 10
+    
+    // Titre du rapport
+    pdf.setFontSize(16)
+    setColor(colors.primary)
+    pdf.text(`Rapport de Performance - ${profile.displayName}`, 20, yPos)
+    
+    yPos += 6
+    pdf.setFontSize(8)
+    setColor(colors.secondary)
+    pdf.text(`@${profile.username} • Période: ${days} jour${days > 1 ? 's' : ''}`, 20, yPos)
+    
     // Ligne de séparation
+    yPos += 5
     setDrawColor(colors.accent)
-    pdf.setLineWidth(1)
-    pdf.line(20, 55, 190, 55)
-
+    pdf.setLineWidth(0.5)
+    pdf.line(20, yPos, 190, yPos)
+    
     // === STATISTIQUES PRINCIPALES ===
-    let yPos = 70
-
-    // Titre section
+    yPos += 10
     pdf.setFontSize(12)
     setColor(colors.primary)
-    pdf.text('PERFORMANCE GLOBALE', 20, yPos)
-    yPos += 12
-
-    // Grille des statistiques principales (2x2)
+    pdf.text('📊 VUE D\'ENSEMBLE', 20, yPos)
+    
+    yPos += 8
+    
+    // Grille de stats 2x3 avec design amélioré
     const stats = [
       { 
         label: 'VUES TOTALES', 
-        value: totalViews.toLocaleString('fr-FR'), 
-        color: colors.accent,
-        subtitle: `${avgViewsPerDay}/jour`
+        value: totalViews.toString(), 
+        sublabel: `${avgViewsPerDay}/jour en moyenne`,
+        color: colors.blue 
       },
       { 
         label: 'VISITEURS UNIQUES', 
-        value: totalUniqueViews.toLocaleString('fr-FR'), 
-        color: colors.success,
-        subtitle: `${avgUniquePerDay}/jour`
+        value: totalUniqueViews.toString(), 
+        sublabel: `${avgUniquePerDay}/jour en moyenne`,
+        color: colors.success 
       },
       { 
-        label: 'CLICS TOTAL', 
-        value: totalClicks.toLocaleString('fr-FR'), 
-        color: colors.blue,
-        subtitle: `${Math.round(totalClicks / Math.max(days, 1))}/jour`
+        label: 'CLICS TOTAUX', 
+        value: totalClicks.toString(), 
+        sublabel: `${conversionRate.toFixed(1)}% taux de conversion`,
+        color: colors.orange 
       },
       { 
-        label: 'TAUX DE CLIC', 
-        value: `${clickRate.toFixed(1)}%`, 
-        color: colors.orange,
-        subtitle: `${Math.round(totalClicks / Math.max(totalViews, 1) * 100)}% efficace`
-      }
-    ]
-
-    // Affichage en grille 2x2 avec espacement optimisé
-    stats.forEach((stat, index) => {
-      const x = 20 + (index % 2) * 90
-      const y = yPos + Math.floor(index / 2) * 32
-
-      // Cadre de la stat avec ombre légère
-      pdf.setLineWidth(0.5)
-      setDrawColor(stat.color)
-      pdf.rect(x, y, 85, 28)
-
-      // Label
-      pdf.setFontSize(8)
-      setColor(colors.secondary)
-      pdf.text(stat.label, x + 5, y + 8)
-
-      // Valeur principale
-      pdf.setFontSize(16)
-      setColor(stat.color)
-      pdf.text(stat.value, x + 5, y + 18)
-
-      // Sous-titre
-      pdf.setFontSize(7)
-      setColor(colors.secondary)
-      pdf.text(stat.subtitle, x + 5, y + 24)
-    })
-
-    yPos += 70
-
-    // === TOP 5 DES LIENS ===
-    if (profile.links.length > 0) {
-      pdf.setFontSize(12)
-      setColor(colors.primary)
-      pdf.text('TOP 5 DES LIENS', 20, yPos)
-      yPos += 12
-
-      // Top 5 des liens triés
-      const topLinks = profile.links
-        .sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
-        .slice(0, 5)
-
-      topLinks.forEach((link, index) => {
-        const clicks = link.clicks || 0
-        const percentage = totalClicks > 0 ? ((clicks / totalClicks) * 100) : 0
-        
-        // Nom du lien (tronqué intelligemment)
-        let linkName = link.title
-        if (linkName.length > 30) {
-          linkName = linkName.substring(0, 27) + '...'
-        }
-        
-        // Rang et nom
-        pdf.setFontSize(9)
-        setColor(colors.primary)
-        pdf.text(`${index + 1}. ${linkName}`, 20, yPos)
-        
-        // Valeurs alignées à droite
-        pdf.text(clicks.toString(), 140, yPos)
-        pdf.text(`${percentage.toFixed(1)}%`, 165, yPos)
-        
-        // Barre de progression visuelle
-        const barWidth = Math.max(1, (percentage / 100) * 35)
-        setFillColor(colors.accent)
-        pdf.rect(20, yPos + 1, barWidth, 2, 'F')
-        
-        yPos += 6
-      })
-    }
-
-    // === ANALYSE DE PERFORMANCE ===
-    yPos += 6
-    pdf.setFontSize(10)
-    setColor(colors.primary)
-    pdf.text('ANALYSE DE PERFORMANCE', 20, yPos)
-    yPos += 8
-
-    // Calculer des métriques avancées
-    const conversionRate = totalViews > 0 ? ((totalClicks / totalViews) * 100) : 0
-    const engagementScore = Math.min(100, Math.round((totalClicks * 2 + totalUniqueViews) / Math.max(totalViews, 1) * 10))
-    const growthRate = analytics.length > 1 ? 
-      Math.round(((analytics[analytics.length - 1]?.views || 0) - (analytics[0]?.views || 0)) / Math.max(analytics[0]?.views || 1, 1) * 100) : 0
-    
-    // Métriques de performance en grille 2x2
-    const performanceMetrics = [
-      { 
-        label: 'TAUX DE CONVERSION', 
-        value: `${conversionRate.toFixed(1)}%`, 
-        color: conversionRate > 5 ? colors.success : conversionRate > 2 ? colors.orange : colors.accent,
-        description: conversionRate > 5 ? 'Excellent' : conversionRate > 2 ? 'Correct' : 'À améliorer'
+        label: 'LIENS ACTIFS', 
+        value: profile.links.length.toString(), 
+        sublabel: `${(totalClicks / Math.max(profile.links.length, 1)).toFixed(0)} clics/lien`,
+        color: colors.accent 
       },
       { 
-        label: 'SCORE ENGAGEMENT', 
+        label: 'TAUX D\'ENGAGEMENT', 
         value: `${engagementScore}/100`, 
-        color: engagementScore > 70 ? colors.success : engagementScore > 40 ? colors.orange : colors.accent,
-        description: engagementScore > 70 ? 'Fort' : engagementScore > 40 ? 'Modéré' : 'Faible'
+        sublabel: engagementScore > 50 ? 'Excellent' : engagementScore > 25 ? 'Moyen' : 'À améliorer',
+        color: engagementScore > 50 ? colors.success : engagementScore > 25 ? colors.orange : colors.accent 
       },
       { 
         label: 'CROISSANCE', 
         value: `${growthRate > 0 ? '+' : ''}${growthRate}%`, 
-        color: growthRate > 10 ? colors.success : growthRate > 0 ? colors.orange : colors.accent,
-        description: growthRate > 10 ? 'En hausse' : growthRate > 0 ? 'Stable' : 'En baisse'
-      },
-      { 
-        label: 'RÉTENTION', 
-        value: `${totalUniqueViews > 0 ? ((totalUniqueViews / totalViews) * 100).toFixed(0) : 0}%`, 
-        color: (totalUniqueViews / Math.max(totalViews, 1)) > 0.6 ? colors.success : colors.orange,
-        description: (totalUniqueViews / Math.max(totalViews, 1)) > 0.6 ? 'Bonne' : 'Moyenne'
+        sublabel: growthRate > 10 ? 'Forte croissance' : growthRate > 0 ? 'En progression' : 'Stable',
+        color: growthRate > 10 ? colors.success : growthRate > 0 ? colors.blue : colors.secondary 
       }
     ]
 
-    // Affichage en grille 2x2 compacte
-    performanceMetrics.forEach((metric, index) => {
-      const x = 20 + (index % 2) * 90
-      const y = yPos + Math.floor(index / 2) * 20
-
-      // Cadre de la métrique
+    stats.forEach((stat, index) => {
+      const x = 20 + (index % 3) * 60
+      const y = yPos + Math.floor(index / 3) * 22
+      
+      // Cadre coloré
+      setFillColor(stat.color)
+      pdf.setFillColor(stat.color[0], stat.color[1], stat.color[2], 0.1)
+      pdf.rect(x, y - 2, 55, 18, 'F')
+      
+      setDrawColor(stat.color)
       pdf.setLineWidth(0.3)
-      setDrawColor(metric.color)
-      pdf.rect(x, y, 85, 16)
-
+      pdf.rect(x, y - 2, 55, 18)
+      
       // Label
-      pdf.setFontSize(7)
-      setColor(colors.secondary)
-      pdf.text(metric.label, x + 3, y + 5)
-
-      // Valeur
-      pdf.setFontSize(12)
-      setColor(metric.color)
-      pdf.text(metric.value, x + 3, y + 12)
-
-      // Description
       pdf.setFontSize(6)
       setColor(colors.secondary)
-      pdf.text(metric.description, x + 3, y + 15)
+      pdf.text(stat.label, x + 2, y + 2)
+      
+      // Valeur
+      pdf.setFontSize(14)
+      setColor(stat.color)
+      pdf.text(stat.value, x + 2, y + 9)
+      
+      // Sous-label
+      pdf.setFontSize(6)
+      setColor(colors.secondary)
+      pdf.text(stat.sublabel, x + 2, y + 14)
     })
 
-    // === CONSEILS D'OPTIMISATION ===
-    yPos += 45
-    
-    // Titre principal de la section
-    pdf.setFontSize(12)
-    setColor(colors.accent)
-    pdf.text('💡 CONSEILS D\'OPTIMISATION', 20, yPos)
-    yPos += 12
+    yPos += 50
 
-    // Ligne de séparation
-    setDrawColor(colors.accent)
-    pdf.setLineWidth(0.5)
-    pdf.line(20, yPos - 2, 190, yPos - 2)
+    // === PERFORMANCE GLOBALE ===
+    pdf.setFontSize(12)
+    setColor(colors.primary)
+    pdf.text('📈 PERFORMANCE GLOBALE', 20, yPos)
     yPos += 8
 
-    // Générer des conseils basés sur l'analyse (toujours afficher au moins 2 conseils)
-    const advice = []
+    // Calcul du score global
+    let globalScore = 0
+    let scoreDetails = []
+
+    // Score de trafic (40% du total)
+    const trafficScore = Math.min(40, (avgViewsPerDay / 100) * 40)
+    globalScore += trafficScore
+    scoreDetails.push(`Trafic: ${trafficScore.toFixed(0)}/40`)
+
+    // Score de conversion (30% du total)
+    const conversionScore = Math.min(30, (conversionRate / 10) * 30)
+    globalScore += conversionScore
+    scoreDetails.push(`Conversion: ${conversionScore.toFixed(0)}/30`)
+
+    // Score de contenu (20% du total)
+    const totalContent = profile.links.length + profile.races.length + profile.sponsors.length + profile.media.length
+    const contentScore = Math.min(20, (totalContent / 20) * 20)
+    globalScore += contentScore
+    scoreDetails.push(`Contenu: ${contentScore.toFixed(0)}/20`)
+
+    // Score d'engagement (10% du total)
+    const retentionRate = totalViews > 0 ? (totalUniqueViews / totalViews) * 100 : 0
+    const engagementGlobalScore = Math.min(10, (retentionRate / 70) * 10)
+    globalScore += engagementGlobalScore
+    scoreDetails.push(`Fidélité: ${engagementGlobalScore.toFixed(0)}/10`)
+
+    // Afficher le score global avec design impactant
+    const scoreColor = globalScore >= 70 ? colors.success : globalScore >= 40 ? colors.orange : colors.accent
+    const scoreStatus = globalScore >= 70 ? 'EXCELLENT' : globalScore >= 40 ? 'MOYEN' : 'À AMÉLIORER'
+
+    // Cadre du score
+    setFillColor(scoreColor)
+    pdf.setFillColor(scoreColor[0], scoreColor[1], scoreColor[2], 0.1)
+    pdf.rect(20, yPos, 170, 25, 'F')
     
-    // Toujours afficher des conseils basés sur les performances réelles
-    const retentionRate = (totalUniqueViews / Math.max(totalViews, 1)) * 100
-    
-    // Conseil 1: Basé sur le taux de conversion
-    advice.push({
-      priority: 1,
-      icon: '🎯',
-      title: 'OPTIMISER VOS TITRES',
-      problem: `Taux de clic: ${conversionRate.toFixed(1)}% (objectif: >3%)`,
-      description: 'Améliorez l\'attractivité de vos titres pour générer plus de clics:',
-      tips: [
-        'Utilisez des verbes d\'action: "Découvrir", "Télécharger", "Voir"',
-        'Ajoutez des émojis pertinents: 🏃‍♂️ 📱 🏆',
-        'Créez de l\'urgence: "Nouveau", "Limité", "Exclusif"'
-      ]
-    })
-    
-    // Conseil 2: Basé sur l'engagement
-    advice.push({
-      priority: 2,
-      icon: '💬',
-      title: 'AUGMENTER L\'ENGAGEMENT',
-      problem: `Score engagement: ${engagementScore}/100 (objectif: >50)`,
-      description: 'Créez plus d\'interaction avec votre audience:',
-      tips: [
-        'Posez des questions directes: "Quel est votre objectif?"',
-        'Créez du contenu interactif: sondages, quiz, défis',
-        'Répondez rapidement aux commentaires'
-      ]
-    })
-    
-    // Conseil 3: Basé sur la croissance (si applicable)
-    if (analytics.length > 1) {
-      advice.push({
-        priority: 3,
-        icon: '📈',
-        title: 'BOOSTER LA VISIBILITÉ',
-        problem: `Croissance: ${growthRate > 0 ? '+' : ''}${growthRate}%`,
-        description: 'Attirez plus de nouveaux visiteurs:',
-        tips: [
-          'Publiez 3-5 fois par semaine minimum',
-          'Utilisez les hashtags pertinents: #running #fitness',
-          'Collaborez avec d\'autres athlètes'
-        ]
-      })
-    }
-    
-    // Conseil 4: Basé sur la rétention
-    advice.push({
-      priority: 4,
-      icon: '🔄',
-      title: 'FIDÉLISER VOS VISITEURS',
-      problem: `Rétention: ${retentionRate.toFixed(0)}% (objectif: >70%)`,
-      description: 'Faites revenir vos visiteurs:',
-      tips: [
-        'Créez du contenu en série: "Jour 1", "Jour 2"...',
-        'Établissez une routine: "Mardi Performance"',
-        'Offrez du contenu exclusif'
-      ]
-    })
-    
-    // Afficher les 2 premiers conseils avec un design simplifié
-    advice.slice(0, 2).forEach((item, index) => {
-      if (yPos > 230) return // Éviter les débordements
-      
-      // Titre du conseil
-      pdf.setFontSize(9)
-      setColor(colors.accent)
-      pdf.text(`${item.icon} ${item.title}`, 20, yPos)
-      
-      // Problème identifié
-      pdf.setFontSize(7)
-      setColor(colors.secondary)
-      pdf.text(item.problem, 20, yPos + 6)
-      
-      // Description
-      pdf.setFontSize(7)
-      setColor(colors.primary)
-      pdf.text(item.description, 20, yPos + 12)
-      
-      // Tips
-      pdf.setFontSize(6)
-      setColor(colors.secondary)
-      item.tips.forEach((tip, tipIndex) => {
-        pdf.text(`• ${tip}`, 22, yPos + 18 + (tipIndex * 4))
-      })
-      
-      yPos += 18 + (item.tips.length * 4) + 12
+    setDrawColor(scoreColor)
+    pdf.setLineWidth(0.5)
+    pdf.rect(20, yPos, 170, 25)
+
+    // Score principal
+    pdf.setFontSize(24)
+    setColor(scoreColor)
+    pdf.text(`${Math.round(globalScore)}/100`, 30, yPos + 10)
+
+    // Status
+    pdf.setFontSize(10)
+    pdf.text(scoreStatus, 30, yPos + 17)
+
+    // Détails du score
+    pdf.setFontSize(7)
+    setColor(colors.secondary)
+    scoreDetails.forEach((detail, index) => {
+      pdf.text(detail, 90 + (index % 2) * 40, yPos + 7 + Math.floor(index / 2) * 6)
     })
 
-    // === INFORMATIONS COMPLÉMENTAIRES ===
-    yPos += 15
+    yPos += 30
+
+    // === CONSEILS D'OPTIMISATION PERSONNALISÉS ===
+    pdf.setFontSize(12)
+    setColor(colors.accent)
+    pdf.text('💡 VOS CONSEILS PERSONNALISÉS', 20, yPos)
+    yPos += 3
     
-    // Informations sur la période et la performance
-    pdf.setFontSize(8)
+    pdf.setFontSize(7)
     setColor(colors.secondary)
-    
-    const periodInfo = []
-    if (days === 1) periodInfo.push('Période: Dernière 24h')
-    else if (days === 7) periodInfo.push('Période: 7 derniers jours')
-    else if (days === 30) periodInfo.push('Période: 30 derniers jours')
-    else periodInfo.push(`Période: ${days} derniers jours`)
-    
-    periodInfo.push(`Performance: ${clickRate > 5 ? 'Excellente' : clickRate > 2 ? 'Bonne' : 'À améliorer'}`)
-    periodInfo.push(`Engagement: ${totalClicks > 100 ? 'Fort' : totalClicks > 20 ? 'Modéré' : 'Faible'}`)
-    
-    periodInfo.forEach((info, index) => {
-      pdf.text(`• ${info}`, 20, yPos + (index * 4))
+    pdf.text('Basés sur l\'analyse de vos performances réelles', 20, yPos)
+    yPos += 7
+
+    // Générer les conseils intelligents
+    const smartAdvice = generateSmartAdvice({
+      totalViews,
+      totalUniqueViews,
+      totalClicks,
+      avgViewsPerDay,
+      days,
+      linksCount: profile.links.length,
+      racesCount: profile.races.length,
+      sponsorsCount: profile.sponsors.length,
+      mediaCount: profile.media.length
+    })
+
+    // Afficher les conseils avec design moderne
+    smartAdvice.forEach((item, index) => {
+      if (yPos > 240) return // Éviter les débordements
+
+      // Cadre du conseil
+      setFillColor(item.statusColor)
+      pdf.setFillColor(item.statusColor[0], item.statusColor[1], item.statusColor[2], 0.05)
+      pdf.rect(20, yPos, 170, 35, 'F')
+      
+      setDrawColor(item.statusColor)
+      pdf.setLineWidth(0.3)
+      pdf.rect(20, yPos, 170, 35)
+
+      // En-tête du conseil
+      pdf.setFontSize(9)
+      setColor(item.statusColor)
+      pdf.text(`${item.icon} ${item.category}`, 23, yPos + 5)
+
+      // Status badge
+      pdf.setFontSize(6)
+      pdf.text(item.status, 160, yPos + 5)
+
+      // Problème identifié
+      pdf.setFontSize(7)
+      setColor(colors.primary)
+      pdf.text(`→ ${item.problem}`, 23, yPos + 10)
+
+      // Description
+      pdf.setFontSize(6)
+      setColor(colors.secondary)
+      pdf.text(item.description, 23, yPos + 15)
+
+      // Solutions avec numérotation
+      pdf.setFontSize(6)
+      setColor(colors.primary)
+      item.solutions.forEach((solution, solIndex) => {
+        const lines = pdf.splitTextToSize(solution, 160)
+        lines.forEach((line: string, lineIndex: number) => {
+          pdf.text(lineIndex === 0 ? `${solIndex + 1}. ${line}` : `   ${line}`, 25, yPos + 20 + (solIndex * 4) + (lineIndex * 3))
+        })
+      })
+
+      yPos += 38
     })
 
     // === PIED DE PAGE ===
-    const footerY = 275
+    const footerY = 280
+    
+    // Ligne de séparation
+    setDrawColor(colors.secondary)
+    pdf.setLineWidth(0.3)
+    pdf.line(20, footerY - 5, 190, footerY - 5)
+    
     pdf.setFontSize(7)
     setColor(colors.secondary)
     pdf.text('Généré par Athlink • athlink.com', 20, footerY)
-    pdf.text(`Rapport créé le ${new Date().toLocaleString('fr-FR')}`, 120, footerY)
+    pdf.text(`Rapport créé le ${new Date().toLocaleString('fr-FR')}`, 190, footerY, { align: 'right' })
 
     // Convertir en buffer
     const pdfBuffer = Buffer.from(pdf.output('arraybuffer'))
@@ -407,7 +584,7 @@ export async function POST(request: NextRequest) {
     return new NextResponse(pdfBuffer, {
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="rapport-${profile.username}-${days}j-${new Date().toISOString().split('T')[0]}.pdf"`
+        'Content-Disposition': `attachment; filename="athlink-performance-${profile.username}-${days}j-${new Date().toISOString().split('T')[0]}.pdf"`
       }
     })
 

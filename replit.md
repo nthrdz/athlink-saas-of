@@ -7,6 +7,15 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 25, 2025)
+- **Rapport de performance TOTALEMENT refait** : Système de conseils intelligents et personnalisés
+  - Analyse intelligente basée sur vos VRAIES performances (trafic, conversion, contenu, fidélité)
+  - 5 catégories d'analyse : Visibilité, Conversion, Contenu, Fidélisation, Gains rapides
+  - Conseils adaptés avec 3 niveaux : CRITIQUE (rouge), À AMÉLIORER (orange), EXCELLENT (vert)
+  - Solutions concrètes et actionnables avec objectifs chiffrés (ex: "Objectif: 50 vues/jour (vous: 12/jour)")
+  - Score global sur 100 avec répartition : Trafic (40pts), Conversion (30pts), Contenu (20pts), Fidélité (10pts)
+  - Design moderne avec codes couleur, badges de statut et mise en page claire
+  - Comparaisons avec benchmarks réalistes (top 10%, moyennes du marché)
+  - Maximum 3 conseils prioritaires pour ne pas surcharger
 - **Erreur Server Components corrigée** : Supprimé le champ "telegram" qui n'existait pas dans la base de données
   - Retiré `telegram` de l'interface TypeScript Profile dans profile-content.tsx
   - Supprimé le champ Telegram du formulaire de profil
