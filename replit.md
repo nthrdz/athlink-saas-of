@@ -7,6 +7,12 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 26, 2025)
+- **CORRECTION CRITIQUE : Routes API déplacées au bon emplacement** : Correction erreur 404 lors de la création de plans/réservations
+  - Routes déplacées de `app/coaching/` vers `app/api/coaching/` (structure Next.js correcte)
+  - Ajout de la route manquante `/api/coaching/upload-pdf` pour upload de fichiers PDF
+  - Toutes les routes maintenant accessibles : training-plans, bookings, upload-pdf
+  - Résolution de l'erreur "SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON"
+  - Plus aucune erreur 404 lors de l'utilisation des services de coaching
 - **Services coaching 100% opérationnels avec validation complète** : Système de validation Zod pour TOUS les services de coaching
   - Ajout de schémas de validation complets pour les plans d'entraînement (trainingPlanSchema, trainingPlanUpdateSchema)
   - Ajout de schémas de validation complets pour les réservations (bookingSchema, bookingUpdateSchema)

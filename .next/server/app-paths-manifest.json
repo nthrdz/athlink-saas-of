@@ -1,3 +1,6 @@
 {
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/dashboard/coaching/page": "app/(dashboard)/dashboard/coaching/page.js",
+  "/[username]/page": "app/[username]/page.js",
   "/page": "app/page.js"
 }
