@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { PlanType } from "@/lib/features"
+import { bookingSchema } from "@/lib/validations"
 
 export async function GET(request: NextRequest) {
   try {
@@ -46,20 +47,33 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { clientName, clientEmail, clientPhone, date, startTime, duration, service, price, notes } = body
-
-    // Validation
-    if (!clientName || !clientEmail || !date || !startTime || !duration || !service || price === undefined) {
-      return NextResponse.json({ error: "Données manquantes" }, { status: 400 })
+    
+    // Parser les données
+    const rawData = {
+      clientName: body.clientName,
+      clientEmail: body.clientEmail,
+      clientPhone: body.clientPhone || null,
+      date: body.date,
+      startTime: body.startTime,
+      duration: typeof body.duration === 'string' ? parseInt(body.duration) : body.duration,
+      service: body.service,
+      price: typeof body.price === 'string' ? parseFloat(body.price) : body.price,
+      notes: body.notes || null,
     }
 
-    if (price < 0) {
-      return NextResponse.json({ error: "Le prix ne peut pas être négatif" }, { status: 400 })
+    // Valider avec Zod
+    const validation = bookingSchema.safeParse(rawData)
+    
+    if (!validation.success) {
+      const errors = validation.error.issues.map((err: any) => `${err.path.join('.')}: ${err.message}`).join(', ')
+      return NextResponse.json({ error: errors }, { status: 400 })
     }
+
+    const validatedData = validation.data
 
     // Calculer l'heure de fin
-    const [hours, minutes] = startTime.split(':').map(Number)
-    const endMinutes = hours * 60 + minutes + parseInt(duration)
+    const [hours, minutes] = validatedData.startTime.split(':').map(Number)
+    const endMinutes = hours * 60 + minutes + validatedData.duration
     const endHours = Math.floor(endMinutes / 60)
     const endMins = endMinutes % 60
     const endTime = `${String(endHours).padStart(2, '0')}:${String(endMins).padStart(2, '0')}`
@@ -71,17 +85,9 @@ export async function POST(request: NextRequest) {
     // Créer la nouvelle réservation
     const newBooking = {
       id: `booking_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      clientName,
-      clientEmail,
-      clientPhone: clientPhone || null,
-      date,
-      startTime,
+      ...validatedData,
       endTime,
-      duration: parseInt(duration),
-      service,
-      price: parseFloat(price),
       status: "PENDING",
-      notes: notes || null,
       createdAt: new Date().toISOString()
     }
 
@@ -105,4 +111,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 })
   }
 }
-

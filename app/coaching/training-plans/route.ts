@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { PlanType } from "@/lib/features"
+import { trainingPlanSchema } from "@/lib/validations"
+import { z } from "zod"
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,33 +53,29 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = await request.formData()
-    const title = formData.get('title') as string
-    const description = formData.get('description') as string
-    const price = parseFloat(formData.get('price') as string)
-    const duration = parseInt(formData.get('duration') as string)
-    const difficulty = formData.get('difficulty') as string
-    const category = formData.get('category') as string
-    const isActive = formData.get('isActive') === 'true'
-    const pdfFileName = formData.get('pdfFileName') as string | null
-    const pdfFileUrl = formData.get('pdfFileUrl') as string | null
-
-    // Validation
-    if (!title || !description || price === undefined || !duration || !difficulty || !category) {
-      return NextResponse.json({ error: "Données manquantes" }, { status: 400 })
+    
+    // Parser les données du formulaire
+    const rawData = {
+      title: formData.get('title') as string,
+      description: formData.get('description') as string,
+      price: formData.get('price') ? parseFloat(formData.get('price') as string) : undefined,
+      duration: formData.get('duration') ? parseInt(formData.get('duration') as string) : undefined,
+      difficulty: formData.get('difficulty') as string,
+      category: formData.get('category') as string,
+      isActive: formData.get('isActive') === 'true',
+      pdfFileName: (formData.get('pdfFileName') as string) || null,
+      pdfFileUrl: (formData.get('pdfFileUrl') as string) || null,
     }
 
-    if (price < 0) {
-      return NextResponse.json({ error: "Le prix ne peut pas être négatif" }, { status: 400 })
+    // Valider avec Zod
+    const validation = trainingPlanSchema.safeParse(rawData)
+    
+    if (!validation.success) {
+      const errors = validation.error.issues.map((err: any) => `${err.path.join('.')}: ${err.message}`).join(', ')
+      return NextResponse.json({ error: errors }, { status: 400 })
     }
 
-    if (duration < 1) {
-      return NextResponse.json({ error: "La durée doit être d'au moins 1 semaine" }, { status: 400 })
-    }
-
-    const validDifficulties = ["DEBUTANT", "INTERMEDIAIRE", "AVANCE"]
-    if (!validDifficulties.includes(difficulty)) {
-      return NextResponse.json({ error: "Niveau de difficulté invalide" }, { status: 400 })
-    }
+    const validatedData = validation.data
 
     // Récupérer les plans existants
     const profileData = await prisma.profile.findUnique({
@@ -91,15 +89,7 @@ export async function POST(request: NextRequest) {
     // Créer le nouveau plan
     const newPlan = {
       id: `plan_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      title,
-      description,
-      price,
-      duration,
-      difficulty,
-      category,
-      isActive: isActive ?? true,
-      pdfFileName: pdfFileName || null,
-      pdfFileUrl: pdfFileUrl || null,
+      ...validatedData,
       createdAt: new Date().toISOString(),
       sessions: [],
       subscribers: [],

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { PlanType } from "@/lib/features"
+import { bookingUpdateSchema } from "@/lib/validations"
 
 export async function GET(
   request: NextRequest,
@@ -59,7 +60,29 @@ export async function PUT(
     }
 
     const body = await request.json()
-    const { status, clientName, clientEmail, clientPhone, date, startTime, duration, service, price, notes } = body
+    
+    // Parser les données
+    const rawData: any = {}
+    if (body.status) rawData.status = body.status
+    if (body.clientName) rawData.clientName = body.clientName
+    if (body.clientEmail) rawData.clientEmail = body.clientEmail
+    if (body.clientPhone !== undefined) rawData.clientPhone = body.clientPhone || null
+    if (body.date) rawData.date = body.date
+    if (body.startTime) rawData.startTime = body.startTime
+    if (body.duration) rawData.duration = typeof body.duration === 'string' ? parseInt(body.duration) : body.duration
+    if (body.service) rawData.service = body.service
+    if (body.price !== undefined) rawData.price = typeof body.price === 'string' ? parseFloat(body.price) : body.price
+    if (body.notes !== undefined) rawData.notes = body.notes || null
+
+    // Valider avec Zod
+    const validation = bookingUpdateSchema.safeParse(rawData)
+    
+    if (!validation.success) {
+      const errors = validation.error.issues.map((err: any) => `${err.path.join('.')}: ${err.message}`).join(', ')
+      return NextResponse.json({ error: errors }, { status: 400 })
+    }
+
+    const validatedData = validation.data
 
     // Récupérer les réservations existantes
     const stats = profile.stats as any || {}
@@ -70,19 +93,11 @@ export async function PUT(
       return NextResponse.json({ error: "Réservation non trouvée" }, { status: 404 })
     }
 
-    // Validation du statut si fourni
-    if (status) {
-      const validStatuses = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"]
-      if (!validStatuses.includes(status)) {
-        return NextResponse.json({ error: "Statut invalide" }, { status: 400 })
-      }
-    }
-
     // Recalculer l'heure de fin si nécessaire
     let endTime = bookings[bookingIndex].endTime
-    if (startTime && duration) {
-      const [hours, minutes] = startTime.split(':').map(Number)
-      const endMinutes = hours * 60 + minutes + parseInt(duration)
+    if (validatedData.startTime && validatedData.duration) {
+      const [hours, minutes] = validatedData.startTime.split(':').map(Number)
+      const endMinutes = hours * 60 + minutes + validatedData.duration
       const endHours = Math.floor(endMinutes / 60)
       const endMins = endMinutes % 60
       endTime = `${String(endHours).padStart(2, '0')}:${String(endMins).padStart(2, '0')}`
@@ -91,16 +106,7 @@ export async function PUT(
     // Mettre à jour la réservation
     const updatedBooking = {
       ...bookings[bookingIndex],
-      ...(status !== undefined && { status }),
-      ...(clientName !== undefined && { clientName }),
-      ...(clientEmail !== undefined && { clientEmail }),
-      ...(clientPhone !== undefined && { clientPhone }),
-      ...(date !== undefined && { date }),
-      ...(startTime !== undefined && { startTime }),
-      ...(duration !== undefined && { duration: parseInt(duration) }),
-      ...(service !== undefined && { service }),
-      ...(price !== undefined && { price: parseFloat(price) }),
-      ...(notes !== undefined && { notes }),
+      ...validatedData,
       endTime
     }
 
@@ -173,4 +179,3 @@ export async function DELETE(
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 })
   }
 }
-

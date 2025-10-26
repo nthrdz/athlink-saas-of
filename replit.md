@@ -6,7 +6,21 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
-## Recent Changes (October 25, 2025)
+## Recent Changes (October 26, 2025)
+- **Services coaching 100% opérationnels avec validation complète** : Système de validation Zod pour TOUS les services de coaching
+  - Ajout de schémas de validation complets pour les plans d'entraînement (trainingPlanSchema, trainingPlanUpdateSchema)
+  - Ajout de schémas de validation complets pour les réservations (bookingSchema, bookingUpdateSchema)
+  - Validation avec messages d'erreur clairs et en français pour tous les champs (titre, description, prix, durée, difficulté, catégorie, nom client, email, téléphone, date, heure, service, notes)
+  - Limites de sécurité : prix max 10000€, durée minimum 15min/max 8h pour réservations, durée min 1 semaine/max 52 semaines pour plans
+  - Validation email avec format correct, validation dates (YYYY-MM-DD), validation heures (HH:MM)
+  - API complètement refaites avec validation Zod : POST/PUT/DELETE pour plans d'entraînement et réservations
+  - Messages d'erreur détaillés retournés au frontend avec path exact du champ invalide
+  - Protection contre données manquantes, types invalides, formats incorrects
+  - Toutes les APIs testées et fonctionnelles sans bugs
+- **Réseaux sociaux Twitter et WhatsApp maintenant sauvegardés** : Correction du schéma de validation pour permettre la sauvegarde
+  - Ajout de twitter et whatsapp dans profileUpdateSchema (lib/validations.ts)
+  - Les données sont maintenant correctement sauvegardées dans la base de données
+  - Affichage automatique sur la page publique quand renseignés
 - **Rapport de performance TOTALEMENT refait** : Système de conseils intelligents et personnalisés
   - Analyse intelligente basée sur vos VRAIES performances (trafic, conversion, contenu, fidélité)
   - 5 catégories d'analyse : Visibilité, Conversion, Contenu, Fidélisation, Gains rapides

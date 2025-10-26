@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { PlanType } from "@/lib/features"
+import { trainingPlanUpdateSchema } from "@/lib/validations"
 
 export async function GET(
   request: NextRequest,
@@ -64,15 +65,37 @@ export async function PUT(
     }
 
     const formData = await request.formData()
+    
+    // Parser les données du formulaire
+    const rawData: any = {}
+    
     const title = formData.get('title') as string
     const description = formData.get('description') as string
-    const price = formData.get('price') ? parseFloat(formData.get('price') as string) : undefined
-    const duration = formData.get('duration') ? parseInt(formData.get('duration') as string) : undefined
+    const priceStr = formData.get('price') as string
+    const durationStr = formData.get('duration') as string
     const difficulty = formData.get('difficulty') as string
     const category = formData.get('category') as string
-    const isActive = formData.get('isActive') === 'true'
-    const pdfFile = formData.get('pdfFile') as File | null
+    const isActiveStr = formData.get('isActive') as string
     const pdfFileNameFromForm = formData.get('pdfFileName') as string
+    
+    if (title) rawData.title = title
+    if (description) rawData.description = description
+    if (priceStr) rawData.price = parseFloat(priceStr)
+    if (durationStr) rawData.duration = parseInt(durationStr)
+    if (difficulty) rawData.difficulty = difficulty
+    if (category) rawData.category = category
+    if (isActiveStr !== null) rawData.isActive = isActiveStr === 'true'
+    if (pdfFileNameFromForm) rawData.pdfFileName = pdfFileNameFromForm
+
+    // Valider avec Zod
+    const validation = trainingPlanUpdateSchema.safeParse(rawData)
+    
+    if (!validation.success) {
+      const errors = validation.error.issues.map((err: any) => `${err.path.join('.')}: ${err.message}`).join(', ')
+      return NextResponse.json({ error: errors }, { status: 400 })
+    }
+
+    const validatedData = validation.data
 
     // Récupérer les plans existants
     const profileData = await prisma.profile.findUnique({
@@ -88,43 +111,10 @@ export async function PUT(
       return NextResponse.json({ error: "Plan non trouvé" }, { status: 404 })
     }
 
-    // Validation
-    if (price !== undefined && price < 0) {
-      return NextResponse.json({ error: "Le prix ne peut pas être négatif" }, { status: 400 })
-    }
-
-    if (duration !== undefined && duration < 1) {
-      return NextResponse.json({ error: "La durée doit être d'au moins 1 semaine" }, { status: 400 })
-    }
-
-    if (difficulty) {
-      const validDifficulties = ["DEBUTANT", "INTERMEDIAIRE", "AVANCE"]
-      if (!validDifficulties.includes(difficulty)) {
-        return NextResponse.json({ error: "Niveau de difficulté invalide" }, { status: 400 })
-      }
-    }
-
-    // Gérer le fichier PDF
-    let pdfFileName = plans[planIndex].pdfFileName // Garder l'existant par défaut
-    if (pdfFile) {
-      // Nouveau fichier uploadé
-      pdfFileName = pdfFile.name
-    } else if (pdfFileNameFromForm !== undefined) {
-      // Nom de fichier fourni
-      pdfFileName = pdfFileNameFromForm
-    }
-
     // Mettre à jour le plan
     const updatedPlan = {
       ...plans[planIndex],
-      ...(title !== undefined && { title }),
-      ...(description !== undefined && { description }),
-      ...(price !== undefined && { price }),
-      ...(duration !== undefined && { duration }),
-      ...(difficulty !== undefined && { difficulty }),
-      ...(category !== undefined && { category }),
-      ...(isActive !== undefined && { isActive }),
-      ...(pdfFileName !== undefined && { pdfFileName })
+      ...validatedData
     }
 
     plans[planIndex] = updatedPlan

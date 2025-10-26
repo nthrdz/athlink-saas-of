@@ -117,6 +117,51 @@ export const mediaSchema = z.object({
   description: z.string().max(500, "Maximum 500 caractères").optional(),
 })
 
+// Coaching Training Plan schemas
+export const trainingPlanSchema = z.object({
+  title: z.string().min(1, "Titre requis").max(200, "Maximum 200 caractères"),
+  description: z.string().min(1, "Description requise").max(1000, "Maximum 1000 caractères"),
+  price: z.number().min(0, "Le prix ne peut pas être négatif").max(10000, "Prix maximum 10000€"),
+  duration: z.number().int().min(1, "Durée minimum 1 semaine").max(52, "Durée maximum 52 semaines"),
+  difficulty: z.enum(["DEBUTANT", "INTERMEDIAIRE", "AVANCE"], {
+    message: "Niveau invalide (DEBUTANT, INTERMEDIAIRE ou AVANCE)"
+  }),
+  category: z.string().min(1, "Catégorie requise").max(100, "Maximum 100 caractères"),
+  isActive: z.boolean().default(true),
+  pdfFileName: z.string().max(255, "Nom de fichier trop long").nullable().optional(),
+  pdfFileUrl: z.string().url("URL PDF invalide").nullable().optional(),
+})
+
+export const trainingPlanUpdateSchema = trainingPlanSchema.partial()
+
+// Coaching Booking schemas
+export const bookingSchema = z.object({
+  clientName: z.string().min(1, "Nom du client requis").max(200, "Maximum 200 caractères"),
+  clientEmail: z.string().email("Email invalide").max(200, "Maximum 200 caractères"),
+  clientPhone: z.string().max(50, "Maximum 50 caractères").nullable().optional(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Format de date invalide (YYYY-MM-DD)"),
+  startTime: z.string().regex(/^\d{2}:\d{2}$/, "Format d'heure invalide (HH:MM)"),
+  duration: z.number().int().min(15, "Durée minimum 15 minutes").max(480, "Durée maximum 8 heures"),
+  service: z.string().min(1, "Service requis").max(200, "Maximum 200 caractères"),
+  price: z.number().min(0, "Le prix ne peut pas être négatif").max(10000, "Prix maximum 10000€"),
+  notes: z.string().max(1000, "Maximum 1000 caractères").nullable().optional(),
+})
+
+export const bookingUpdateSchema = z.object({
+  status: z.enum(["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"], {
+    message: "Statut invalide"
+  }).optional(),
+  clientName: z.string().min(1, "Nom du client requis").max(200, "Maximum 200 caractères").optional(),
+  clientEmail: z.string().email("Email invalide").max(200, "Maximum 200 caractères").optional(),
+  clientPhone: z.string().max(50, "Maximum 50 caractères").nullable().optional(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Format de date invalide (YYYY-MM-DD)").optional(),
+  startTime: z.string().regex(/^\d{2}:\d{2}$/, "Format d'heure invalide (HH:MM)").optional(),
+  duration: z.number().int().min(15, "Durée minimum 15 minutes").max(480, "Durée maximum 8 heures").optional(),
+  service: z.string().min(1, "Service requis").max(200, "Maximum 200 caractères").optional(),
+  price: z.number().min(0, "Le prix ne peut pas être négatif").max(10000, "Prix maximum 10000€").optional(),
+  notes: z.string().max(1000, "Maximum 1000 caractères").nullable().optional(),
+})
+
 export type SignupInput = z.infer<typeof signupSchema>
 export type LoginInput = z.infer<typeof loginSchema>
 export type LinkInput = z.infer<typeof linkSchema>
@@ -125,3 +170,7 @@ export type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>
 export type RaceInput = z.infer<typeof raceSchema>
 export type SponsorInput = z.infer<typeof sponsorSchema>
 export type MediaInput = z.infer<typeof mediaSchema>
+export type TrainingPlanInput = z.infer<typeof trainingPlanSchema>
+export type TrainingPlanUpdateInput = z.infer<typeof trainingPlanUpdateSchema>
+export type BookingInput = z.infer<typeof bookingSchema>
+export type BookingUpdateInput = z.infer<typeof bookingUpdateSchema>
