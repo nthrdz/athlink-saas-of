@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
@@ -12,1672 +12,464 @@ import {
   Calendar, 
   Target,
   ArrowRight,
-  Zap,
   Check,
-  Crown,
-  Link as LinkIcon
+  Zap,
+  Instagram
 } from "lucide-react"
 
 export default function Home() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly")
-  const [currentImage, setCurrentImage] = useState(0)
-  const images = ["/uploads/hero/noa.png", "/uploads/hero/nathan.png"]
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
   return (
-    <main className="min-h-screen">
-      {/* Hero Section - Full viewport with Enhanced Decorations */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white">
-
-        {/* Content */}
-        <div className="container relative mx-auto px-4 sm:px-6 z-10 flex flex-col justify-center min-h-[90vh]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
-            <div className="text-center lg:text-left">
-            {/* Remove big ATHLINK from hero */}
-
-            {/* Title with stagger animation - Mobile Optimized */}
-            <motion.h2 
-              className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 mb-3 sm:mb-4 md:mb-6 leading-tight tracking-tight px-2"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              Le link in bio n°1 des sportifs pour convertir vos fans
-            </motion.h2>
-
-            {/* Subtitle - Mobile Optimized */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 mb-8 sm:mb-12 md:mb-16 max-w-3xl leading-relaxed px-4 sm:px-6"
-            >
-              Le link-in-bio conçu pour les sportifs. Partage tes performances, trouve des sponsors, développe ta communauté.
-            </motion.p>
-
-            {/* Primary CTA */}
+    <main className="min-h-screen bg-white">
+      {/* Hero Section - GetAllMyLinks Style */}
+      <section className="relative min-h-[85vh] flex items-center justify-center bg-white">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+          <div className="text-center max-w-4xl mx-auto">
+            {/* Personas badges */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-              className="flex justify-center lg:justify-start px-4 sm:px-6 lg:px-0"
+              transition={{ duration: 0.6 }}
+              className="flex flex-wrap gap-3 justify-center mb-8"
+            >
+              {['Runners', 'Cyclistes', 'Triathlètes', 'Crossfit', 'Fitness'].map((persona, i) => (
+                <span 
+                  key={i}
+                  className="px-4 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium"
+                >
+                  {persona}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* Main title */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight"
+            >
+              Le link-in-bio #1 pour athlètes
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed max-w-3xl mx-auto"
+            >
+              Tout ce dont tu as besoin pour partager tes performances, trouver des sponsors, et développer ta communauté. Le tout dans un seul lien.
+            </motion.p>
+
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <Link
                 href="/signup"
-                className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900 text-white hover:bg-gray-800 active:scale-95 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium text-base sm:text-lg shadow-lg transition-all touch-manipulation"
+                className="inline-flex items-center gap-2 bg-gray-900 text-white hover:bg-gray-800 px-8 py-4 rounded-full font-semibold text-lg shadow-lg transition-all hover:scale-105"
               >
-                <Zap className="w-5 h-5" />
-                Commencer
+                Commencer gratuitement
+                <ArrowRight className="w-5 h-5" />
               </Link>
+              <span className="text-sm text-gray-500">100% gratuit · Sans carte bancaire</span>
             </motion.div>
-            </div>
 
-            {/* Right showcase - Visible sur mobile ET desktop */}
-            <div className="w-full">
-              <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] max-w-full mx-auto">
-                <motion.div
-                  key={currentImage}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="w-full h-full relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200"
-                >
-                  <div className="absolute inset-0 backdrop-blur-lg bg-white/30"></div>
-                  <Image
-                    src={images[currentImage]}
-                    alt={currentImage === 0 ? "Noa" : "Nathan"}
-                    fill
-                    className="object-contain relative z-10 rounded-2xl sm:rounded-3xl"
-                    priority
-                    unoptimized
-                  />
-                </motion.div>
+            {/* Hero image/mockup */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="mt-16 relative"
+            >
+              <div className="w-full max-w-4xl mx-auto relative rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/uploads/hero/noa.png"
+                  alt="Profil d'athlète Athlink"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto"
+                  priority
+                  unoptimized
+                />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-
-        {/* Right Visual handled above */}
-
-        {/* Scroll indicator removed */}
       </section>
 
-      {/* Features Section - Apple Style with Enhanced Decorations */}
-      <section id="features" className="py-12 sm:py-20 md:py-32 lg:py-40 bg-white relative overflow-hidden">
-        {/* Background Elements - Enhanced */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Main background blurs */}
-        <motion.div
-            animate={{
-              scale: [1, 1.1, 1],
-              opacity: [0.03, 0.05, 0.03],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-gray-900 rounded-full blur-3xl"
-          />
-            <motion.div
-            animate={{
-              scale: [1.1, 1, 1.1],
-              opacity: [0.02, 0.04, 0.02],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-900 rounded-full blur-3xl"
-          />
-          
-          {/* Geometric shapes */}
+      {/* Social Proof - Athletes Gallery */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <motion.div
-            animate={{
-              rotate: [0, 360],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            className="absolute top-10 right-10 w-20 h-20 border-2 border-yellow-500/10 rounded-lg"
-          />
-          
-          <motion.div
-            animate={{
-              rotate: [360, 0],
-              y: [0, 20, 0],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute bottom-20 left-10 w-16 h-16 border-2 border-gray-900/10"
-          />
-          
-          {/* Gradient orbs */}
-          <motion.div
-            animate={{
-              x: [0, 50, 0],
-              y: [0, -30, 0],
-              opacity: [0.05, 0.1, 0.05],
-            }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-1/3 right-1/3 w-72 h-72 bg-gradient-to-br from-yellow-500/10 to-transparent rounded-full blur-3xl"
-          />
-          
-          {/* Sports equipment floating around - Reduced */}
-          {['', '', ''].map((emoji, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                y: [0, -50, 0],
-                opacity: [0.1, 0.25, 0.1],
-              }}
-              transition={{
-                duration: 8 + i * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 1.5,
-              }}
-              className="absolute text-3xl"
-              style={{
-                left: `${20 + i * 30}%`,
-                top: `${30 + (i % 3) * 25}%`,
-              }}
-            >
-              {emoji}
-        </motion.div>
-          ))}
-          
-          {/* Connecting lines effect */}
-          <svg className="absolute inset-0 w-full h-full opacity-5">
-            <motion.line
-              x1="10%"
-              y1="20%"
-              x2="90%"
-              y2="80%"
-              stroke="currentColor"
-              strokeWidth="1"
-              className="text-gray-900"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: [0, 1, 0] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.line
-              x1="90%"
-              y1="20%"
-              x2="10%"
-              y2="80%"
-              stroke="currentColor"
-              strokeWidth="1"
-              className="text-gray-900"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: [0, 1, 0] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-            />
-          </svg>
-          </div>
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Ils nous font confiance
+            </h2>
+            <p className="text-lg text-gray-600">
+              Rejoins des centaines d'athlètes qui utilisent Athlink pour développer leur communauté
+            </p>
+          </motion.div>
 
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          {/* Header with Apple-style typography */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24 max-w-4xl mx-auto px-4"
-            >
-              <motion.h2
+          {/* Grid of athlete profiles */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {[
+              { name: 'Noa', handle: '@noa', image: '/uploads/hero/noa.png' },
+              { name: 'Nathan', handle: '@nathan', image: '/uploads/hero/nathan.png' },
+              { name: 'Emma', handle: '@emmarun', image: null },
+              { name: 'Lucas', handle: '@lucasbike', image: null },
+              { name: 'Sophie', handle: '@sophiefit', image: null },
+              { name: 'Thomas', handle: '@thomastriathlon', image: null },
+            ].map((athlete, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex flex-col items-center"
+              >
+                <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300 mb-3 overflow-hidden">
+                  {athlete.image ? (
+                    <Image
+                      src={athlete.image}
+                      alt={athlete.name}
+                      width={200}
+                      height={200}
+                      className="w-full h-full object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400">
+                      {athlete.name[0]}
+                    </div>
+                  )}
+                </div>
+                <p className="text-sm text-gray-600 flex items-center gap-1">
+                  <Instagram className="w-3 h-3" />
+                  {athlete.handle}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Key Figures - Stats Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Une croissance réelle, des chiffres réels
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                number: "1,000+",
+                label: "Athlètes",
+                description: "Plus de 1000 athlètes nous font confiance pour gérer leur présence en ligne"
+              },
+              {
+                number: "500K+",
+                label: "Vues/mois",
+                description: "Chaque mois, plus d'un demi-million de visiteurs cliquent sur les profils de nos athlètes"
+              },
+              {
+                number: "50K+",
+                label: "Clics sponsors",
+                description: "Des milliers de clics générés vers les sponsors et partenaires chaque mois"
+              }
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900 mb-4 sm:mb-6 tracking-tight"
+                transition={{ delay: i * 0.2 }}
+                className="text-center"
               >
-                Tout ce dont un athlète a besoin
-              </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl sm:text-2xl text-gray-600 font-light leading-relaxed"
-            >
+                <div className="text-5xl sm:text-6xl font-bold text-gray-900 mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-xl font-semibold text-gray-700 mb-3">
+                  {stat.label}
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  {stat.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section - Simplified */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Tout ce dont un athlète a besoin
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Conçu spécifiquement pour les sportifs, avec des fonctionnalités uniques
-            </motion.p>
+            </p>
           </motion.div>
 
-            {/* Features Grid with Apple-style cards - Mobile Optimized */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 px-4 sm:px-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
                 icon: Activity,
                 title: "Stats & Performance",
-                description: "Synchronise Strava, affiche tes records, graphiques de progression en temps réel",
-                delay: 0.1
+                description: "Synchronise Strava, affiche tes records, graphiques de progression en temps réel"
               },
               {
                 icon: Calendar,
                 title: "Calendrier Courses",
-                description: "Countdown jusqu'à ta prochaine course, résultats automatiques, historique complet",
-                delay: 0.2
+                description: "Countdown jusqu'à ta prochaine course, résultats automatiques, historique complet"
               },
               {
                 icon: Users,
                 title: "Sponsors & Partenaires",
-                description: "Section dédiée avec tracking des clics, analytics pour tes sponsors",
-                delay: 0.3
+                description: "Section dédiée avec tracking des clics, analytics pour tes sponsors"
               },
               {
                 icon: Award,
                 title: "Galerie Média",
-                description: "Photos, vidéos, highlights de tes meilleures performances en action",
-                delay: 0.4
+                description: "Photos, vidéos, highlights de tes meilleures performances en action"
               },
               {
                 icon: Target,
                 title: "Services Coaching",
-                description: "Vends tes plans d'entraînement, gère tes bookings, développe ton business",
-                delay: 0.5
+                description: "Vends tes plans d'entraînement, gère tes bookings, développe ton business"
               },
               {
                 icon: TrendingUp,
                 title: "Analytics Pro",
-                description: "Vois qui visite ton profil, quels liens performent, optimise ta stratégie",
-                delay: 0.6
+                description: "Vois qui visite ton profil, quels liens performent, optimise ta stratégie"
               },
             ].map((feature, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  duration: 0.8, 
-                  delay: feature.delay,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                whileHover={{ 
-                  y: -12,
-                  transition: { duration: 0.3, ease: "easeOut" }
-                }}
-                className="group"
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
               >
-                   <div className="relative h-full p-6 sm:p-8 lg:p-10 bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-gray-100/50 hover:border-gray-200/50 transition-all duration-500 hover:shadow-2xl hover:shadow-gray-900/5">
-                  {/* Subtle background gradient on hover */}
-                  <motion.div
-                    className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)"
-                    }}
-                  />
-                  
-                  {/* Icon with Apple-style animation */}
-                  <motion.div
-                    whileHover={{ 
-                      scale: 1.1,
-                      rotate: [0, -5, 5, 0],
-                      transition: { duration: 0.4 }
-                    }}
-                    className="relative z-10 inline-flex p-4 rounded-2xl bg-gray-900 mb-6 shadow-lg"
-                  >
-                    <feature.icon className="w-6 h-6 text-white" />
-                  </motion.div>
-
-                     {/* Title with Apple typography - Mobile Optimized */}
-                     <h3 className="relative z-10 text-xl sm:text-2xl font-medium text-gray-900 mb-3 sm:mb-4 group-hover:text-gray-700 transition-colors duration-300 tracking-tight">
-                    {feature.title}
-                  </h3>
-
-                     {/* Description with refined spacing - Mobile Optimized */}
-                     <p className="relative z-10 text-gray-600 leading-relaxed text-base sm:text-lg font-light">
-                    {feature.description}
-                  </p>
-
-                  {/* Subtle animated accent line */}
-                  <motion.div
-                    className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: feature.delay + 0.3 }}
-                  />
+                <div className="inline-flex p-3 rounded-xl bg-gray-900 mb-4">
+                  <feature.icon className="w-6 h-6 text-white" />
                 </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
               </motion.div>
             ))}
           </div>
-
-          {/* CTA with Apple-style button */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-center mt-20"
-          >
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-            >
-            <Link
-              href="/signup"
-                className="inline-flex items-center gap-3 bg-gray-900 text-white hover:bg-gray-800 px-8 py-4 rounded-full font-medium text-lg shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <Zap className="w-5 h-5" />
-              Créer mon profil gratuitement
-                <ArrowRight className="w-4 h-4" />
-            </Link>
-            </motion.div>
-          </motion.div>
         </div>
       </section>
 
-      {/* Decorative Sport Divider */}
-      <div className="relative h-32 bg-gradient-to-b from-white via-gray-50 to-gray-50 overflow-hidden">
-        {/* Running track line */}
-        <motion.div
-          animate={{
-            x: [-100, 100],
-            opacity: [0.1, 0.3, 0.1],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-1 bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent"
-        />
-        
-        {/* Running athletes across the screen */}
-        <motion.div
-          animate={{
-            x: [-100, 1200],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute top-1/2 -translate-y-1/2 text-4xl"
-        >
-          🏃‍♂️
-        </motion.div>
-        
-        <motion.div
-          animate={{
-            x: [-150, 1200],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 2
-          }}
-          className="absolute top-1/2 -translate-y-1/2 text-4xl"
-        >
-          🚴‍♀️
-        </motion.div>
-        
-        {/* Sport icons bouncing - Reduced */}
-        <div className="absolute inset-0 flex items-center justify-center gap-16">
-          {['⚽', '🏀'].map((sport, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                y: [0, -15, 0],
-                opacity: [0.2, 0.4, 0.2],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 1,
-              }}
-              className="text-3xl"
-            >
-              {sport}
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Analytics & Performance Section - Apple Style with Sport Animations */}
-      <section className="py-20 sm:py-32 lg:py-40 bg-gray-50 relative overflow-hidden">
-        {/* Background Elements with Sport Theme */}
-        <div className="absolute inset-0 pointer-events-none">
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.02, 0.04, 0.02],
-            }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-1/3 right-1/3 w-96 h-96 bg-gray-900 rounded-full blur-3xl"
-          />
-          <motion.div
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.01, 0.03, 0.01],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute bottom-1/3 left-1/3 w-80 h-80 bg-gray-900 rounded-full blur-3xl"
-          />
-          
-          {/* Performance and stats themed emojis - Reduced */}
-          {['', '', ''].map((emoji, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                y: [0, -40, 0],
-                opacity: [0.08, 0.2, 0.08],
-              }}
-              transition={{
-                duration: 9 + i * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 2,
-              }}
-              className="absolute text-4xl"
-              style={{
-                left: `${20 + i * 30}%`,
-                top: `${25 + (i % 3) * 30}%`,
-              }}
-            >
-              {emoji}
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-7xl mx-auto">
-            {/* Header with Apple-style typography */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-center mb-24 max-w-4xl mx-auto"
-            >
-              <motion.h2
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 mb-6 tracking-tight"
-              >
-                Analytics avancées
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-xl sm:text-2xl text-gray-600 font-light leading-relaxed"
-              >
-                Analyse tes performances avec des données précises et une heatmap interactive
-              </motion.p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-              {/* Analytics Screenshot with Apple-style design */}
-              <motion.div
-                initial={{ opacity: 0, x: -60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  duration: 1, 
-                  delay: 0.3,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                className="order-2 lg:order-1"
-              >
-                <motion.div
-                  whileHover={{ 
-                    scale: 1.02,
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
-                  className="relative"
-                >
-                  {/* Main device frame */}
-                  <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl shadow-gray-900/10 p-6 border border-gray-200/50">
-                    {/* Device header */}
-                    <div className="flex items-center gap-2 mb-6">
-                      <div className="flex gap-2">
-                        <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                        <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                        </div>
-                      <div className="flex-1 text-center">
-                        <div className="w-32 h-6 bg-gray-200 rounded-full mx-auto"></div>
-                        </div>
-                        </div>
-
-                    {/* Analytics content */}
-                    <div className="space-y-6">
-                      {/* Stats Cards */}
-                      <div className="grid grid-cols-3 gap-4">
-                        {[
-                          { value: "208", label: "Total clics" },
-                          { value: "10.4", label: "Moyenne" },
-                          { value: "20", label: "Zone active" }
-                        ].map((stat, i) => (
-                          <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.5 + i * 0.1 }}
-                            className="bg-white rounded-2xl p-4 border border-gray-100 text-center"
-                          >
-                            <div className="text-2xl font-medium text-gray-900 mb-1">{stat.value}</div>
-                            <div className="text-sm text-gray-600">{stat.label}</div>
-                          </motion.div>
-                        ))}
-                      </div>
-                      
-                      {/* Heatmap visualization */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.8 }}
-                        className="bg-gray-50 rounded-2xl p-6"
-                      >
-                        <div className="flex items-center justify-between mb-4">
-                          <h4 className="font-medium text-gray-900">Carte de chaleur</h4>
-                            <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">Intensité</span>
-                            <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                              <motion.div
-                                initial={{ width: 0 }}
-                                whileInView={{ width: "70%" }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 1, duration: 0.8 }}
-                                className="h-full bg-gradient-to-r from-red-400 via-yellow-400 to-green-400"
-                              />
-                              </div>
-                            </div>
-                          </div>
-                        <div className="bg-gray-200 rounded-xl h-32 flex items-center justify-center">
-                          <span className="text-gray-500 text-sm">Visualisation heatmap</span>
-                          </div>
-                      </motion.div>
-
-                      {/* Top zones */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 1.1 }}
-                        className="bg-gray-50 rounded-2xl p-6"
-                      >
-                        <h4 className="font-medium text-gray-900 mb-4">Top 5 zones</h4>
-                        <div className="space-y-3">
-                          {[
-                            { rank: 1, name: "Liens", clicks: 20, color: "bg-yellow-400" },
-                            { rank: 2, name: "Liens", clicks: 19, color: "bg-gray-400" },
-                            { rank: 3, name: "Sponsors", clicks: 17, color: "bg-gray-400" },
-                            { rank: 4, name: "Sponsors", clicks: 17, color: "bg-gray-400" },
-                            { rank: 5, name: "Sponsors", clicks: 16, color: "bg-gray-400" }
-                          ].map((item, i) => (
-                            <motion.div
-                              key={i}
-                              initial={{ opacity: 0, x: -20 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: 1.2 + i * 0.1 }}
-                              className="flex items-center gap-3"
-                            >
-                              <div className={`w-6 h-6 ${item.color} rounded-full flex items-center justify-center text-white text-xs font-medium`}>
-                                {item.rank}
-                        </div>
-                              <span className="text-sm text-gray-700">{item.name} - {item.clicks} clics</span>
-                            </motion.div>
-                          ))}
-                            </div>
-                      </motion.div>
-                  </div>
-                </div>
-                </motion.div>
-              </motion.div>
-
-              {/* Analytics Description with Apple typography */}
-              <motion.div
-                initial={{ opacity: 0, x: 60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  duration: 1, 
-                  delay: 0.5,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                className="order-1 lg:order-2"
-              >
-                <div className="lg:pl-8 px-4 sm:px-0">
-                  <motion.h3
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.6 }}
-                    className="text-3xl sm:text-4xl font-light text-gray-900 mb-6 tracking-tight"
-                  >
-                    Analyse tes performances
-                  </motion.h3>
-                  
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.7 }}
-                    className="text-xl text-gray-600 font-light leading-relaxed mb-8"
-                  >
-                    Comprends ton audience avec des <span className="font-medium text-gray-900">analytics professionnelles</span> et optimise ton profil.
-                  </motion.p>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.8 }}
-                    className="space-y-6"
-                  >
-                    {[
-                      { title: "Heatmap des clics", desc: "Visualise les zones les plus actives de ton profil" },
-                      { title: "Statistiques détaillées", desc: "Total de clics, moyennes par zone, performances" },
-                      { title: "Top 5 des zones", desc: "Identifie tes contenus les plus performants" },
-                      { title: "Export de données", desc: "Analyse tes performances hors ligne en PDF" }
-                    ].map((feature, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.9 + i * 0.1 }}
-                        className="flex items-start gap-4"
-                      >
-                        <div className="w-2 h-2 bg-gray-900 rounded-full mt-3 flex-shrink-0"></div>
-                        <div>
-                          <div className="font-medium text-gray-900 mb-1">{feature.title}</div>
-                          <div className="text-gray-600 font-light">{feature.desc}</div>
-                  </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sponsors Management Section - Apple Style with Sport Brands */}
-      <section className="py-20 sm:py-32 lg:py-40 bg-white relative overflow-hidden">
-        {/* Background Elements with Brand Theme */}
-        <div className="absolute inset-0 pointer-events-none">
-          <motion.div
-            animate={{
-              scale: [1, 1.1, 1],
-              opacity: [0.02, 0.04, 0.02],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-1/4 right-1/4 w-96 h-96 bg-gray-900 rounded-full blur-3xl"
-          />
-          <motion.div
-            animate={{
-              scale: [1.1, 1, 1.1],
-              opacity: [0.01, 0.03, 0.01],
-            }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gray-900 rounded-full blur-3xl"
-          />
-          
-          {/* Sponsor and partnership themed emojis - Reduced */}
-          {['🤝', '💼', '🎁'].map((emoji, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                y: [0, -35, 0],
-                opacity: [0.08, 0.18, 0.08],
-              }}
-              transition={{
-                duration: 8 + i * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 2,
-              }}
-              className="absolute text-4xl"
-              style={{
-                left: `${25 + i * 25}%`,
-                top: `${30 + (i % 3) * 25}%`,
-              }}
-            >
-              {emoji}
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-7xl mx-auto">
-            {/* Header with Apple-style typography */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-center mb-24 max-w-4xl mx-auto"
-            >
-              <motion.h2 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 mb-6 tracking-tight"
-              >
-                Gestion des sponsors
-              </motion.h2>
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-xl sm:text-2xl text-gray-600 font-light leading-relaxed"
-              >
-                Gère tes partenaires et sponsors avec codes promo
-              </motion.p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-              {/* Sponsors Description with Apple typography */}
-              <motion.div
-                initial={{ opacity: 0, x: -60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  duration: 1, 
-                  delay: 0.3,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                className="order-1 lg:order-1"
-              >
-                <div className="lg:pr-8 px-4 sm:px-0">
-                  <motion.h3
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
-                    className="text-3xl sm:text-4xl font-light text-gray-900 mb-6 tracking-tight"
-                  >
-                    Monétise ton influence
-                  </motion.h3>
-                  
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                    className="text-xl text-gray-600 font-light leading-relaxed mb-8"
-                  >
-                    Transforme ta passion en <span className="font-medium text-gray-900">opportunités commerciales</span> avec un système de gestion complet.
-                  </motion.p>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.6 }}
-                    className="space-y-6"
-                  >
-                    {[
-                      { title: "Extraction automatique de logos", desc: "Récupère les logos depuis les sites web" },
-                      { title: "Codes promo personnalisés", desc: "Crée et partage des réductions exclusives" },
-                      { title: "Formulaire intuitif", desc: "Ajoute un sponsor en quelques clics" },
-                      { title: "Gestion complète", desc: "Édite, supprime et organise tes partenariats" }
-                    ].map((feature, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.7 + i * 0.1 }}
-                        className="flex items-start gap-4"
-                      >
-                        <div className="w-2 h-2 bg-gray-900 rounded-full mt-3 flex-shrink-0"></div>
-                        <div>
-                          <div className="font-medium text-gray-900 mb-1">{feature.title}</div>
-                          <div className="text-gray-600 font-light">{feature.desc}</div>
-                  </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </div>
-              </motion.div>
-
-              {/* Sponsors Screenshot with Apple-style design */}
-              <motion.div
-                initial={{ opacity: 0, x: 60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  duration: 1, 
-                  delay: 0.5,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                className="order-2 lg:order-2"
-              >
-                <motion.div
-                  whileHover={{ 
-                    scale: 1.02,
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
-                  className="relative"
-                >
-                  {/* Main device frame */}
-                  <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl shadow-gray-900/10 p-6 border border-gray-200/50">
-                    {/* Device header */}
-                    <div className="flex items-center gap-2 mb-6">
-                      <div className="flex gap-2">
-                        <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                        <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                      </div>
-                      <div className="flex-1 text-center">
-                        <div className="w-32 h-6 bg-gray-200 rounded-full mx-auto"></div>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="space-y-6">
-                        <div>
-                        <h3 className="text-2xl font-medium text-gray-900 mb-2">Mes sponsors</h3>
-                        <p className="text-gray-600 font-light">Gère tes partenaires et sponsors avec codes promo</p>
-                        </div>
-
-                      {/* Form mockup */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.8 }}
-                        className="bg-gray-50 rounded-2xl p-6"
-                      >
-                        <h4 className="font-medium text-gray-900 mb-4">Ajouter un sponsor</h4>
-                        
-                        <div className="space-y-4">
-                          {/* Form fields */}
-                          {[
-                            { label: "Nom du sponsor", placeholder: "Nike, Adidas...", type: "text" },
-                            { label: "Site web", placeholder: "https://example.com", type: "text", hasButton: true },
-                            { label: "Code promo", placeholder: "ATHLETE20", type: "text" }
-                          ].map((field, i) => (
-                            <motion.div
-                              key={i}
-                              initial={{ opacity: 0, y: 10 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: 0.9 + i * 0.1 }}
-                            >
-                              <label className="block text-sm font-medium text-gray-700 mb-2">{field.label}</label>
-                          <div className="flex gap-2">
-                            <input 
-                                  type={field.type}
-                                  placeholder={field.placeholder}
-                                  className="flex-1 p-3 border border-gray-200 rounded-xl text-sm bg-white"
-                              disabled
-                            />
-                                {field.hasButton && (
-                                  <button className="px-4 py-3 bg-gray-200 text-gray-700 rounded-xl text-sm font-medium">
-                                    Extraire
-                            </button>
-                                )}
-                          </div>
-                            </motion.div>
-                          ))}
-                          
-                          {/* Upload area */}
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 1.2 }}
-                          >
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Logo du sponsor</label>
-                            <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center bg-white">
-                            <p className="text-sm text-gray-600">Choisir un fichier</p>
-                            <p className="text-xs text-gray-500 mt-1">Aucun fichier choisi</p>
-                          </div>
-                          </motion.div>
-                          
-                          {/* Submit button */}
-                          <motion.button
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 1.3 }}
-                            className="w-full bg-gray-900 text-white py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors"
-                          >
-                          Ajouter
-                          </motion.button>
-                      </div>
-                      </motion.div>
-                  </div>
-                </div>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section - Apple Style with Enhanced Decorations */}
-      <section id="pricing" className="py-20 sm:py-32 lg:py-40 bg-gray-50 relative overflow-hidden">
-        {/* Background Elements - Enhanced */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Main blur effects */}
-            <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.02, 0.04, 0.02],
-            }}
-            transition={{
-              duration: 14,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-1/3 right-1/3 w-96 h-96 bg-gray-900 rounded-full blur-3xl"
-          />
-          <motion.div
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.01, 0.03, 0.01],
-            }}
-            transition={{
-              duration: 16,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute bottom-1/3 left-1/3 w-80 h-80 bg-gray-900 rounded-full blur-3xl"
-          />
-          
-          {/* Price tag shapes */}
-          <motion.div
-            animate={{
-              rotate: [0, 10, -10, 0],
-              y: [0, -20, 0],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-20 left-20 w-24 h-24 border-2 border-green-500/10 rounded-full"
-          />
-          
-          <motion.div
-            animate={{
-              rotate: [0, -15, 15, 0],
-              x: [0, 20, -20, 0],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute bottom-32 right-24 w-32 h-32 border-2 border-yellow-500/10"
-          />
-          
-          {/* Currency symbols floating */}
-          {['€', '€', '€'].map((symbol, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                y: [0, -100, 0],
-                opacity: [0.05, 0.15, 0.05],
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 10 + i * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 2,
-              }}
-              className="absolute text-6xl font-light text-gray-900/5"
-              style={{
-                left: `${20 + i * 30}%`,
-                top: `${30 + i * 15}%`,
-              }}
-            >
-              {symbol}
-            </motion.div>
-          ))}
-          
-          {/* Star ratings decorations */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                scale: [0.8, 1.2, 0.8],
-                rotate: [0, 180, 360],
-                opacity: [0.1, 0.2, 0.1],
-              }}
-              transition={{
-                duration: 4 + i,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.5,
-              }}
-              className="absolute text-2xl"
-              style={{
-                left: `${15 + i * 15}%`,
-                top: `${60 + (i % 3) * 10}%`,
-              }}
-            >
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          {/* Header with Apple-style typography */}
+      {/* Pricing Section */}
+      <section id="tarifs" className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center mb-24 max-w-4xl mx-auto"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-medium mb-8"
-            >
-              <Zap className="w-4 h-4" />
-              Offre de lancement - Prix réduits !
-            </motion.div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Des plans adaptés à tes besoins
+            </h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Choisis le plan qui correspond le mieux à tes objectifs
+            </p>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 mb-6 tracking-tight"
-            >
-              Choisis ton plan
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-xl sm:text-2xl text-gray-600 font-light leading-relaxed mb-12"
-            >
-              Débloque tout le potentiel de ton profil d&apos;athlète
-            </motion.p>
-
-            {/* Billing Toggle with Apple style */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="inline-flex items-center bg-white border border-gray-200 rounded-full p-1 shadow-lg"
-            >
+            {/* Billing toggle */}
+            <div className="inline-flex items-center gap-4 p-1 bg-gray-100 rounded-full">
               <button
                 onClick={() => setBillingCycle("monthly")}
-                className={`px-6 py-3 rounded-full font-medium transition-all text-sm ${
+                className={`px-6 py-2 rounded-full font-medium transition-all ${
                   billingCycle === "monthly"
-                    ? "bg-gray-900 text-white shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-600"
                 }`}
               >
                 Mensuel
               </button>
               <button
                 onClick={() => setBillingCycle("yearly")}
-                className={`px-6 py-3 rounded-full font-medium transition-all relative text-sm ${
+                className={`px-6 py-2 rounded-full font-medium transition-all ${
                   billingCycle === "yearly"
-                    ? "bg-gray-900 text-white shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-600"
                 }`}
               >
                 Annuel
-                <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs px-3 py-1 rounded-full whitespace-nowrap font-medium">
-                  2 mois offerts
+                <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                  -20%
                 </span>
               </button>
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* Plans Grid with Apple Style */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto mb-16 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               {
-                name: "Free",
-                price: 0,
-                description: "Parfait pour commencer",
-                icon: LinkIcon,
+                name: "FREE",
+                price: billingCycle === "monthly" ? "0" : "0",
+                description: "Pour débuter et tester la plateforme",
                 features: [
-                  "1 profil public",
-                  "1 lien",
-                  "1 compétition à venir",
-                  "0 sponsors",
-                  "Galerie 2 médias",
-                  "Thème basique",
-                  "Sous-domaine athlink.app",
-                ],
-                cta: "Commencer gratuitement",
-                highlight: false,
-              },
-              {
-                name: "Pro",
-                price: 9.90,
-                yearlyPrice: 99,
-                description: "Pour les athlètes sérieux",
-                icon: Zap,
-                features: [
-                  "Tout du plan Free",
+                  "Profil personnalisable",
                   "Liens illimités",
-                  "Compétitions illimitées",
-                  "Sponsors illimités",
-                  "Galerie illimitée",
-                  "Analytics avancées (7 jours)",
-                  "Badge \"Pro\" sur le profil",
+                  "Galerie photos & vidéos",
+                  "Réseaux sociaux",
+                  "Calendrier courses"
                 ],
-                cta: "Passer Pro",
-                highlight: true,
-                popular: true,
+                cta: "Commencer",
+                popular: false
               },
               {
-                name: "Elite",
-                price: 25.90,
-                yearlyPrice: 259,
-                description: "Pour les professionnels",
-                icon: Crown,
+                name: "PRO",
+                price: billingCycle === "monthly" ? "9.90" : "7.92",
+                description: "Pour les athlètes sérieux",
                 features: [
-                  "Tout du plan Pro",
-                  "Analytics illimitées",
-                  "Heatmap des clics",
-                  "Démographie visiteurs",
-                  "Export données (PDF)",
-                  "Service de coaching",
-                  "Personnalisation CSS",
-                  "Badge \"Elite\" sur le profil",
-                  "Support prioritaire",
+                  "Tout FREE +",
+                  "Analytics avancées",
+                  "Section sponsors",
+                  "Domaine personnalisé",
+                  "Pas de publicité",
+                  "Support prioritaire"
                 ],
-                cta: "Passer Elite",
-                highlight: false,
+                cta: "Essayer PRO",
+                popular: true
               },
-            ].map((plan, index) => (
+              {
+                name: "ELITE",
+                price: billingCycle === "monthly" ? "25.90" : "20.72",
+                description: "Pour les professionnels",
+                features: [
+                  "Tout PRO +",
+                  "Services coaching",
+                  "Heatmap calendrier",
+                  "Export PDF analytics",
+                  "Thème personnalisé",
+                  "Support dédié 24/7"
+                ],
+                cta: "Essayer ELITE",
+                popular: false
+              }
+            ].map((plan, i) => (
               <motion.div
-                key={plan.name}
-                initial={{ opacity: 0, y: 40 }}
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  delay: 0.5 + index * 0.1, 
-                  duration: 0.8,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                whileHover={{ 
-                  y: -12,
-                  transition: { duration: 0.3, ease: "easeOut" }
-                }}
-                className={`relative group ${
-                  plan.highlight
-                    ? "scale-105"
-                    : ""
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`relative bg-white rounded-2xl p-8 ${
+                  plan.popular
+                    ? "border-2 border-gray-900 shadow-xl"
+                    : "border border-gray-200 shadow-sm"
                 }`}
               >
-                {/* Popular Badge */}
                 {plan.popular && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg z-10"
-                  >
- Plus populaire
-                  </motion.div>
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-1 rounded-full text-sm font-medium">
+                    Plus populaire
+                  </div>
                 )}
 
-                {/* Card */}
-                <div className={`relative h-full p-8 lg:p-10 rounded-3xl border transition-all duration-500 ${
-                  plan.highlight
-                    ? "bg-gray-900 text-white border-gray-700 shadow-2xl shadow-gray-900/20"
-                    : "bg-white/80 backdrop-blur-sm border-gray-100/50 hover:border-gray-200/50 hover:shadow-2xl hover:shadow-gray-900/5"
-                }`}>
-                  {/* Subtle background gradient on hover */}
-                  <motion.div
-                    className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-                      plan.highlight 
-                        ? "bg-gradient-to-br from-white/5 to-white/10" 
-                        : "bg-gradient-to-br from-gray-50/50 to-gray-100/30"
-                    }`}
-                  />
-
-                  {/* Icon with Apple-style animation */}
-                  <motion.div
-                    whileHover={{
-                      scale: 1.1,
-                      rotate: [0, -5, 5, 0],
-                      transition: { duration: 0.4 }
-                    }}
-                    className={`relative z-10 inline-flex p-4 rounded-2xl mb-6 shadow-lg ${
-                      plan.highlight ? "bg-white/20" : "bg-gray-900"
-                    }`}
-                  >
-                    <plan.icon className={`w-6 h-6 ${plan.highlight ? "text-white" : "text-white"}`} />
-                  </motion.div>
-
-                  {/* Plan Name with Apple typography */}
-                  <h3 className={`relative z-10 text-2xl font-medium mb-4 tracking-tight ${
-                    plan.highlight ? "text-white" : "text-gray-900"
-                  }`}>
-                  {plan.name}
-                </h3>
-
-                  <p className={`relative z-10 text-lg font-light leading-relaxed mb-6 ${
-                    plan.highlight ? "text-white/80" : "text-gray-600"
-                  }`}>
-                  {plan.description}
-                </p>
-
-                {/* Price */}
-                  <div className="relative z-10 mb-8">
-                  {plan.price === 0 ? (
-                      <div className={`text-4xl font-light tracking-tight ${
-                        plan.highlight ? "text-white" : "text-gray-900"
-                      }`}>
-                      Gratuit
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex items-baseline gap-2">
-                          <span className={`text-4xl font-light tracking-tight ${
-                            plan.highlight ? "text-white" : "text-gray-900"
-                          }`}>
-                          {billingCycle === "monthly" ? plan.price.toFixed(2) : ((plan.yearlyPrice || 0) / 12).toFixed(2)}€
-                        </span>
-                          <span className={`text-lg font-light ${
-                            plan.highlight ? "text-white/70" : "text-gray-600"
-                          }`}>
-                          /mois
-                        </span>
-                      </div>
-                      {billingCycle === "yearly" && (
-                          <div className={`text-sm mt-1 font-light ${
-                            plan.highlight ? "text-white/70" : "text-gray-600"
-                          }`}>
-                          {plan.yearlyPrice}€ facturé annuellement
-                        </div>
-                      )}
-                    </>
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    {plan.name}
+                  </h3>
+                  <p className="text-gray-600 mb-4">{plan.description}</p>
+                  <div className="flex items-baseline justify-center gap-1">
+                    <span className="text-5xl font-bold text-gray-900">
+                      {plan.price}€
+                    </span>
+                    {plan.price !== "0" && (
+                      <span className="text-gray-600">/mois</span>
+                    )}
+                  </div>
+                  {billingCycle === "yearly" && plan.price !== "0" && (
+                    <p className="text-sm text-green-600 mt-2">
+                      Économise {(parseFloat(plan.price.replace(',', '.')) * 2.4).toFixed(0)}€/an
+                    </p>
                   )}
                 </div>
 
-                  {/* Features */}
-                  <div className="relative z-10 space-y-3 mb-8">
-                    {plan.features.map((feature, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.7 + index * 0.1 + i * 0.05 }}
-                        className="flex items-start gap-3"
-                      >
-                        <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 ${
-                          plan.highlight ? "bg-white/60" : "bg-gray-900"
-                        }`}></div>
-                        <span className={`text-sm font-light ${
-                          plan.highlight ? "text-white/80" : "text-gray-600"
-                        }`}>
-                          {feature}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature, j) => (
+                    <li key={j} className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
 
-                  {/* CTA Button with Apple style */}
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                    className="relative z-10"
-                  >
                 <Link
                   href="/signup"
-                      className={`w-full block py-4 rounded-full font-medium text-lg transition-all duration-300 text-center ${
-                    plan.highlight
-                          ? "bg-white text-gray-900 hover:bg-gray-100 shadow-lg hover:shadow-xl"
-                          : "bg-gray-900 text-white hover:bg-gray-800 shadow-lg hover:shadow-xl"
+                  className={`block w-full text-center py-3 rounded-full font-semibold transition-all ${
+                    plan.popular
+                      ? "bg-gray-900 text-white hover:bg-gray-800"
+                      : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                   }`}
                 >
                   {plan.cta}
                 </Link>
-                  </motion.div>
-
-                  {/* Subtle animated accent line */}
-                  <motion.div
-                    className={`absolute bottom-0 left-8 right-8 h-px ${
-                      plan.highlight 
-                        ? "bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                        : "bg-gradient-to-r from-transparent via-gray-300 to-transparent"
-                    }`}
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.8 + index * 0.1 }}
-                  />
-                </div>
               </motion.div>
             ))}
           </div>
-
-          {/* Social Proof with Apple Style */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-center"
-          >
-            <motion.h3
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.7 }}
-              className="text-3xl sm:text-4xl font-light text-gray-900 mb-6 tracking-tight"
-            >
-              Utilisé par les meilleurs
-            </motion.h3>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.8 }}
-              className="text-xl text-gray-600 font-light leading-relaxed mb-12 max-w-2xl mx-auto"
-            >
-              Rejoins des milliers d&apos;athlètes qui utilisent Athlink pour partager leur passion
-            </motion.p>
-            
-            <div className="grid md:grid-cols-4 gap-8 lg:gap-12 max-w-4xl mx-auto">
-              {[
-                { icon: "", label: "Runners" },
-                { icon: "", label: "Hyrox" },
-                { icon: "", label: "Triathletes" },
-                { icon: "", label: "Autres" }
-              ].map((sport, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.9 + i * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="text-5xl mb-4">{sport.icon}</div>
-                  <div className="text-lg font-medium text-gray-900">{sport.label}</div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </section>
 
-      {/* Final CTA - Apple Style with Victory Theme */}
-      <section className="py-20 sm:py-32 lg:py-40 bg-white relative overflow-hidden">
-        {/* Background Elements with Victory Theme */}
-        <div className="absolute inset-0 pointer-events-none">
-          <motion.div
-            animate={{
-              scale: [1, 1.1, 1],
-              opacity: [0.02, 0.04, 0.02],
-            }}
-            transition={{
-              duration: 18,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-1/4 right-1/4 w-96 h-96 bg-gray-900 rounded-full blur-3xl"
-          />
-          <motion.div
-            animate={{
-              scale: [1.1, 1, 1.1],
-              opacity: [0.01, 0.03, 0.01],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gray-900 rounded-full blur-3xl"
-          />
-          
-          {/* Victory and motivation emojis */}
-          {['', '', '', '', '', '', '', '', '', ''].map((emoji, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                y: [0, -70, 0],
-                rotate: [0, (i % 2 === 0 ? 360 : -360)],
-                opacity: [0.15, 0.4, 0.15],
-                scale: [0.8, 1.4, 0.8],
-              }}
-              transition={{
-                duration: 5 + i * 0.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.4,
-              }}
-              className="absolute text-5xl"
-              style={{
-                left: `${5 + i * 9.5}%`,
-                top: `${15 + (i % 5) * 18}%`,
-              }}
-            >
-              {emoji}
-            </motion.div>
-          ))}
-          
-          {/* Confetti effect */}
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={`confetti-${i}`}
-              animate={{
-                y: [-20, 100],
-                x: [(i % 2 === 0 ? -30 : 30), (i % 2 === 0 ? 30 : -30)],
-                rotate: [0, 360],
-                opacity: [0.3, 0, 0.3],
-              }}
-              transition={{
-                duration: 3 + i * 0.2,
-                repeat: Infinity,
-                ease: "easeOut",
-                delay: i * 0.3,
-              }}
-              className="absolute w-2 h-2 rounded-full"
-              style={{
-                left: `${10 + i * 6}%`,
-                top: `${10 + (i % 3) * 30}%`,
-                backgroundColor: ['#EAB308', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6'][i % 5],
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      {/* Final CTA */}
+      <section className="py-20 bg-gray-900 text-white">
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="max-w-4xl mx-auto text-center"
           >
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 mb-6 tracking-tight"
-            >
-              Prêt à booster ta présence en ligne
-            </motion.h2>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl sm:text-2xl text-gray-600 font-light leading-relaxed mb-12 max-w-2xl mx-auto"
-            >
-              Rejoins déjà plusieurs d'athlètes qui utilisent Athlink pour partager leur passion
-            </motion.p>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+              Prêt à commencer ?
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-300 mb-8">
+              Rejoins des centaines d'athlètes et crée ton profil en moins de 2 minutes
+            </p>
             <Link
               href="/signup"
-                className="inline-flex items-center gap-3 bg-gray-900 text-white hover:bg-gray-800 px-8 py-4 rounded-full font-medium text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              className="inline-flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg shadow-lg transition-all hover:scale-105"
             >
-                <Zap className="w-5 h-5" />
-              Commencer maintenant - C&apos;est gratuit
-                <ArrowRight className="w-4 h-4" />
+              Créer mon profil gratuitement
+              <ArrowRight className="w-5 h-5" />
             </Link>
-            </motion.div>
           </motion.div>
         </div>
       </section>
-
-
-      {/* Footer - Apple Style */}
-      <footer className="bg-gray-900 text-white py-20 relative overflow-hidden">
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid md:grid-cols-4 gap-12 lg:gap-16 mb-16">
-            {/* Logo */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-yellow-500 via-black to-yellow-600 flex items-center justify-center">
-                  <span className="text-white font-black text-lg">A</span>
-              </div>
-                <span className="font-light text-2xl tracking-tight">Athlink</span>
-              </div>
-              <p className="text-gray-400 text-sm font-light leading-relaxed">
-                Le profil digital conçu pour les athlètes
-              </p>
-            </div>
-
-            {/* Links columns */}
-            <div>
-              <h3 className="font-medium text-lg mb-6 text-white">Produit</h3>
-              <ul className="space-y-3 text-sm text-gray-400">
-                <li><Link href="#features" className="hover:text-white transition-colors duration-300 font-light">Fonctionnalités</Link></li>
-                <li><Link href="#pricing" className="hover:text-white transition-colors duration-300 font-light">Tarifs</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors duration-300 font-light">Exemples</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-medium text-lg mb-6 text-white">Entreprise</h3>
-              <ul className="space-y-3 text-sm text-gray-400">
-                <li><Link href="#" className="hover:text-white transition-colors duration-300 font-light">À propos</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors duration-300 font-light">Blog</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors duration-300 font-light">Contact</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-medium text-lg mb-6 text-white">Légal</h3>
-              <ul className="space-y-3 text-sm text-gray-400">
-                <li>
-                  <a 
-                    href="https://www.iubenda.com/privacy-policy/27659887" 
-                    className="iubenda-white iubenda-noiframe iubenda-embed iubenda-noiframe hover:text-white transition-colors duration-300 font-light" 
-                    title="Politique de confidentialité"
-                  >
-                    Politique de Confidentialité
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://www.iubenda.com/privacy-policy/27659887/cookie-policy" 
-                    className="iubenda-white iubenda-noiframe iubenda-embed iubenda-noiframe hover:text-white transition-colors duration-300 font-light" 
-                    title="Politique relative aux Cookies"
-                  >
-                    Politique relative aux Cookies
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="/legal/CGV.pdf" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors duration-300 font-light"
-                  >
-                    CGV
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="/legal/Mentions_Legales.pdf" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors duration-300 font-light"
-                  >
-                    Mentions Légales
-                  </a>
-                </li>
-                <li><Link href="/conditions" className="hover:text-white transition-colors duration-300 font-light">Conditions</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Copyright */}
-          <div className="pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
-            <p className="font-light">&copy; 2025 Athlink. Tous droits réservés.</p>
-          </div>
-        </div>
-      </footer>
     </main>
   )
 }
