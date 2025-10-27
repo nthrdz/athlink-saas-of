@@ -6,6 +6,13 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (October 27, 2025)
+- **Google Analytics (gtag.js) installé** : Tracking Google Ads/Analytics configuré sur toutes les pages
+  - ID de conversion : AW-17677472722
+  - Scripts ajoutés dans le layout racine pour tracking global
+  - Stratégie afterInteractive pour chargement optimisé
+  - Tracking actif sur toutes les pages du site (homepage, profils, dashboard)
+
 ## Recent Changes (October 26, 2025)
 - **CORRECTION CRITIQUE : Routes API déplacées au bon emplacement** : Correction erreur 404 lors de la création de plans/réservations
   - Routes déplacées de `app/coaching/` vers `app/api/coaching/` (structure Next.js correcte)

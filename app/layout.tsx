@@ -34,6 +34,20 @@ export default function RootLayout({
         <ConditionalNavbar />
         {children}
         <Toaster position="top-center" richColors />
+        
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17677472722"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17677472722');
+          `}
+        </Script>
+        
         <Script
           src="https://cdn.iubenda.com/iubenda.js"
           strategy="afterInteractive"
