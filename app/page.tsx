@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
@@ -16,6 +16,51 @@ import {
   Zap,
   Instagram
 } from "lucide-react"
+
+// Composant carrousel pour les athlètes
+function AthleteCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const athletes = [
+    { name: 'Noa', handle: '@noa', image: '/uploads/hero/noa.png' },
+    { name: 'Nathan', handle: '@nathan', image: '/uploads/hero/nathan.png' },
+  ]
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % athletes.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="max-w-sm mx-auto">
+      <motion.div
+        key={currentIndex}
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -50 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-center"
+      >
+        <div className="w-64 h-64 rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300 mb-4 overflow-hidden">
+          <Image
+            src={athletes[currentIndex].image}
+            alt={athletes[currentIndex].name}
+            width={256}
+            height={256}
+            className="w-full h-full object-cover"
+            unoptimized
+          />
+        </div>
+        <p className="text-lg text-gray-700 font-medium mb-1">{athletes[currentIndex].name}</p>
+        <p className="text-sm text-gray-600 flex items-center gap-1">
+          <Instagram className="w-4 h-4" />
+          {athletes[currentIndex].handle}
+        </p>
+      </motion.div>
+    </div>
+  )
+}
 
 export default function Home() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly")
@@ -77,33 +122,13 @@ export default function Home() {
                 Commencer gratuitement
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <span className="text-sm text-gray-500">100% gratuit · Sans carte bancaire</span>
-            </motion.div>
-
-            {/* Hero image/mockup */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="mt-16 relative"
-            >
-              <div className="w-full max-w-4xl mx-auto relative rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="/uploads/hero/noa.png"
-                  alt="Profil d'athlète Athlink"
-                  width={800}
-                  height={600}
-                  className="w-full h-auto"
-                  priority
-                  unoptimized
-                />
-              </div>
+              <span className="text-sm text-gray-500">100% gratuit</span>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Social Proof - Athletes Gallery */}
+      {/* Social Proof - Athletes Carousel */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <motion.div
@@ -120,57 +145,8 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Grid of athlete profiles */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {[
-              { name: 'Noa', handle: '@noa', image: '/uploads/hero/noa.png' },
-              { name: 'Nathan', handle: '@nathan', image: '/uploads/hero/nathan.png' },
-            ].map((athlete, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex flex-col items-center"
-              >
-                <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300 mb-3 overflow-hidden">
-                  <Image
-                    src={athlete.image}
-                    alt={athlete.name}
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover"
-                    unoptimized
-                  />
-                </div>
-                <p className="text-sm text-gray-600 flex items-center gap-1">
-                  <Instagram className="w-3 h-3" />
-                  {athlete.handle}
-                </p>
-              </motion.div>
-            ))}
-            {/* Placeholder spots for future athletes */}
-            {[1, 2, 3, 4].map((i) => (
-              <motion.div
-                key={`placeholder-${i}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i + 2) * 0.1 }}
-                className="flex flex-col items-center opacity-50"
-              >
-                <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 mb-3 overflow-hidden flex items-center justify-center">
-                  <svg className="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                  </svg>
-                </div>
-                <p className="text-xs text-gray-400">
-                  Bientôt disponible
-                </p>
-              </motion.div>
-            ))}
-          </div>
+          {/* Carousel automatique */}
+          <AthleteCarousel />
         </div>
       </section>
 
@@ -184,7 +160,7 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Une croissance réelle, des chiffres réels
+              Les objectifs à avoir
             </h2>
           </motion.div>
 
@@ -340,7 +316,7 @@ export default function Home() {
               >
                 Annuel
                 <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                  -20%
+                  2 mois offerts
                 </span>
               </button>
             </div>
@@ -366,7 +342,7 @@ export default function Home() {
               {
                 name: "PRO",
                 monthlyPrice: 9.90,
-                yearlyPrice: 7.92,
+                yearlyPrice: 8.25,
                 description: "Pour les athlètes sérieux",
                 features: [
                   "Tout FREE +",
@@ -382,7 +358,7 @@ export default function Home() {
               {
                 name: "ELITE",
                 monthlyPrice: 25.90,
-                yearlyPrice: 20.72,
+                yearlyPrice: 21.58,
                 description: "Pour les professionnels",
                 features: [
                   "Tout PRO +",
@@ -466,30 +442,57 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-20 bg-gray-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-              Prêt à commencer ?
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-300 mb-8">
-              Rejoins des centaines d'athlètes et crée ton profil en moins de 2 minutes
-            </p>
-            <Link
-              href="/signup"
-              className="inline-flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg shadow-lg transition-all hover:scale-105"
-            >
-              Créer mon profil gratuitement
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </motion.div>
+      {/* Footer - Politiques légales */}
+      <footer className="py-12 bg-gray-900 text-white border-t border-gray-800">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            {/* Colonne 1 - À propos */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Athlink</h3>
+              <p className="text-sm text-gray-400">
+                La plateforme link-in-bio dédiée aux athlètes pour développer leur présence en ligne.
+              </p>
+            </div>
+
+            {/* Colonne 2 - Produit */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Produit</h3>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><Link href="#features" className="hover:text-white transition-colors">Fonctionnalités</Link></li>
+                <li><Link href="#tarifs" className="hover:text-white transition-colors">Tarifs</Link></li>
+                <li><Link href="/signup" className="hover:text-white transition-colors">Créer un compte</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Se connecter</Link></li>
+              </ul>
+            </div>
+
+            {/* Colonne 3 - Légal */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Légal</h3>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><Link href="/legal/terms" className="hover:text-white transition-colors">Conditions d'utilisation</Link></li>
+                <li><Link href="/legal/privacy" className="hover:text-white transition-colors">Politique de confidentialité</Link></li>
+                <li><Link href="/legal/cookies" className="hover:text-white transition-colors">Politique des cookies</Link></li>
+                <li><Link href="/legal/mentions" className="hover:text-white transition-colors">Mentions légales</Link></li>
+              </ul>
+            </div>
+
+            {/* Colonne 4 - Support */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Support</h3>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><Link href="/help" className="hover:text-white transition-colors">Centre d'aide</Link></li>
+                <li><Link href="/contact" className="hover:text-white transition-colors">Nous contacter</Link></li>
+                <li><a href="mailto:support@athlink.com" className="hover:text-white transition-colors">support@athlink.com</a></li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
+            <p>© 2025 Athlink. Tous droits réservés.</p>
+          </div>
         </div>
-      </section>
+      </footer>
     </main>
   )
 }
