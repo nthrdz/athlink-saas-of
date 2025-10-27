@@ -789,7 +789,7 @@ function Home() {
                                 }
                             ].map((plan, i)=>{
                                 const displayPrice = billingCycle === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
-                                const yearlySavings = plan.monthlyPrice > 0 ? ((plan.monthlyPrice - plan.yearlyPrice) * 12).toFixed(2) : "0";
+                                const yearlySavings = plan.monthlyPrice > 0 ? ((plan.monthlyPrice - plan.yearlyPrice) * 12).toFixed(2) : null;
                                 return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                                     initial: {
                                         opacity: 0,
@@ -862,7 +862,7 @@ function Home() {
                                                     lineNumber: 428,
                                                     columnNumber: 19
                                                 }, this),
-                                                billingCycle === "yearly" && displayPrice > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                billingCycle === "yearly" && yearlySavings && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     className: "text-sm text-green-600 mt-2",
                                                     children: [
                                                         "Économise ",

@@ -7,6 +7,15 @@ Athlink is a Next.js-based link-in-bio platform designed for athletes to create 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 27, 2025)
+- **Homepage redesign complet style GetAllMyLinks** : Page d'accueil totalement repensée avec design épuré et professionnel
+  - Hero simplifié : titre court "Le link-in-bio #1 pour athlètes" + badges personas (Runners, Cyclistes, Triathlètes, Crossfit, Fitness)
+  - Section Social Proof ajoutée : galerie de 2 vrais athlètes (Noa, Nathan) + 4 placeholders avec icônes SVG
+  - Section Key Figures ajoutée : stats impressionnantes (1000+ athlètes, 500K+ vues/mois, 50K+ clics sponsors)
+  - Features simplifiées : design épuré sans animations excessives (emojis animés, formes géométriques retirées)
+  - Pricing intégré : toggle Mensuel/Annuel avec calcul correct des économies annuelles ((monthlyPrice - yearlyPrice) * 12)
+  - CTA final : section noire avec appel à l'action fort
+  - Style : minimaliste, blanc, professionnel, social proof fort (inspiré de GetAllMyLinks)
+  - Code refactorisé : structure pricing avec monthlyPrice/yearlyPrice séparés, protection plan FREE
 - **Google Analytics (gtag.js) installé** : Tracking Google Ads/Analytics configuré sur toutes les pages
   - ID de conversion : AW-17677472722
   - Scripts ajoutés dans le layout racine pour tracking global
