@@ -16,10 +16,9 @@ export const metadata: Metadata = {
   keywords: ["athlète", "running", "cyclisme", "triathlon", "link-in-bio", "sponsor", "performance"],
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon.png', type: 'image/png' },
     ],
-    shortcut: '/favicon.svg',
+    shortcut: '/favicon.png',
     apple: '/apple-icon.png',
   },
 };
