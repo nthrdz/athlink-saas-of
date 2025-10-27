@@ -142,7 +142,7 @@ export default function Home() {
               Ils nous font confiance
             </h2>
             <p className="text-lg text-gray-600">
-              Rejoins des centaines d'athlètes qui utilisent Athlink pour développer leur communauté
+              Rejoins nos athlètes qui utilisent Athlink pour développer leur communauté
             </p>
           </motion.div>
 
