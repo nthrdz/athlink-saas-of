@@ -330,11 +330,15 @@ export default function Home() {
                 yearlyPrice: 0,
                 description: "Pour débuter et tester la plateforme",
                 features: [
-                  "Profil personnalisable",
+                  "1 profil public",
                   "Liens illimités",
                   "Galerie photos & vidéos",
                   "Réseaux sociaux",
-                  "Calendrier courses"
+                  "Calendrier courses",
+                  "Analytics basiques uniquement",
+                  "Pas de domaine personnalisé",
+                  "Pas de CSS personnalisé",
+                  "Branding Athlink visible"
                 ],
                 cta: "Commencer",
                 popular: false
@@ -346,10 +350,10 @@ export default function Home() {
                 description: "Pour les athlètes sérieux",
                 features: [
                   "Tout FREE +",
-                  "Analytics avancées",
-                  "Section sponsors",
-                  "Domaine personnalisé",
-                  "Pas de publicité",
+                  "Liens, compétitions, sponsors et médias illimités",
+                  "Analytics avancées (7 jours)",
+                  "Badge \"Pro\" sur le profil",
+                  "Pas de pubs",
                   "Support prioritaire"
                 ],
                 cta: "Essayer PRO",
@@ -362,11 +366,13 @@ export default function Home() {
                 description: "Pour les professionnels",
                 features: [
                   "Tout PRO +",
+                  "Analytics illimitées",
+                  "Heatmap de clics",
+                  "Démographie des visiteurs",
                   "Services coaching",
-                  "Heatmap calendrier",
-                  "Export PDF analytics",
-                  "Thème personnalisé",
-                  "Support dédié 24/7"
+                  "CSS personnalisé",
+                  "Badge Elite sur le profil",
+                  "Support prioritaire"
                 ],
                 cta: "Essayer ELITE",
                 popular: false
