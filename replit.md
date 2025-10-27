@@ -68,7 +68,11 @@ Preferred communication style: Simple, everyday language.
   - Fonction utilitaire `checkAndExpireTrial()` pour vérification en temps réel
   - Documentation complète dans CODES_PROMO.md
 - **Correctifs TypeScript déploiement**: Supprimé toutes les références à "COACH" dans les types TypeScript (advanced-analytics.tsx, analytics-with-filter.tsx, upgrade/page.tsx, plan-badge.tsx) et corrigé les mappings de plans - Build production réussi ✓
-- **Favicon personnalisé**: Ajout du logo Athlink simplifié (64x64px haute qualité) monochrome (noir et gris uniquement) avec moins de détails pour meilleure visibilité en petit - créé aussi apple-icon.png (180x180px)
+- **Nouveau favicon noir et doré**: Favicon professionnel avec lettre "A" en noir et contours dorés (style premium athlétique)
+  - Design minimaliste et moderne parfaitement lisible en petite taille
+  - Couleurs noir et or pour un look luxueux et sportif
+  - Format carré optimisé pour tous les navigateurs (favicon.ico + apple-icon.png)
+  - Généré avec IA pour un rendu professionnel haute qualité
 - **Nettoyage des plans d'abonnement**: Simplifié pour n'avoir que 3 plans (FREE, PRO, ELITE) - supprimé ATHLETE_PRO et COACH
   - Conversion automatique des données existantes : ATHLETE_PRO → ELITE, COACH → PRO
   - Suppression du fichier lib/plan-mapping.ts devenu inutile
