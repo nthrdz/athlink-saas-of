@@ -33,7 +33,7 @@ function AthleteCarousel() {
   }, [])
 
   return (
-    <div className="max-w-sm mx-auto">
+    <div className="max-w-md mx-auto">
       <motion.div
         key={currentIndex}
         initial={{ opacity: 0, x: 50 }}
@@ -42,15 +42,16 @@ function AthleteCarousel() {
         transition={{ duration: 0.5 }}
         className="flex flex-col items-center"
       >
-        <div className="w-64 h-64 rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300 mb-4 overflow-hidden">
-          <Image
-            src={athletes[currentIndex].image}
-            alt={athletes[currentIndex].name}
-            width={256}
-            height={256}
-            className="w-full h-full object-cover"
-            unoptimized
-          />
+        <div className="w-full max-w-sm h-96 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 mb-4 overflow-hidden p-4">
+          <div className="w-full h-full relative">
+            <Image
+              src={athletes[currentIndex].image}
+              alt={athletes[currentIndex].name}
+              fill
+              className="object-contain"
+              unoptimized
+            />
+          </div>
         </div>
         <p className="text-lg text-gray-700 font-medium mb-1">{athletes[currentIndex].name}</p>
         <p className="text-sm text-gray-600 flex items-center gap-1">
