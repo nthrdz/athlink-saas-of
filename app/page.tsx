@@ -125,10 +125,6 @@ export default function Home() {
             {[
               { name: 'Noa', handle: '@noa', image: '/uploads/hero/noa.png' },
               { name: 'Nathan', handle: '@nathan', image: '/uploads/hero/nathan.png' },
-              { name: 'Emma', handle: '@emmarun', image: null },
-              { name: 'Lucas', handle: '@lucasbike', image: null },
-              { name: 'Sophie', handle: '@sophiefit', image: null },
-              { name: 'Thomas', handle: '@thomastriathlon', image: null },
             ].map((athlete, i) => (
               <motion.div
                 key={i}
@@ -139,24 +135,38 @@ export default function Home() {
                 className="flex flex-col items-center"
               >
                 <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300 mb-3 overflow-hidden">
-                  {athlete.image ? (
-                    <Image
-                      src={athlete.image}
-                      alt={athlete.name}
-                      width={200}
-                      height={200}
-                      className="w-full h-full object-cover"
-                      unoptimized
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400">
-                      {athlete.name[0]}
-                    </div>
-                  )}
+                  <Image
+                    src={athlete.image}
+                    alt={athlete.name}
+                    width={200}
+                    height={200}
+                    className="w-full h-full object-cover"
+                    unoptimized
+                  />
                 </div>
                 <p className="text-sm text-gray-600 flex items-center gap-1">
                   <Instagram className="w-3 h-3" />
                   {athlete.handle}
+                </p>
+              </motion.div>
+            ))}
+            {/* Placeholder spots for future athletes */}
+            {[1, 2, 3, 4].map((i) => (
+              <motion.div
+                key={`placeholder-${i}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: (i + 2) * 0.1 }}
+                className="flex flex-col items-center opacity-50"
+              >
+                <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 mb-3 overflow-hidden flex items-center justify-center">
+                  <svg className="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                </div>
+                <p className="text-xs text-gray-400">
+                  Bientôt disponible
                 </p>
               </motion.div>
             ))}
@@ -340,7 +350,8 @@ export default function Home() {
             {[
               {
                 name: "FREE",
-                price: billingCycle === "monthly" ? "0" : "0",
+                monthlyPrice: 0,
+                yearlyPrice: 0,
                 description: "Pour débuter et tester la plateforme",
                 features: [
                   "Profil personnalisable",
@@ -354,7 +365,8 @@ export default function Home() {
               },
               {
                 name: "PRO",
-                price: billingCycle === "monthly" ? "9.90" : "7.92",
+                monthlyPrice: 9.90,
+                yearlyPrice: 7.92,
                 description: "Pour les athlètes sérieux",
                 features: [
                   "Tout FREE +",
@@ -369,7 +381,8 @@ export default function Home() {
               },
               {
                 name: "ELITE",
-                price: billingCycle === "monthly" ? "25.90" : "20.72",
+                monthlyPrice: 25.90,
+                yearlyPrice: 20.72,
                 description: "Pour les professionnels",
                 features: [
                   "Tout PRO +",
@@ -382,7 +395,13 @@ export default function Home() {
                 cta: "Essayer ELITE",
                 popular: false
               }
-            ].map((plan, i) => (
+            ].map((plan, i) => {
+              const displayPrice = billingCycle === "monthly" ? plan.monthlyPrice : plan.yearlyPrice
+              const yearlySavings = plan.monthlyPrice > 0 
+                ? ((plan.monthlyPrice - plan.yearlyPrice) * 12).toFixed(2)
+                : null
+              
+              return (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -408,15 +427,15 @@ export default function Home() {
                   <p className="text-gray-600 mb-4">{plan.description}</p>
                   <div className="flex items-baseline justify-center gap-1">
                     <span className="text-5xl font-bold text-gray-900">
-                      {plan.price}€
+                      {displayPrice}€
                     </span>
-                    {plan.price !== "0" && (
+                    {displayPrice > 0 && (
                       <span className="text-gray-600">/mois</span>
                     )}
                   </div>
-                  {billingCycle === "yearly" && plan.price !== "0" && (
+                  {billingCycle === "yearly" && yearlySavings && (
                     <p className="text-sm text-green-600 mt-2">
-                      Économise {(parseFloat(plan.price.replace(',', '.')) * 2.4).toFixed(0)}€/an
+                      Économise {yearlySavings}€/an
                     </p>
                   )}
                 </div>
@@ -441,7 +460,8 @@ export default function Home() {
                   {plan.cta}
                 </Link>
               </motion.div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
