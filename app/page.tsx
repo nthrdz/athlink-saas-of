@@ -469,10 +469,10 @@ export default function Home() {
             <div>
               <h3 className="text-lg font-semibold mb-4">Légal</h3>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="/legal/terms" className="hover:text-white transition-colors">Conditions d'utilisation</Link></li>
-                <li><Link href="/legal/privacy" className="hover:text-white transition-colors">Politique de confidentialité</Link></li>
-                <li><Link href="/legal/cookies" className="hover:text-white transition-colors">Politique des cookies</Link></li>
-                <li><Link href="/legal/mentions" className="hover:text-white transition-colors">Mentions légales</Link></li>
+                <li><Link href="/conditions" className="hover:text-white transition-colors">Conditions d'utilisation</Link></li>
+                <li><Link href="/confidentialite" className="hover:text-white transition-colors">Politique de confidentialité</Link></li>
+                <li><a href="/legal/CGV.pdf" target="_blank" className="hover:text-white transition-colors">CGV</a></li>
+                <li><a href="/legal/Mentions_Legales.pdf" target="_blank" className="hover:text-white transition-colors">Mentions légales</a></li>
               </ul>
             </div>
 
