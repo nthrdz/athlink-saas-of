@@ -16,13 +16,13 @@ Preferred communication style: Simple, everyday language.
 ### Backend Architecture
 - **API Layer**: Next.js API Routes (App Router) for RESTful CRUD operations and Server Actions. All API routes for coaching services are fully operational with comprehensive Zod validation.
 - **Authentication**: NextAuth.js v5 (beta) with Credentials and Google OAuth providers, JWT sessions, and Prisma adapter.
-- **Authorization**: Session-based route protection, plan-based feature gating defined in `lib/features.ts`, with server-side enforcement of plan limits across all API routes. Access to coaching services is restricted to the ELITE plan.
+- **Authorization**: Session-based route protection, plan-based feature gating defined in `lib/features.ts`, with server-side enforcement of plan limits across all API routes. Access to coaching services is restricted to the ELITE plan. Admin access control via `lib/auth-admin.ts` for ambassador management.
 - **Business Logic**: Includes sport type mapping, promo code validation, analytics tracking, and image processing with Sharp. Advanced analytics for the ELITE plan provide intelligent, personalized advice across visibility, conversion, content, and retention, including calendar heatmaps and dynamic trend calculations.
-- **Promo Codes**: A system for promotional codes with automatic expiration, managed via cron jobs and real-time checks.
+- **Affiliate/Ambassador Program**: Complete ambassador management system with promo code tracking, commission calculation (recurring/one-time/lifetime), usage analytics, and automated commission processing via Stripe webhooks. Supports percentage and fixed-amount discounts with plan restrictions and usage limits.
 
 ### Data Architecture
-- **ORM**: Prisma with PostgreSQL, defining models for User, Profile, Link, Race, Sponsor, Media, AnalyticsView, and AnalyticsClick.
-- **Database Schema**: Profiles link to user authentication, containing athlete info. Links, Races, Sponsors, and Media are associated with profiles. Analytics store referrer, device, and geolocation data.
+- **ORM**: Prisma with PostgreSQL, defining models for User, Profile, Link, Race, Sponsor, Media, Analytics, Ambassador, PromoCode, PromoCodeUsage, and Commission.
+- **Database Schema**: Profiles link to user authentication, containing athlete info. Links, Races, Sponsors, and Media are associated with profiles. Analytics store referrer, device, and geolocation data. Ambassador system tracks affiliates with their promo codes, usage history, and commission records linked to Stripe subscriptions for automatic recurring commission calculation.
 - **File Storage**: Supabase Storage for avatars, covers, media, and sponsor images, with Sharp-based image optimization.
 
 ### Key Design Patterns
@@ -32,6 +32,7 @@ Preferred communication style: Simple, everyday language.
 - **Plan Management**: Simplified to FREE, PRO, ELITE plans, with consistent plan type mapping and feature limit definitions.
 - **Error Handling**: Try-catch blocks in APIs, Sonner for toast notifications, client-side error boundaries.
 - **Logo Extraction**: Advanced scoring algorithm for extracting official competition logos and sponsor logos from URLs, supporting various image formats and lazy loading.
+- **Affiliate Commission System**: Three commission types (recurring for SaaS subscriptions, one-time for initial sale, lifetime for perpetual earnings). Automatic commission tracking via Stripe webhooks on subscription renewals (`invoice.payment_succeeded`), with admin dashboard for monitoring ambassador performance, conversions, and revenue.
 
 ## External Dependencies
 

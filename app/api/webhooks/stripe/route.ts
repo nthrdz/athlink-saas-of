@@ -47,8 +47,8 @@ export async function POST(req: Request) {
         }
 
         const planMapping: Record<string, PlanType> = {
-          "Pro": PlanType.ELITE,
-          "Elite": PlanType.PRO
+          "Pro": PlanType.PRO,
+          "Elite": PlanType.ELITE
         }
 
         const prismaPlan = planMapping[planName]
@@ -64,6 +64,75 @@ export async function POST(req: Request) {
         })
 
         console.log(`Plan ${planName} activé pour le profil ${profileId}`)
+        break
+      }
+
+      case "invoice.payment_succeeded": {
+        const invoice = event.data.object as Stripe.Invoice
+        
+        if (invoice.billing_reason !== "subscription_cycle") {
+          break
+        }
+
+        const subscriptionId = typeof invoice.subscription === "string" 
+          ? invoice.subscription 
+          : (invoice.subscription as Stripe.Subscription | null)?.id
+        if (!subscriptionId) break
+
+        const usage = await prisma.promoCodeUsage.findFirst({
+          where: { stripeSubscriptionId: subscriptionId },
+          include: {
+            promoCode: {
+              include: {
+                ambassador: true,
+              },
+            },
+            user: true,
+          },
+        })
+
+        if (usage && usage.promoCode.ambassador.commissionType === "recurring") {
+          const amount = (invoice.amount_paid || 0) / 100
+          const commissionAmount = amount * (usage.promoCode.ambassador.commissionRate / 100)
+          
+          await prisma.commission.create({
+            data: {
+              ambassadorId: usage.ambassadorId,
+              userId: usage.userId,
+              type: "renewal",
+              amount: commissionAmount,
+              rate: usage.promoCode.ambassador.commissionRate,
+              planType: usage.planType,
+              revenue: amount,
+              stripeInvoiceId: invoice.id,
+              status: "pending",
+              period: new Date().toISOString().slice(0, 7),
+            },
+          })
+
+          await prisma.ambassador.update({
+            where: { id: usage.ambassadorId },
+            data: {
+              totalRevenue: {
+                increment: amount,
+              },
+              totalCommission: {
+                increment: commissionAmount,
+              },
+            },
+          })
+
+          await prisma.promoCode.update({
+            where: { id: usage.promoCodeId },
+            data: {
+              totalRevenue: {
+                increment: amount,
+              },
+            },
+          })
+
+          console.log(`Commission récurrente créée pour l'ambassadeur ${usage.ambassadorId}: ${commissionAmount}€`)
+        }
         break
       }
 
