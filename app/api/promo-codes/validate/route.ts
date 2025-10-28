@@ -38,8 +38,7 @@ export async function POST(req: NextRequest) {
     try {
       const promotionCodes = await stripe.promotionCodes.list({
         code: upperCode,
-        limit: 1,
-        expand: ['data.coupon']
+        limit: 1
       })
 
       if (promotionCodes.data.length === 0) {
@@ -49,7 +48,10 @@ export async function POST(req: NextRequest) {
         })
       }
 
-      const stripePromo = promotionCodes.data[0] as any
+      const stripePromo = promotionCodes.data[0]
+      
+      // Récupérer les détails du coupon
+      const coupon = await stripe.coupons.retrieve(stripePromo.coupon as string)
 
       // Vérifier si le code est actif
       if (!stripePromo.active) {
@@ -76,18 +78,18 @@ export async function POST(req: NextRequest) {
       }
 
       // Récupérer les informations du coupon
-      const discount = stripePromo.coupon.percent_off 
-        ? `${stripePromo.coupon.percent_off}% de réduction`
-        : stripePromo.coupon.amount_off 
-        ? `${(stripePromo.coupon.amount_off / 100).toFixed(2)}€ de réduction`
+      const discount = coupon.percent_off 
+        ? `${coupon.percent_off}% de réduction`
+        : coupon.amount_off 
+        ? `${(coupon.amount_off / 100).toFixed(2)}€ de réduction`
         : "Réduction applicable"
 
-      const duration = stripePromo.coupon.duration === "forever"
+      const duration = coupon.duration === "forever"
         ? "à vie"
-        : stripePromo.coupon.duration === "once"
+        : coupon.duration === "once"
         ? "sur le premier paiement"
-        : stripePromo.coupon.duration_in_months
-        ? `pendant ${stripePromo.coupon.duration_in_months} mois`
+        : coupon.duration_in_months
+        ? `pendant ${coupon.duration_in_months} mois`
         : ""
 
       return NextResponse.json({
@@ -98,10 +100,10 @@ export async function POST(req: NextRequest) {
         promotionCodeId: stripePromo.id,
         description: `${discount} ${duration}`,
         discount: {
-          percent_off: stripePromo.coupon.percent_off,
-          amount_off: stripePromo.coupon.amount_off,
-          duration: stripePromo.coupon.duration,
-          duration_in_months: stripePromo.coupon.duration_in_months
+          percent_off: coupon.percent_off,
+          amount_off: coupon.amount_off,
+          duration: coupon.duration,
+          duration_in_months: coupon.duration_in_months
         }
       })
 
