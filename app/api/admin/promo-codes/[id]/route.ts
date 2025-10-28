@@ -22,13 +22,14 @@ const updatePromoCodeSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const { id } = await params;
 
     const promoCode = await prisma.promoCode.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         ambassador: true,
         usages: {
@@ -72,16 +73,17 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const { id } = await params;
 
     const body = await request.json();
     const validated = updatePromoCodeSchema.parse(body);
 
     const existingPromoCode = await prisma.promoCode.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingPromoCode) {
@@ -112,7 +114,7 @@ export async function PATCH(
     }
 
     const promoCode = await prisma.promoCode.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...validated,
         expiresAt: validated.expiresAt ? new Date(validated.expiresAt) : undefined,
@@ -147,13 +149,14 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const { id } = await params;
 
     const existingPromoCode = await prisma.promoCode.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         _count: {
           select: {
@@ -180,7 +183,7 @@ export async function DELETE(
     }
 
     await prisma.promoCode.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json(

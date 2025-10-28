@@ -15,13 +15,14 @@ const updateAmbassadorSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const { id } = await params;
 
     const ambassador = await prisma.ambassador.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         promoCodes: {
           include: {
@@ -85,16 +86,17 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const { id } = await params;
 
     const body = await request.json();
     const validated = updateAmbassadorSchema.parse(body);
 
     const existingAmbassador = await prisma.ambassador.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingAmbassador) {
@@ -118,7 +120,7 @@ export async function PATCH(
     }
 
     const ambassador = await prisma.ambassador.update({
-      where: { id: params.id },
+      where: { id },
       data: validated,
       include: {
         promoCodes: true,
@@ -152,13 +154,14 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const { id } = await params;
 
     const existingAmbassador = await prisma.ambassador.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         _count: {
           select: {
@@ -186,7 +189,7 @@ export async function DELETE(
     }
 
     await prisma.ambassador.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json(
