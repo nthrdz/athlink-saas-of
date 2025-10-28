@@ -63,6 +63,9 @@ model Profile {
   trialEndsAt     DateTime?
   trialPlan       String?
   
+  // Stripe Promo Code (saved for checkout)
+  stripePromoCode String?
+  
   // Stats Manuelles (Phase 1)
   stats           Json?     // {personalRecords: [], achievements: []}
   
