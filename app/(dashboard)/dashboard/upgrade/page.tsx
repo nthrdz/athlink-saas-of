@@ -70,13 +70,20 @@ export default function UpgradePage() {
       }
 
       // Sinon, rediriger vers Stripe Checkout
+      // Si un code Stripe est validé, le passer à l'API
+      const requestBody: any = { 
+        planName,
+        billingCycle
+      }
+      
+      if (promoData?.valid && promoData?.source === "stripe") {
+        requestBody.promoCode = promoCode
+      }
+      
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          planName,
-          billingCycle
-        })
+        body: JSON.stringify(requestBody)
       })
 
       if (response.ok) {

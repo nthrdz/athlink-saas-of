@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Non authentifié" }, { status: 401 })
     }
 
-    const { planName, billingCycle } = await req.json()
+    const { planName, billingCycle, promoCode } = await req.json()
 
     if (!planName || !billingCycle) {
       return NextResponse.json({ error: "Plan et cycle de facturation requis" }, { status: 400 })
@@ -57,7 +57,8 @@ export async function POST(req: Request) {
 
     const origin = req.headers.get("origin") || process.env.NEXTAUTH_URL || "http://localhost:5000"
 
-    const checkoutSession = await stripe.checkout.sessions.create({
+    // Récupérer le code promo Stripe sauvegardé (s'il existe)
+    const sessionConfig: any = {
       customer_email: user.email,
       line_items: [
         {
@@ -66,7 +67,6 @@ export async function POST(req: Request) {
         },
       ],
       mode: "subscription",
-      allow_promotion_codes: true,
       success_url: `${origin}/dashboard?upgrade=success&plan=${planName}`,
       cancel_url: `${origin}/dashboard/upgrade?canceled=true`,
       metadata: {
@@ -74,7 +74,42 @@ export async function POST(req: Request) {
         profileId: user.profile.id,
         planName: planName,
       },
-    })
+    }
+
+    // Si un code promo est passé en paramètre, l'utiliser en priorité
+    const codeToUse = promoCode || user.profile.stripePromoCode
+    
+    // Si l'utilisateur a un code promo Stripe, l'appliquer automatiquement
+    if (codeToUse) {
+      try {
+        const promotionCodes = await stripe.promotionCodes.list({
+          code: codeToUse,
+          limit: 1,
+        })
+
+        if (promotionCodes.data.length > 0 && promotionCodes.data[0].active) {
+          sessionConfig.discounts = [{
+            promotion_code: promotionCodes.data[0].id
+          }]
+          
+          // Supprimer le code après utilisation pour éviter les réutilisations
+          await prisma.profile.update({
+            where: { id: user.profile.id },
+            data: { stripePromoCode: null }
+          })
+        }
+      } catch (error) {
+        console.error("Erreur application code promo:", error)
+        // Continuer sans le code si erreur
+      }
+    }
+
+    // Si aucun code sauvegardé, permettre l'entrée manuelle
+    if (!sessionConfig.discounts) {
+      sessionConfig.allow_promotion_codes = true
+    }
+
+    const checkoutSession = await stripe.checkout.sessions.create(sessionConfig)
 
     return NextResponse.json({ url: checkoutSession.url })
   } catch (error) {
