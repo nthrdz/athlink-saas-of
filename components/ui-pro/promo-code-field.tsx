@@ -14,9 +14,12 @@ interface PromoValidationResult {
   valid: boolean
   code?: string
   type?: string
+  source?: "internal" | "stripe"
   plan?: string
   duration?: number
   description?: string
+  promotionCodeId?: string
+  error?: string
 }
 
 export function PromoCodeField({ value, onChange, onValidation }: PromoCodeFieldProps) {
@@ -77,7 +80,7 @@ export function PromoCodeField({ value, onChange, onValidation }: PromoCodeField
     if (!validationResult) return <Gift className="w-4 h-4" />
     
     if (validationResult.valid) {
-      if (validationResult.type === "plan_upgrade") {
+      if (validationResult.source === "internal" && validationResult.type === "plan_upgrade") {
         return <Sparkles className="w-4 h-4" />
       }
       return <Check className="w-4 h-4" />
@@ -90,8 +93,11 @@ export function PromoCodeField({ value, onChange, onValidation }: PromoCodeField
     if (!validationResult) return "text-gray-400"
     
     if (validationResult.valid) {
-      if (validationResult.type === "plan_upgrade") {
+      if (validationResult.source === "internal" && validationResult.type === "plan_upgrade") {
         return "text-purple-500"
+      }
+      if (validationResult.source === "stripe") {
+        return "text-blue-500"
       }
       return "text-green-500"
     }
@@ -103,16 +109,23 @@ export function PromoCodeField({ value, onChange, onValidation }: PromoCodeField
     if (!validationResult) return null
     
     if (validationResult.valid) {
-      if (validationResult.type === "plan_upgrade") {
-        return `🎉 Accès ${validationResult.plan} gratuit !`
+      // Codes internes (upgrade gratuit)
+      if (validationResult.source === "internal") {
+        if (validationResult.type === "plan_upgrade") {
+          return `🎉 Accès ${validationResult.plan} gratuit !`
+        }
+        if (validationResult.type === "trial") {
+          return `🎁 ${validationResult.duration} jours gratuits ${validationResult.plan} !`
+        }
       }
-      if (validationResult.type === "trial") {
-        return `🎁 ${validationResult.duration} jours gratuits ${validationResult.plan} !`
+      // Codes Stripe (réduction paiement)
+      if (validationResult.source === "stripe") {
+        return `💳 ${validationResult.description}`
       }
       return "✅ Code promo valide !"
     }
     
-    return "❌ Code promo invalide"
+    return validationResult.error || "❌ Code promo invalide"
   }
 
   return (
@@ -198,11 +211,16 @@ export function PromoCodeField({ value, onChange, onValidation }: PromoCodeField
 
       {/* Astuce codes promo */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200">
-        <div className="flex items-center gap-2">
-          <Gift className="w-4 h-4 text-blue-600" />
-          <span className="text-sm font-medium text-blue-700">
-            Tu as un code promo ? Saisis-le pour bénéficier d'avantages exclusifs !
-          </span>
+        <div className="flex items-start gap-2">
+          <Gift className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+          <div className="text-sm space-y-1">
+            <p className="font-medium text-blue-700">
+              Tu as un code promo ?
+            </p>
+            <p className="text-blue-600">
+              Codes d'accès gratuit (ATHLINK_PREMIUM, ELITE2025) ou codes de réduction Stripe acceptés
+            </p>
+          </div>
         </div>
       </div>
     </div>
