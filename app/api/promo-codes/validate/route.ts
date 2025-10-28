@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 import { PROMO_CODES } from "@/lib/promo-codes"
+import Stripe from "stripe"
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-09-30.clover",
+})
 
 export async function POST(req: NextRequest) {
   try {
@@ -7,31 +12,111 @@ export async function POST(req: NextRequest) {
 
     if (!code || typeof code !== "string") {
       return NextResponse.json(
-        { valid: false },
+        { valid: false, error: "Code requis" },
         { status: 400 }
       )
     }
 
     const upperCode = code.toUpperCase().trim()
-    const promo = PROMO_CODES[upperCode as keyof typeof PROMO_CODES]
 
-    if (!promo) {
-      return NextResponse.json({ valid: false })
+    // 1. Vérifier d'abord si c'est un code interne
+    const internalPromo = PROMO_CODES[upperCode as keyof typeof PROMO_CODES]
+    
+    if (internalPromo) {
+      return NextResponse.json({
+        valid: true,
+        code: upperCode,
+        type: internalPromo.type,
+        plan: internalPromo.plan,
+        duration: internalPromo.duration,
+        description: internalPromo.description,
+        source: "internal"
+      })
     }
 
-    return NextResponse.json({
-      valid: true,
-      code: upperCode,
-      type: promo.type,
-      plan: promo.plan,
-      duration: promo.duration,
-      description: promo.description
-    })
+    // 2. Sinon, vérifier si c'est un code Stripe
+    try {
+      const promotionCodes = await stripe.promotionCodes.list({
+        code: upperCode,
+        limit: 1,
+        expand: ['data.coupon']
+      })
+
+      if (promotionCodes.data.length === 0) {
+        return NextResponse.json({ 
+          valid: false,
+          error: "Code promo invalide"
+        })
+      }
+
+      const stripePromo = promotionCodes.data[0] as any
+
+      // Vérifier si le code est actif
+      if (!stripePromo.active) {
+        return NextResponse.json({ 
+          valid: false,
+          error: "Ce code promo n'est plus actif"
+        })
+      }
+
+      // Vérifier si le code a expiré
+      if (stripePromo.expires_at && stripePromo.expires_at < Math.floor(Date.now() / 1000)) {
+        return NextResponse.json({ 
+          valid: false,
+          error: "Ce code promo a expiré"
+        })
+      }
+
+      // Vérifier si le code a atteint sa limite d'utilisation
+      if (stripePromo.max_redemptions && stripePromo.times_redeemed >= stripePromo.max_redemptions) {
+        return NextResponse.json({ 
+          valid: false,
+          error: "Ce code promo a atteint sa limite d'utilisation"
+        })
+      }
+
+      // Récupérer les informations du coupon
+      const discount = stripePromo.coupon.percent_off 
+        ? `${stripePromo.coupon.percent_off}% de réduction`
+        : stripePromo.coupon.amount_off 
+        ? `${(stripePromo.coupon.amount_off / 100).toFixed(2)}€ de réduction`
+        : "Réduction applicable"
+
+      const duration = stripePromo.coupon.duration === "forever"
+        ? "à vie"
+        : stripePromo.coupon.duration === "once"
+        ? "sur le premier paiement"
+        : stripePromo.coupon.duration_in_months
+        ? `pendant ${stripePromo.coupon.duration_in_months} mois`
+        : ""
+
+      return NextResponse.json({
+        valid: true,
+        code: upperCode,
+        type: "stripe_discount",
+        source: "stripe",
+        promotionCodeId: stripePromo.id,
+        description: `${discount} ${duration}`,
+        discount: {
+          percent_off: stripePromo.coupon.percent_off,
+          amount_off: stripePromo.coupon.amount_off,
+          duration: stripePromo.coupon.duration,
+          duration_in_months: stripePromo.coupon.duration_in_months
+        }
+      })
+
+    } catch (stripeError: any) {
+      console.error("Erreur validation Stripe:", stripeError)
+      return NextResponse.json({ 
+        valid: false,
+        error: "Erreur lors de la validation du code"
+      })
+    }
 
   } catch (error: any) {
     console.error("POST /api/promo-codes/validate error:", error)
     return NextResponse.json(
-      { valid: false },
+      { valid: false, error: "Erreur serveur" },
       { status: 500 }
     )
   }
