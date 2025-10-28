@@ -66,6 +66,7 @@ export async function POST(req: Request) {
         },
       ],
       mode: "subscription",
+      allow_promotion_codes: true,
       success_url: `${origin}/dashboard?upgrade=success&plan=${planName}`,
       cancel_url: `${origin}/dashboard/upgrade?canceled=true`,
       metadata: {
