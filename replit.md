@@ -18,9 +18,10 @@ Preferred communication style: Simple, everyday language.
 - **Authentication**: NextAuth.js v5 (beta) with Credentials and Google OAuth providers, JWT sessions, and Prisma adapter.
 - **Authorization**: Session-based route protection, plan-based feature gating defined in `lib/features.ts`, with server-side enforcement of plan limits across all API routes. Access to coaching services is restricted to the ELITE plan.
 - **Business Logic**: Includes sport type mapping, analytics tracking, and image processing with Sharp. Advanced analytics for the ELITE plan provide intelligent, personalized advice across visibility, conversion, content, and retention, including calendar heatmaps and dynamic trend calculations.
-- **Promotion Codes**: Two distinct systems coexist:
-  1. **Stripe Promotion Codes** (for paid subscriptions): Native Stripe codes for payment discounts, entered directly in Stripe's checkout interface via `allow_promotion_codes` parameter. All discount management, validation, usage limits, and analytics handled by Stripe Dashboard.
-  2. **Internal Upgrade Codes** (for free tier upgrades): Hardcoded codes in `lib/promo-codes.ts` (ATHLINK_PREMIUM, ELITE2025, PRO30FREE) that grant free plan upgrades or trials without payment. Validated via `/api/promo-codes/validate` and applied via `/api/upgrade-plan`. Used for partnerships, influencers, and testing.
+- **Promotion Codes**: Intelligent unified system with automatic detection of code type:
+  1. **Stripe Promotion Codes** (for paid subscriptions): Native Stripe codes for payment discounts. Validated via Stripe API in `/api/promo-codes/validate`, automatically applied at checkout via `discounts` parameter. Saved temporarily in Profile.stripePromoCode field during signup, then deleted after first use. All discount management, usage limits, and analytics handled by Stripe Dashboard.
+  2. **Internal Upgrade Codes** (for free tier upgrades): Hardcoded codes in `lib/promo-codes.ts` (ATHLINK_PREMIUM, ELITE2025, PRO30FREE) that grant free plan upgrades or trials without payment. Validated locally via `/api/promo-codes/validate`, applied immediately via `/api/promo-codes/apply` (signup) or `/api/upgrade-plan` (existing users). Used for partnerships, influencers, and testing.
+  3. **Smart Validation Flow**: Single validation API checks internal codes first, then queries Stripe API if not found. PromoCodeField component displays different UX for each type (purple for internal upgrades, blue for Stripe discounts). Stripe codes can be entered at signup or upgrade page and are automatically applied at checkout.
 
 ### Data Architecture
 - **ORM**: Prisma with PostgreSQL, defining models for User, Profile, Link, Race, Sponsor, Media, and Analytics.
